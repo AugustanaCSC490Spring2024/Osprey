@@ -22,6 +22,8 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+apply plugin: 'com.example.transform66'
+
 android {
     namespace "com.example.transform66"
     compileSdk flutter.compileSdkVersion
@@ -64,4 +66,10 @@ flutter {
     source '../..'
 }
 
-dependencies {}
+
+dependencies {
+    implementation "com.google.firebase:firebase-analytics"
+    implementation platform('com.google.firebase:firebase-bom:30.3.0')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+}
