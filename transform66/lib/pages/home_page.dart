@@ -28,9 +28,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Transform66'),
-      ),
+      appBar: null,
     body: Container(
       height: double.infinity,
       width: double.infinity,

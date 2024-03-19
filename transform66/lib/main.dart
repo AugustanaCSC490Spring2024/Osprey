@@ -20,7 +20,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        // primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Color.fromRGBO(144, 195, 200, 1),
       ),
       home: const WidgetTree(),
     );
