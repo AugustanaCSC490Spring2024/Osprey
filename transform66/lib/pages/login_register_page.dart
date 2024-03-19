@@ -47,7 +47,7 @@ Future<void> createUserWithEmailAndPassword() async{
 }
 
 Widget _title(){
-  return const Text('Firebase Auth');
+  return const Text('Transform66');
 }
 
 Widget _entryField(
