@@ -12,9 +12,7 @@ class HomePage extends StatelessWidget {
     await Auth().signOut();
   }
 
-  Widget _title(){
-    return const Text('Firebase Auth');
-  }
+
 
   Widget _userUid(){
     return Text(user?.email ??'User email');
@@ -31,7 +29,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: _title(),
+        title: Text('Transform66'),
       ),
     body: Container(
       height: double.infinity,
