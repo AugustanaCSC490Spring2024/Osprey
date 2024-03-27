@@ -1,18 +1,15 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/auth.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
+class Calendar extends StatelessWidget {
+  Calendar({Key? key}) : super(key: key);
 
   final User? user = Auth().currentUser;
 
   Future<void> signOut() async {
     await Auth().signOut();
   }
-
-
 
   Widget _userUid(){
     return Text(user?.email ??'User email');
@@ -45,4 +42,5 @@ class HomePage extends StatelessWidget {
 
     );
   }
+
 }

@@ -94,9 +94,7 @@ Widget _loginOrRegisterButton(){
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      appBar: AppBar(
-        title: _title(),
-      ),
+      appBar: null,
       body: Container(
         height: double.infinity,
         width: double.infinity,
