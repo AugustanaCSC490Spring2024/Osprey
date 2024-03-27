@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:transform66/pages/edit_new_user_page.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -32,7 +33,11 @@ class StartedPage extends StatelessWidget {
               width: 200, 
               height: 100, 
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => EditNewUserPage()),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   shape: RoundedRectangleBorder(

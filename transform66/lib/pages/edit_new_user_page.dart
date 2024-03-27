@@ -1,29 +1,17 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MaterialApp(
-    home: StartedPage(),
-  ));
-}
-
-class StartedPage extends StatelessWidget {
-  const StartedPage({super.key});
-
+class EditNewUserPage extends StatelessWidget {
+  const EditNewUserPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Transform66'),
-        centerTitle: true,
-        backgroundColor: Colors.teal,
+        title: const Text('Edit New User'),
       ),
-      body: Center(
-        child: Icon(
-          Icon.airport_shuttle
-        ),
-        ,) 
-  );
+      body: const Center(
+        child: Text('This is the Edit New User Page'),
+      ),
+    );
   }
 }
-
