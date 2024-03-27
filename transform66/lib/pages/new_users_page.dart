@@ -29,8 +29,8 @@ class StartedPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              width: 200, // Adjust width according to your preference
-              height: 100, // Adjust height according to your preference
+              width: 200, 
+              height: 100, 
               child: ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
@@ -41,7 +41,7 @@ class StartedPage extends StatelessWidget {
                 ),
               child: const Text(
                 'Start Transform66',
-                style: TextStyle(color: Colors.black), // Change color to black
+                style: TextStyle(color: Colors.black, fontSize: 16), // Change color to black
             ),
             ),
             ),
@@ -59,9 +59,10 @@ class StartedPage extends StatelessWidget {
                   ),
                   child: const Text(
                     'Testimonials',
-                    style: TextStyle(color: Colors.black), // Change color to black
+                    style: TextStyle(color: Colors.black, decoration: TextDecoration.underline), // Change color to black
                   ),
                 ),
+                const Text(' | '),
                 TextButton(
                   onPressed: () {
                   },
@@ -74,7 +75,7 @@ class StartedPage extends StatelessWidget {
                   ),
                   child: const Text(
                     'Instructions',
-                    style: TextStyle(color: Colors.black), // Change color to black
+                    style: TextStyle(color: Colors.black, decoration: TextDecoration.underline), // Change color to black
                   ),
                 ),
               ],
