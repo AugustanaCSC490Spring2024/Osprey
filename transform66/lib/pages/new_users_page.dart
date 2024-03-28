@@ -4,15 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:transform66/pages/edit_new_user_page.dart';
 
-void main() {
-  runApp(const MaterialApp(
-    home: StartedPage(),
-  ));
-}
 
 class StartedPage extends StatelessWidget {
-  const StartedPage({super.key});
-
+  const StartedPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

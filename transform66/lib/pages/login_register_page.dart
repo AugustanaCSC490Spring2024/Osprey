@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/auth.dart';
+import 'package:transform66/pages/new_users_page.dart';
 import '../auth.dart';
 
 class LoginPage extends StatefulWidget {
@@ -35,6 +36,12 @@ class _LoginPageState extends State<LoginPage> {
         email: _controllerEmail.text,
         password: _controllerPassword.text,
       );
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => StartedPage(),
+      ),
+    );
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message;
