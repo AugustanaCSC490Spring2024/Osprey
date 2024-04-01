@@ -1,7 +1,10 @@
 
+//import 'dart:js';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/auth.dart';
+import 'package:transform66/pages/progress_page.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
@@ -13,7 +16,6 @@ class HomePage extends StatelessWidget {
   }
 
 
-
   Widget _userUid(){
     return Text(user?.email ??'User email');
   }
@@ -22,6 +24,20 @@ class HomePage extends StatelessWidget {
     return ElevatedButton(
       onPressed: signOut,
       child: const Text('Sign Out'),
+    );
+  }
+
+  Widget _progressPageButton(context){
+    return ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const ProgressPage(),
+          ),
+        );
+      },
+      child: const Text('Your progress'),
     );
   }
 
@@ -37,6 +53,7 @@ class HomePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          _progressPageButton(context),
           _userUid(),
           _signOutButton()
         ],

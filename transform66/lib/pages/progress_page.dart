@@ -2,45 +2,174 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/auth.dart';
 
-class Progress extends StatelessWidget {
-  Progress({Key? key}) : super(key: key);
 
-  final User? user = Auth().currentUser;
-
-  Future<void> signOut() async {
-    await Auth().signOut();
-  }
-
-  Widget _userUid(){
-    return Text(user?.email ??'User email');
-  }
-
-  Widget _signOutButton(){
-    return ElevatedButton(
-      onPressed: signOut,
-      child: const Text('Sign Out'),
-    );
-  }
+class ProgressPage extends StatelessWidget {
+  const ProgressPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: null,
-    body: Container(
-      height: double.infinity,
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          _userUid(),
-          _signOutButton()
-        ],
+      appBar: AppBar(
+        title: const Text(
+          'Transform66',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Colors.teal,
       ),
-    )
-
+      body: Align(
+        alignment: Alignment.center,
+        child: SizedBox(
+          width: 350,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/Transform66.png', 
+                width: 900, 
+                height: 300, 
+              ),
+              //const SizedBox(height: 20), 
+              const Text(
+                'Your progress for the day:',
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(height: 30),
+              TaskWidget(
+                taskName: 'Drink 1 gallon of Water',
+                onPressed: () {},
+              ),
+              TaskWidget(
+                taskName: 'Read 10 pages of a non-fiction book',
+                onPressed: () {},
+              ),
+              TaskWidget(
+                taskName: '45 min outdoor exercise',
+                onPressed: () {},
+              ),
+              TaskWidget(
+                taskName: '3 pages of creative writing',
+                onPressed: () {},
+              ),
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                TextButton(
+                  onPressed: () {},
+                  style: ButtonStyle(
+                    textStyle: MaterialStateProperty.all(
+                      const TextStyle(
+                        fontSize: 10,
+                      ),
+                    ),
+                  ),
+                  child: const Text(
+                    'Add Friends',
+                    style: TextStyle(
+                        color: Colors.black,
+                        decoration:
+                            TextDecoration.underline), // Change color to black
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  style: ButtonStyle(
+                    textStyle: MaterialStateProperty.all(
+                      const TextStyle(
+                        fontSize: 10,
+                      ),
+                    ),
+                  ),
+                  child: const Text(
+                    'Instructions',
+                    style: TextStyle(
+                        color: Colors.black,
+                        decoration:
+                            TextDecoration.underline), // Change color to black
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  style: ButtonStyle(
+                    textStyle: MaterialStateProperty.all(
+                      const TextStyle(
+                        fontSize: 10,
+                      ),
+                    ),
+                  ),
+                  child: const Text(
+                    'Testimonials',
+                    style: TextStyle(
+                        color: Colors.black,
+                        decoration:
+                            TextDecoration.underline), // Change color to black
+                  ),
+                ),
+              ])
+            ],
+          ),
+        ),
+      ),
     );
   }
-
 }
+
+class TaskWidget extends StatefulWidget {
+  final String taskName;
+  final VoidCallback onPressed;
+
+  const TaskWidget({
+    required this.taskName,
+    required this.onPressed,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  _TaskWidgetState createState() => _TaskWidgetState();
+}
+
+class _TaskWidgetState extends State<TaskWidget> {
+  bool _isChecked = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(
+          width: double.infinity,
+          height: 50,
+          child: Row(
+            children: [
+              Checkbox(
+                value: _isChecked,
+                onChanged: (value) {
+                  setState(() {
+                    _isChecked = value!;
+                  });
+                },
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.taskName,
+                      style: const TextStyle(color: Colors.black),
+                    ),
+                    SizedBox(height: 10),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        const Divider(), // Horizontal line
+      ],
+    );
+  }
+}
+
