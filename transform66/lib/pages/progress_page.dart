@@ -1,6 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:transform66/auth.dart';
+//import 'package:transform66/auth.dart';
 
 
 class ProgressPage extends StatelessWidget {
@@ -124,8 +124,8 @@ class TaskWidget extends StatefulWidget {
   const TaskWidget({
     required this.taskName,
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   _TaskWidgetState createState() => _TaskWidgetState();
