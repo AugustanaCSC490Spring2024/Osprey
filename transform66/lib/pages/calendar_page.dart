@@ -50,7 +50,6 @@ class Calendar extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          _userUid(),
           _calendarButton()
         ],
       ),
