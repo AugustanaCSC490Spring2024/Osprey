@@ -29,7 +29,7 @@ class ProgressPage extends StatelessWidget {
             children: [
               Image.asset(
                 'assets/images/Transform66.png', 
-                width: 900, 
+                width: 300, 
                 height: 300, 
               ),
               //const SizedBox(height: 20), 
