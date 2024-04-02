@@ -18,7 +18,7 @@ class Calendar extends StatelessWidget {
   Widget _signOutButton(){
     return ElevatedButton(
       onPressed: signOut,
-      child: const Text('Sign Out'),
+      child: const Text('Welcome to the calendar page'),
     );
   }
 

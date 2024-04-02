@@ -1,5 +1,6 @@
 //import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:transform66/pages/calendar_page.dart';
 //import 'package:transform66/auth.dart';
 
 
@@ -26,7 +27,14 @@ class ProgressPage extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.calendar_month_sharp),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                 context,
+                 MaterialPageRoute(
+                   builder: (context) => Calendar(),
+                 ),
+               );
+            }
           ),
         ],
       ),
