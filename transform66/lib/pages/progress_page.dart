@@ -19,6 +19,16 @@ class ProgressPage extends StatelessWidget {
           ),
         ),
         backgroundColor: Colors.teal,
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () {},
+        ), 
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.calendar_month_sharp),
+            onPressed: () {},
+          ),
+        ],
       ),
       body: Align(
         alignment: Alignment.center,
