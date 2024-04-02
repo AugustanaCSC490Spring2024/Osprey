@@ -15,9 +15,9 @@ class Calendar extends StatelessWidget {
     return Text(user?.email ??'User email');
   }
 
-  Widget _signOutButton(){
+  Widget _calendarButton(){
     return ElevatedButton(
-      onPressed: signOut,
+      onPressed: () {},
       child: const Text('Welcome to the calendar page'),
     );
   }
@@ -51,7 +51,7 @@ class Calendar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           _userUid(),
-          _signOutButton()
+          _calendarButton()
         ],
       ),
     )
