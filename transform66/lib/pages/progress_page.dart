@@ -1,7 +1,7 @@
 //import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:transform66/auth.dart';
 import 'package:transform66/pages/calendar_page.dart';
-//import 'package:transform66/auth.dart';
 
 
 class ProgressPage extends StatelessWidget {
@@ -19,11 +19,7 @@ class ProgressPage extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: Colors.teal,
-        leading: IconButton(
-          icon: const Icon(Icons.menu),
-          onPressed: () {},
-        ), 
+        backgroundColor: Colors.teal, 
         actions: [
           IconButton(
             icon: const Icon(Icons.calendar_month_sharp),
@@ -35,6 +31,19 @@ class ProgressPage extends StatelessWidget {
                  ),
                );
             }
+          ),
+          PopupMenuButton<String>(
+            onSelected: (String result) {
+              if (result == 'Sign Out') {
+                Auth().signOut();
+              }
+            },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+              const PopupMenuItem<String>(
+                value: 'Sign Out',
+                child: Text('Sign Out'),
+              ),
+            ],
           ),
         ],
       ),
