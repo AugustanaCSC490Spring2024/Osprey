@@ -4,6 +4,7 @@ import 'package:transform66/auth.dart';
 import 'package:transform66/pages/add_friends_page.dart';
 import 'package:transform66/pages/calendar_page.dart';
 import 'package:transform66/pages/instructions_page.dart';
+import 'package:transform66/pages/testimonials_page.dart';
 
 class ProgressPage extends StatelessWidget {
   const ProgressPage({Key? key}) : super(key: key);
@@ -133,7 +134,14 @@ class ProgressPage extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Testimonials(),
+                      ),
+                    );
+                  },
                   style: ButtonStyle(
                     textStyle: MaterialStateProperty.all(
                       const TextStyle(
