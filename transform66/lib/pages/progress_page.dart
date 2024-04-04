@@ -1,6 +1,7 @@
 //import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/auth.dart';
+import 'package:transform66/pages/add_friends_page.dart';
 import 'package:transform66/pages/calendar_page.dart';
 import 'package:transform66/pages/instructions_page.dart';
 
@@ -84,7 +85,14 @@ class ProgressPage extends StatelessWidget {
               ),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddFriends(),
+                      ),
+                    );
+                  },
                   style: ButtonStyle(
                     textStyle: MaterialStateProperty.all(
                       const TextStyle(
