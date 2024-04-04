@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:transform66/pages/progress_page.dart';
 
 class EditNewUserPage extends StatelessWidget {
   const EditNewUserPage({Key? key}) : super(key: key);
@@ -58,7 +59,10 @@ class EditNewUserPage extends StatelessWidget {
                 ),
                 child: const Text(
                   'Edit',
-                  style: TextStyle(color: Colors.black, decoration: TextDecoration.underline), // Change color to black
+                  style: TextStyle(
+                      color: Colors.black,
+                      decoration:
+                          TextDecoration.underline), // Change color to black
                 ),
               ),
             ],
@@ -66,7 +70,14 @@ class EditNewUserPage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ProgressPage(),
+            ),
+          );
+        },
         backgroundColor: Colors.red,
         child: const Text("Start"),
       ),
@@ -74,7 +85,6 @@ class EditNewUserPage extends StatelessWidget {
     );
   }
 }
-
 
 class TaskWidget extends StatelessWidget {
   final String taskName;
@@ -115,5 +125,3 @@ class TaskWidget extends StatelessWidget {
     );
   }
 }
-
-
