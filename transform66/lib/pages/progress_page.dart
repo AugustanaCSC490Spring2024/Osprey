@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:transform66/auth.dart';
 import 'package:transform66/pages/calendar_page.dart';
-
+import 'package:transform66/pages/instructions_page.dart';
 
 class ProgressPage extends StatelessWidget {
   const ProgressPage({Key? key}) : super(key: key);
@@ -19,19 +19,18 @@ class ProgressPage extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: Colors.teal, 
+        backgroundColor: Colors.teal,
         actions: [
           IconButton(
-            icon: const Icon(Icons.calendar_month_sharp),
-            onPressed: () {
-              Navigator.push(
-                 context,
-                 MaterialPageRoute(
-                   builder: (context) => Calendar(),
-                 ),
-               );
-            }
-          ),
+              icon: const Icon(Icons.calendar_month_sharp),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Calendar(),
+                  ),
+                );
+              }),
           PopupMenuButton<String>(
             onSelected: (String result) {
               if (result == 'Sign Out') {
@@ -55,11 +54,11 @@ class ProgressPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/images/Transform66.png', 
-                width: 300, 
-                height: 300, 
+                'assets/images/Transform66.png',
+                width: 300,
+                height: 300,
               ),
-              //const SizedBox(height: 20), 
+              //const SizedBox(height: 20),
               const Text(
                 'Your progress for the day:',
                 style: TextStyle(
@@ -102,7 +101,14 @@ class ProgressPage extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => InstructionsPage(),
+                      ),
+                    );
+                  },
                   style: ButtonStyle(
                     textStyle: MaterialStateProperty.all(
                       const TextStyle(
@@ -199,4 +205,3 @@ class _TaskWidgetState extends State<TaskWidget> {
     );
   }
 }
-
