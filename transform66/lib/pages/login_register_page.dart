@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/auth.dart';
 import 'package:transform66/pages/new_users_page.dart';
+bool _isPasswordVisible = false;
+
 //import '../auth.dart';
 
 class LoginPage extends StatefulWidget {
@@ -53,7 +55,24 @@ class _LoginPageState extends State<LoginPage> {
     return const Text('Transform66');
   }
 
-  Widget _entryField(String title, TextEditingController controller) {
+Widget _entryField(String title, TextEditingController controller) {
+  if (title.toLowerCase() == 'password') {
+    return TextField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: title,
+        suffixIcon: IconButton(
+          icon: Icon(_isPasswordVisible ? Icons.visibility : Icons.visibility_off),
+          onPressed: () {
+            setState(() {
+              _isPasswordVisible = !_isPasswordVisible;
+            });
+          },
+        ),
+      ),
+      obscureText: !_isPasswordVisible,
+    );
+  } else {
     return TextField(
       controller: controller,
       decoration: InputDecoration(
@@ -61,9 +80,13 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+}
+
+
+
 
   Widget _errorMessage() {
-    return Text(errorMessage == '' ? '' : 'Humm ? $errorMessage');
+    return Text(errorMessage == '' ? '' : 'Password/Username is incorrect');
   }
 
   Widget _submitButton() {
@@ -119,8 +142,8 @@ class _LoginPageState extends State<LoginPage> {
             right: 0,
             child: Center(
               child: Image.asset(
-                'assets/images/Transform66.png', // Replace with your image asset path
-                height: 400, // Adjust the height as needed
+                'assets/images/Transform66.png',
+                height: 400, 
               ),
             ),
           ),
