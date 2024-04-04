@@ -15,7 +15,7 @@ class _CalendarState extends State<Calendar> {
   late DateTime _selectedDay;
   late CalendarFormat _calendarFormat;
   late Map<DateTime, List<dynamic>> _events;
-  late TextEditingController _eventController;
+  //late TextEditingController _eventController;
 
   @override
   void initState() {
@@ -24,22 +24,11 @@ class _CalendarState extends State<Calendar> {
     _selectedDay = DateTime.now();
     _calendarFormat = CalendarFormat.month;
     _events = {};
-    _eventController = TextEditingController();
+    //_eventController = TextEditingController();
   }
 
   Future<void> signOut() async {
     await Auth().signOut();
-  }
-
-  Widget _userUid() {
-    return Text(user?.email ?? 'User email');
-  }
-
-  Widget _calendarButton() {
-    return ElevatedButton(
-      onPressed: () {},
-      child: const Text('Welcome to the calendar page'),
-    );
   }
 
   @override
