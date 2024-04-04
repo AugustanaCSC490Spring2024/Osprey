@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:transform66/pages/edit_new_user_page.dart';
+import 'package:transform66/pages/instructions_page.dart';
+import 'package:transform66/pages/testimonials_page.dart';
 
 
 class StartedPage extends StatelessWidget {
@@ -48,7 +50,14 @@ class StartedPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Testimonials(),
+                      ),
+                    );
+                  },
                   style: ButtonStyle(
                     textStyle: MaterialStateProperty.all(
                       const TextStyle(
@@ -64,6 +73,12 @@ class StartedPage extends StatelessWidget {
                 const Text(' | '),
                 TextButton(
                   onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => InstructionsPage(),
+                      ),
+                    );
                   },
                   style: ButtonStyle(
                     textStyle: MaterialStateProperty.all(
