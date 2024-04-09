@@ -48,120 +48,122 @@ class ProgressPage extends StatelessWidget {
           ),
         ],
       ),
-      body: Align(
-        alignment: Alignment.center,
-        child: SizedBox(
-          width: 350,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/Transform66.png',
-                width: 300,
-                height: 300,
-              ),
-              //const SizedBox(height: 20),
-              const Text(
-                'Your progress for the day:',
-                style: TextStyle(
-                  fontSize: 16,
+      body: SingleChildScrollView(
+        child: Align(
+          alignment: Alignment.center,
+          child: SizedBox(
+            width: 350,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/Transform66.png',
+                  width: 300,
+                  height: 300,
                 ),
-              ),
-              const SizedBox(height: 30),
-              TaskWidget(
-                taskName: 'Drink 1 gallon of Water',
-                onPressed: () {},
-              ),
-              TaskWidget(
-                taskName: 'Read 10 pages of a non-fiction book',
-                onPressed: () {},
-              ),
-              TaskWidget(
-                taskName: '45 min outdoor exercise',
-                onPressed: () {},
-              ),
-              TaskWidget(
-                taskName: '3 pages of creative writing',
-                onPressed: () {},
-              ),
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AddFriends(),
-                      ),
-                    );
-                  },
-                  style: ButtonStyle(
-                    textStyle: MaterialStateProperty.all(
-                      const TextStyle(
-                        fontSize: 10,
+                //const SizedBox(height: 20),
+                const Text(
+                  'Your progress for the day:',
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 30),
+                TaskWidget(
+                  taskName: 'Drink 1 gallon of Water',
+                  onPressed: () {},
+                ),
+                TaskWidget(
+                  taskName: 'Read 10 pages of a non-fiction book',
+                  onPressed: () {},
+                ),
+                TaskWidget(
+                  taskName: '45 min outdoor exercise',
+                  onPressed: () {},
+                ),
+                TaskWidget(
+                  taskName: '3 pages of creative writing',
+                  onPressed: () {},
+                ),
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AddFriends(),
+                        ),
+                      );
+                    },
+                    style: ButtonStyle(
+                      textStyle: MaterialStateProperty.all(
+                        const TextStyle(
+                          fontSize: 10,
+                        ),
                       ),
                     ),
-                  ),
-                  child: const Text(
-                    'Add Friends',
-                    style: TextStyle(
-                        color: Colors.black,
-                        decoration:
-                            TextDecoration.underline), // Change color to black
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => InstructionsPage(),
-                      ),
-                    );
-                  },
-                  style: ButtonStyle(
-                    textStyle: MaterialStateProperty.all(
-                      const TextStyle(
-                        fontSize: 10,
-                      ),
+                    child: const Text(
+                      'Add Friends',
+                      style: TextStyle(
+                          color: Colors.black,
+                          decoration:
+                              TextDecoration.underline), // Change color to black
                     ),
                   ),
-                  child: const Text(
-                    'Instructions',
-                    style: TextStyle(
-                        color: Colors.black,
-                        decoration:
-                            TextDecoration.underline), // Change color to black
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Testimonials(),
-                      ),
-                    );
-                  },
-                  style: ButtonStyle(
-                    textStyle: MaterialStateProperty.all(
-                      const TextStyle(
-                        fontSize: 10,
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => InstructionsPage(),
+                        ),
+                      );
+                    },
+                    style: ButtonStyle(
+                      textStyle: MaterialStateProperty.all(
+                        const TextStyle(
+                          fontSize: 10,
+                        ),
                       ),
                     ),
+                    child: const Text(
+                      'Instructions',
+                      style: TextStyle(
+                          color: Colors.black,
+                          decoration:
+                              TextDecoration.underline), // Change color to black
+                    ),
                   ),
-                  child: const Text(
-                    'Testimonials',
-                    style: TextStyle(
-                        color: Colors.black,
-                        decoration:
-                            TextDecoration.underline), // Change color to black
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Testimonials(),
+                        ),
+                      );
+                    },
+                    style: ButtonStyle(
+                      textStyle: MaterialStateProperty.all(
+                        const TextStyle(
+                          fontSize: 10,
+                        ),
+                      ),
+                    ),
+                    child: const Text(
+                      'Testimonials',
+                      style: TextStyle(
+                          color: Colors.black,
+                          decoration:
+                              TextDecoration.underline), // Change color to black
+                    ),
                   ),
-                ),
-              ])
-            ],
+                ])
+              ],
+            ),
           ),
         ),
-      ),
+      )
     );
   }
 }
