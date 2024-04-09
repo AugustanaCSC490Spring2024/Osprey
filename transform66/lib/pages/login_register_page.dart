@@ -92,11 +92,30 @@ Widget _entryField(String title, TextEditingController controller) {
   Widget _submitButton() {
     return ElevatedButton(
       onPressed: isLogin ? signInWithEmailAndPassword : createUserWithEmailAndPassword,
-      child: Text(isLogin ? 'Login' : 'Register'),
+      child: Text(isLogin ? 'Login' : 'Register',
+      style: TextStyle(color: Colors.blue.shade900)),
     );
   }
 
-  Widget _loginOrRegisterButton() {
+Widget _loginOrRegisterButton() {
+  return Container(
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(10), // Adjust the border radius as needed
+    ),
+    padding: const EdgeInsets.all(20),
+    child: Column(
+      children: [
+        _entryField('email', _controllerEmail),
+        _entryField('password', _controllerPassword),
+        _errorMessage(),
+        _submitButton(),
+      ],
+    ),
+  );
+}
+
+  Widget _insteadButton() {
     return TextButton(
       onPressed: () {
         setState(() {
@@ -106,6 +125,7 @@ Widget _entryField(String title, TextEditingController controller) {
       child: Text(isLogin ? 'Register instead' : 'Login instead'),
     );
   }
+
 
   @override
   void dispose() {
@@ -128,11 +148,14 @@ Widget _entryField(String title, TextEditingController controller) {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                _entryField('email', _controllerEmail),
-                _entryField('password', _controllerPassword),
-                _errorMessage(),
-                _submitButton(),
+
                 _loginOrRegisterButton(),
+                _insteadButton(),
+ 
+                
+
+
+                //
               ],
             ),
           ),
