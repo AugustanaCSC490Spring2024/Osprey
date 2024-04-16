@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/auth.dart';
@@ -50,18 +51,49 @@ class _AddFriendsState extends State<AddFriends> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Add friends page',
+          'Friends',
           style: TextStyle(
             color: Colors.black,
             fontSize: 24,
-            fontWeight: FontWeight.bold,
           ),
         ),
         backgroundColor: Colors.teal,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: askForName,
-        child: const Icon(Icons.add))
+        child: const Icon(Icons.add)
+      ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: firestoreService.getFriendsStream(),
+        builder: (context, snapshot) {
+          // if we have data, retrieve it
+          if (snapshot.hasData) {
+            List friendList = snapshot.data!.docs;
+
+            // display as list view
+            return ListView.builder(
+              itemCount: friendList.length,
+              itemBuilder: (context, index) {
+                // get each individual entry
+                DocumentSnapshot document = friendList[index];
+                String docID = document.id;
+
+                // get the info
+                Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+                String name = data['email'];
+
+                // display
+                return ListTile(
+                  title: Text(name)
+                );
+              }
+            );
+          }
+          else {
+            return const Text("No friends yet");
+          }
+        }
+      )
     );
   }
 }
