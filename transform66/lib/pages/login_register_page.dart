@@ -2,6 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/auth.dart';
 import 'package:transform66/pages/new_users_page.dart';
+import 'package:transform66/pages/verify_email_page.dart';
+import 'package:transform66/pages/progress_page.dart';
+
 bool _isPasswordVisible = false;
 
 //import '../auth.dart';
@@ -21,10 +24,29 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> signInWithEmailAndPassword() async {
     try {
-      await Auth().signInWithEmailAndPassword(
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _controllerEmail.text,
         password: _controllerPassword.text,
       );
+
+      User? user = userCredential.user;
+      if (user != null && user.emailVerified) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProgressPage(),
+          ),
+        );
+      } else {
+        // User's email is not verified, redirect to VerifyEmailPage
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => VerifyEmailPage(),
+          ),
+        );
+      }
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message;
@@ -34,16 +56,16 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> createUserWithEmailAndPassword() async {
     try {
-      await Auth().createUserWithEmailAndPassword(
-        email: _controllerEmail.text,
-        password: _controllerPassword.text,
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _controllerEmail.text.trim(),
+        password: _controllerPassword.text.trim(),
       );
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => StartedPage(),
-      ),
-    );
+          builder: (context) => VerifyEmailPage(),
+        ),
+      );
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message;
@@ -55,35 +77,33 @@ class _LoginPageState extends State<LoginPage> {
     return const Text('Transform66');
   }
 
-Widget _entryField(String title, TextEditingController controller) {
-  if (title.toLowerCase() == 'password') {
-    return TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        labelText: title,
-        suffixIcon: IconButton(
-          icon: Icon(_isPasswordVisible ? Icons.visibility : Icons.visibility_off),
-          onPressed: () {
-            setState(() {
-              _isPasswordVisible = !_isPasswordVisible;
-            });
-          },
+  Widget _entryField(String title, TextEditingController controller) {
+    if (title.toLowerCase() == 'password') {
+      return TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: title,
+          suffixIcon: IconButton(
+            icon: Icon(
+                _isPasswordVisible ? Icons.visibility : Icons.visibility_off),
+            onPressed: () {
+              setState(() {
+                _isPasswordVisible = !_isPasswordVisible;
+              });
+            },
+          ),
         ),
-      ),
-      obscureText: !_isPasswordVisible,
-    );
-  } else {
-    return TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        labelText: title,
-      ),
-    );
+        obscureText: !_isPasswordVisible,
+      );
+    } else {
+      return TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: title,
+        ),
+      );
+    }
   }
-}
-
-
-
 
   Widget _errorMessage() {
     return Text(errorMessage == '' ? '' : 'Password/Username is incorrect');
@@ -91,29 +111,31 @@ Widget _entryField(String title, TextEditingController controller) {
 
   Widget _submitButton() {
     return ElevatedButton(
-      onPressed: isLogin ? signInWithEmailAndPassword : createUserWithEmailAndPassword,
+      onPressed:
+          isLogin ? signInWithEmailAndPassword : createUserWithEmailAndPassword,
       child: Text(isLogin ? 'Login' : 'Register',
-      style: TextStyle(color: Colors.blue.shade900)),
+          style: TextStyle(color: Colors.blue.shade900)),
     );
   }
 
-Widget _loginOrRegisterButton() {
-  return Container(
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(10), // Adjust the border radius as needed
-    ),
-    padding: const EdgeInsets.all(20),
-    child: Column(
-      children: [
-        _entryField('email', _controllerEmail),
-        _entryField('password', _controllerPassword),
-        _errorMessage(),
-        _submitButton(),
-      ],
-    ),
-  );
-}
+  Widget _loginOrRegisterButton() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius:
+            BorderRadius.circular(10), // Adjust the border radius as needed
+      ),
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        children: [
+          _entryField('email', _controllerEmail),
+          _entryField('password', _controllerPassword),
+          _errorMessage(),
+          _submitButton(),
+        ],
+      ),
+    );
+  }
 
   Widget _insteadButton() {
     return TextButton(
@@ -125,7 +147,6 @@ Widget _loginOrRegisterButton() {
       child: Text(isLogin ? 'Register instead' : 'Login instead'),
     );
   }
-
 
   @override
   void dispose() {
@@ -148,12 +169,8 @@ Widget _loginOrRegisterButton() {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-
                 _loginOrRegisterButton(),
                 _insteadButton(),
- 
-                
-
 
                 //
               ],
@@ -166,7 +183,7 @@ Widget _loginOrRegisterButton() {
             child: Center(
               child: Image.asset(
                 'assets/images/Transform66.png',
-                height: 400, 
+                height: 400,
               ),
             ),
           ),
