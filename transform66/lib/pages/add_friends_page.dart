@@ -7,6 +7,8 @@ import 'package:transform66/services/firestore.dart';
 class AddFriends extends StatefulWidget {
   AddFriends({Key? key}) : super(key: key);
 
+  static Map<String, bool> hovering2 = {};
+
   @override
   State<AddFriends> createState() => _AddFriendsState();
 }
@@ -14,15 +16,9 @@ class AddFriends extends StatefulWidget {
 class _AddFriendsState extends State<AddFriends> {
   final User? user = Auth().currentUser;
 
-  // to be used for deleting friends
-  bool hovering = false;
-
-  // firestore object
   final FirestoreService firestoreService = FirestoreService();
-
-  // text controller
   final TextEditingController textController = TextEditingController();
-
+  
   // open a dialog
   void askForName() {
     showDialog(
@@ -35,11 +31,8 @@ class _AddFriendsState extends State<AddFriends> {
           ElevatedButton(
             onPressed: () {
               firestoreService.addFriend(textController.text);
-
-              // clear the text controller
+              AddFriends.hovering2[textController.text] = false;
               textController.clear();
-
-              // close the box
               Navigator.pop(context);
             },
             child: const Text("Send request")
@@ -87,14 +80,16 @@ class _AddFriendsState extends State<AddFriends> {
 
                 // display
                 return MouseRegion(
-                  onEnter: (PointerEvent details) => setState(() => hovering = true),
-                  onExit: (PointerEvent details) => setState(() => hovering = false),
+                  onEnter: (PointerEvent details) => setState(() => AddFriends.hovering2[data["email"]] = true),
+                  onExit: (PointerEvent details) => setState(() => AddFriends.hovering2[data["email"]] = false),
                   child: ListTile(
                     title: Text(name),
                     trailing: Visibility(
-                      visible: hovering,
+                      visible: AddFriends.hovering2[data["email"]] ?? false,
                       child: IconButton (
-                        onPressed: () => firestoreService.removeFriend(docID),
+                        onPressed: () {
+                          firestoreService.removeFriend(docID);
+                          AddFriends.hovering2.remove("email");},
                         icon: const Icon(Icons.close)
                       )
                     )
