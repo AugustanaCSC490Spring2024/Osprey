@@ -14,10 +14,13 @@ class AddFriends extends StatefulWidget {
 class _AddFriendsState extends State<AddFriends> {
   final User? user = Auth().currentUser;
 
-  // we need a firestore object
+  // to be used for deleting friends
+  bool hovering = false;
+
+  // firestore object
   final FirestoreService firestoreService = FirestoreService();
 
-  // text controller, or gettting what the user typed
+  // text controller
   final TextEditingController textController = TextEditingController();
 
   // open a dialog
@@ -39,10 +42,10 @@ class _AddFriendsState extends State<AddFriends> {
               // close the box
               Navigator.pop(context);
             },
-            child: Text("Send request"),
+            child: const Text("Send request")
           )
-        ],
-      ),
+        ]
+      )
     );
   }
 
@@ -54,10 +57,10 @@ class _AddFriendsState extends State<AddFriends> {
           'Friends',
           style: TextStyle(
             color: Colors.black,
-            fontSize: 24,
-          ),
+            fontSize: 24
+          )
         ),
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.teal
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: askForName,
@@ -83,8 +86,19 @@ class _AddFriendsState extends State<AddFriends> {
                 String name = data['email'];
 
                 // display
-                return ListTile(
-                  title: Text(name)
+                return MouseRegion(
+                  onEnter: (PointerEvent details) => setState(() => hovering = true),
+                  onExit: (PointerEvent details) => setState(() => hovering = false),
+                  child: ListTile(
+                    title: Text(name),
+                    trailing: Visibility(
+                      visible: hovering,
+                      child: IconButton (
+                        onPressed: () => firestoreService.removeFriend(docID),
+                        icon: const Icon(Icons.close)
+                      )
+                    )
+                  )
                 );
               }
             );

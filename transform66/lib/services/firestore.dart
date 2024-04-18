@@ -15,4 +15,8 @@ class FirestoreService {
     final friendsStream = friends.orderBy("date").snapshots();
     return friendsStream;
   }
+
+  Future<void> removeFriend(String docID) {
+    return friends.doc(docID).delete();
+  }
 }
