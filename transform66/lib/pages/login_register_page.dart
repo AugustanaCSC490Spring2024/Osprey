@@ -45,6 +45,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
     } on FirebaseAuthException catch (e) {
+      print(e.message);
       setState(() {
         errorMessage = e.message;
       });
