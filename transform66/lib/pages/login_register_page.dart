@@ -7,8 +7,6 @@ import 'package:transform66/pages/progress_page.dart';
 
 bool _isPasswordVisible = false;
 
-//import '../auth.dart';
-
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -67,6 +65,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
     } on FirebaseAuthException catch (e) {
+      print(e.message);
       setState(() {
         errorMessage = e.message;
       });
@@ -172,7 +171,6 @@ class _LoginPageState extends State<LoginPage> {
                 _loginOrRegisterButton(),
                 _insteadButton(),
 
-                //
               ],
             ),
           ),

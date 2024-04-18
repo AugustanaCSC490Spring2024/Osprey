@@ -22,7 +22,7 @@ class _WidgetTreeState extends State<WidgetTree> {
         stream: Auth().authStateChanges(),
         builder: (context, snapshot) {
           
-          return const LoginPage();
+            return const LoginPage();
           
         },
       ),
