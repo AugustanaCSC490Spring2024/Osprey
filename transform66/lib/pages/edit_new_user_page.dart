@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:transform66/pages/progress_page.dart';
 
 class EditNewUserPage extends StatelessWidget {
@@ -21,10 +22,10 @@ class EditNewUserPage extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Center(
+          const Center(
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: const Text(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
                 'Choose tasks you will commit for 66 days:',
                 style: TextStyle(
                   fontSize: 16,

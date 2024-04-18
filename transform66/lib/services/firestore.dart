@@ -4,10 +4,19 @@ class FirestoreService {
 
   final CollectionReference friends = FirebaseFirestore.instance.collection("friends");
 
-  // adding friends by email for now
   Future<void> addFriend(String email) {
     return friends.add({
-      "email":email
+      "email":email,
+      "date":Timestamp.now()
     });
+  }
+
+  Stream<QuerySnapshot> getFriendsStream() {
+    final friendsStream = friends.orderBy("date").snapshots();
+    return friendsStream;
+  }
+
+  Future<void> removeFriend(String docID) {
+    return friends.doc(docID).delete();
   }
 }
