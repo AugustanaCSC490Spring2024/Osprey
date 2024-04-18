@@ -5,7 +5,7 @@ import 'package:transform66/pages/add_friends_page.dart';
 import 'package:transform66/pages/calendar_page.dart';
 import 'package:transform66/pages/instructions_page.dart';
 import 'package:transform66/pages/testimonials_page.dart';
-
+import 'package:transform66/pages/login_register_page.dart';
 class ProgressPage extends StatelessWidget {
   const ProgressPage({Key? key}) : super(key: key);
 
@@ -37,12 +37,18 @@ class ProgressPage extends StatelessWidget {
             onSelected: (String result) {
               if (result == 'Sign Out') {
                 Auth().signOut();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()), // Navigate back to LoginPage
+                );
               }
             },
+            
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
               const PopupMenuItem<String>(
                 value: 'Sign Out',
                 child: Text('Sign Out'),
+                
               ),
             ],
           ),
