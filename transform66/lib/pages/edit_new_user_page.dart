@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:transform66/pages/progress_page.dart';
 
 class EditNewUserPage extends StatelessWidget {
@@ -33,7 +33,7 @@ class EditNewUserPage extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(
+          const Expanded(
             child: Scrollbar(
               child: SingleChildScrollView(
                 child: SizedBox(
@@ -43,31 +43,24 @@ class EditNewUserPage extends StatelessWidget {
                     children: [
                       TaskWidget(
                         taskName: 'Drink 1 gallon of Water',
-                        onPressed: () {},
                       ),
                       TaskWidget(
                         taskName: 'Read 10 pages of a non-fiction book',
-                        onPressed: () {},
                       ),
                       TaskWidget(
                         taskName: '45 min outdoor exercise',
-                        onPressed: () {},
                       ),
                       TaskWidget(
                         taskName: '3 pages of creative writing',
-                        onPressed: () {},
                       ),
                       TaskWidget(
                         taskName: '10 mins outdoor walk',
-                        onPressed: () {},
                       ),
                       TaskWidget(
                         taskName: '15 mins walk your pet',
-                        onPressed: () {},
                       ),
                       TaskWidget(
                         taskName: '20 mins self reflection',
-                        onPressed: () {},
                       ),
                     ],
                   ),
@@ -98,7 +91,8 @@ class EditNewUserPage extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
+          await addUserDetails();
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -114,13 +108,22 @@ class EditNewUserPage extends StatelessWidget {
   }
 }
 
+Future<void> addUserDetails() async {
+  List<String> selectedTasks = TaskWidget.selectedTasks;
+  
+  // Add user details to Firestore
+  await FirebaseFirestore.instance.collection('users').add({
+    'tasks': selectedTasks.map((taskName) => {'taskName': taskName, 'isCompleted': false}).toList(),
+  });
+}
+
 class TaskWidget extends StatefulWidget {
   final String taskName;
-  final VoidCallback onPressed;
+
+  static List<String> selectedTasks = [];
 
   const TaskWidget({
     required this.taskName,
-    required this.onPressed,
     Key? key,
   }) : super(key: key);
 
@@ -142,6 +145,11 @@ class _TaskWidgetState extends State<TaskWidget> {
             onTap: () {
               setState(() {
                 _isSelected = !_isSelected;
+                if (_isSelected) {
+                  TaskWidget.selectedTasks.add(widget.taskName);
+                } else {
+                  TaskWidget.selectedTasks.remove(widget.taskName);
+                }
               });
             },
             tileColor: _isSelected ? Colors.grey[300] : Colors.transparent,

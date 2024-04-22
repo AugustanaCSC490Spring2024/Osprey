@@ -54,10 +54,13 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> createUserWithEmailAndPassword() async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _controllerEmail.text.trim(),
         password: _controllerPassword.text.trim(),
-      );
+    );
+
+      String uid = userCredential.user!.uid;
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -71,6 +74,7 @@ class _LoginPageState extends State<LoginPage> {
       });
     }
   }
+
 
   Widget _title() {
     return const Text('Transform66');
