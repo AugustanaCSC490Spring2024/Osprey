@@ -3,11 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class FirestoreService {
 
-  final CollectionReference friends = FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.email).collection("friends");
+  final CollectionReference friends = FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).collection("friends");
 
   Future<void> addFriend(String email) {
-    return friends.add({
-      "email":email,
+    return friends.doc(email).set({
       "date":Timestamp.now()
     });
   }
