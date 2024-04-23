@@ -1,11 +1,10 @@
-//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/auth.dart';
 import 'package:transform66/pages/add_friends_page.dart';
 import 'package:transform66/pages/calendar_page.dart';
 import 'package:transform66/pages/instructions_page.dart';
-import 'package:transform66/pages/testimonials_page.dart';
 import 'package:transform66/pages/login_register_page.dart';
+import 'package:transform66/pages/testimonials_page.dart';
 class ProgressPage extends StatelessWidget {
   const ProgressPage({Key? key}) : super(key: key);
 

@@ -1,7 +1,4 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:transform66/pages/edit_new_user_page.dart';
 import 'package:transform66/pages/instructions_page.dart';
 import 'package:transform66/pages/testimonials_page.dart';
@@ -26,8 +23,8 @@ class StartedPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              width: 200, 
-              height: 100, 
+              width: 200,
+              height: 100,
               child: ElevatedButton(
                 onPressed: () {Navigator.push(
                     context,
