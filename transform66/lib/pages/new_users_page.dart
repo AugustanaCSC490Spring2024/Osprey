@@ -63,7 +63,7 @@ class StartedPage extends StatelessWidget {
                                 "At its core, Transform 66 is more than just a productivity tool—it's a companion on the journey towards self-improvement. By providing a structured platform and a nurturing community, Transform 66 empowers individuals to set meaningful goals and stay committed to them over the course of 66 days, thereby laying the foundation for lasting change.\n\n"
                                 "Whether you're striving to enhance your health, develop new skills, or cultivate positive habits, Transform 66 is here to support you every step of the way. Join the Transform 66 community and unlock your full potential today.\n\n"
                                 "Developers\n\n"
-                                "Behind the scenes of Transform 66 are a team of visionary software developers: Riva Kansakar, Stuti Shrestha, Leandra Gotsach, and Jack Brant. With their diverse backgrounds and shared passion for personal growth, this talented group came together to bring Transform 66 to life."
+                                "Behind the scenes of Transform 66 are a team of visionary software developers: Riva Kansakar, Stuti Shrestha, Leandra Gottschalk, and Jack Brandt. With their diverse backgrounds and shared passion for personal growth, this talented group came together to bring Transform 66 to life."
                               ),
                             ],
                           ),
