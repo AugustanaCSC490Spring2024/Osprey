@@ -68,7 +68,13 @@ class ProgressPage extends StatelessWidget {
                 ),
                 //const SizedBox(height: 20),
                 const Text(
-                  'Your progress for the day:',
+                  '0/66 days completed',
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+                const Text(
+                  'Your progress for today:',
                   style: TextStyle(
                     fontSize: 16,
                   ),

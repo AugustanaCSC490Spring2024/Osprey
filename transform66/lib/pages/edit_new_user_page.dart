@@ -116,6 +116,7 @@ Future<void> addUserDetails() async {
   await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).set({
     'email':FirebaseAuth.instance.currentUser!.email,
     'first_day':DateTime.now(),
+    'last_day':DateTime.now().add(const Duration(days: 66)),
     'tasks': selectedTasks.map((taskName) => {'taskName': taskName, 'isCompleted': false}).toList(),
   });
 }

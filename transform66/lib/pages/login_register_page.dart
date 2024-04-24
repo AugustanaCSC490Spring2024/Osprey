@@ -1,10 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:transform66/auth.dart';
-import 'package:transform66/pages/new_users_page.dart';
-import 'package:transform66/pages/verify_email_page.dart';
-import 'package:transform66/pages/progress_page.dart';
 import 'package:transform66/pages/forgot_password.dart';
+import 'package:transform66/pages/progress_page.dart';
+import 'package:transform66/pages/verify_email_page.dart';
 bool _isPasswordVisible = false;
 
 class LoginPage extends StatefulWidget {
@@ -175,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
                 _loginOrRegisterButton(),
                 _insteadButton(),
                 GestureDetector(
-                child: Text( 'Forgot Password?',
+                child: const Text( 'Forgot Password?',
                   ),
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => ForgotPasswordPage(),)),
