@@ -19,7 +19,7 @@ class _AddFriendsState extends State<AddFriends> {
   final FirestoreService firestoreService = FirestoreService();
   final TextEditingController textController = TextEditingController();
   
-  // open a dialog
+  // Open a dialog
   void askForName() {
     showDialog(
       context: context,
@@ -62,34 +62,34 @@ class _AddFriendsState extends State<AddFriends> {
       body: StreamBuilder<QuerySnapshot>(
         stream: firestoreService.getFriendsStream(),
         builder: (context, snapshot) {
-          // if we have data, retrieve it
+          // If we have data, retrieve it
           if (snapshot.hasData) {
             List friendList = snapshot.data!.docs;
 
-            // display as list view
+            // Display as list view
             return ListView.builder(
               itemCount: friendList.length,
               itemBuilder: (context, index) {
-                // get each individual entry
+                // Get each individual entry
                 DocumentSnapshot document = friendList[index];
                 String docID = document.id;
 
-                // get the info
-                Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-                String name = data['email'];
+                // Get the info
+                //Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+                //String name = data['email'];
 
-                // display
+                // Display
                 return MouseRegion(
-                  onEnter: (PointerEvent details) => setState(() => AddFriends.hovering2[data["email"]] = true),
-                  onExit: (PointerEvent details) => setState(() => AddFriends.hovering2[data["email"]] = false),
+                  onEnter: (PointerEvent details) => setState(() => AddFriends.hovering2[docID] = true),
+                  onExit: (PointerEvent details) => setState(() => AddFriends.hovering2[docID] = false),
                   child: ListTile(
-                    title: Text(name),
+                    title: Text(docID),
                     trailing: Visibility(
-                      visible: AddFriends.hovering2[data["email"]] ?? false,
+                      visible: AddFriends.hovering2[docID] ?? false,
                       child: IconButton (
                         onPressed: () {
                           firestoreService.removeFriend(docID);
-                          AddFriends.hovering2.remove("email");},
+                          AddFriends.hovering2.remove(docID);},
                         icon: const Icon(Icons.close)
                       )
                     )
@@ -99,6 +99,7 @@ class _AddFriendsState extends State<AddFriends> {
             );
           }
           else {
+            // Why doesn't this work?
             return const Text("No friends yet");
           }
         }
