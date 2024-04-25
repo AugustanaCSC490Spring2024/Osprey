@@ -5,9 +5,6 @@ import 'package:transform66/pages/calendar_page.dart';
 import 'package:transform66/pages/instructions_page.dart';
 import 'package:transform66/pages/login_register_page.dart';
 import 'package:transform66/pages/testimonials_page.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:transform66/widget_tree.dart';
 
 class ProgressPage extends StatelessWidget {
   const ProgressPage({Key? key}) : super(key: key);
@@ -66,12 +63,12 @@ class ProgressPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  const SizedBox(height: 75),
                   Image.asset(
                     'assets/images/Transform66.png',
-                    width: 300,
-                    height: 300,
+                    height: 110,
                   ),
-                  //const SizedBox(height: 20),
+                  const SizedBox(height: 75),
                   const Text(
                     '0/66 days completed',
                     style: TextStyle(

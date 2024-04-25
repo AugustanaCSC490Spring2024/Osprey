@@ -159,48 +159,40 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
 
               children: <Widget>[
+                Center(
+                  child: Image.asset(
+                    'assets/images/Transform66.png',
+                    height: 150,
+                  ),
+                ),
+                const SizedBox(height: 50),
                 _loginOrRegisterButton(),
                 Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextButton(
-                onPressed: () {
-                  setState(() {
-                    isLogin = !isLogin;
-                    });
-                  },
-                  child: Text(isLogin ? 'Register instead' : 'Login instead'),
-                ),
-                const Text("|"),
-                TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ForgotPasswordPage(),
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          isLogin = !isLogin;
+                        });
+                      },
+                      child: Text(isLogin ? 'Register instead' : 'Login instead'),
                     ),
-                  );
-                    
-        
-                  },
-                  child: Text('Forgot Password?'),
+                    const Text("|"),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ForgotPasswordPage(),
+                          ),
+                        );
+                      },
+                      child: const Text('Forgot Password?'),
+                    ),
+                  ],
                 ),
-
-                ],),
-                
-
               ],
-            ),
-          ),
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Image.asset(
-                'assets/images/Transform66.png',
-                height: 400,
-              ),
             ),
           ),
         ],
