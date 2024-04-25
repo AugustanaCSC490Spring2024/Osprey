@@ -80,12 +80,19 @@ class _AddFriendsState extends State<AddFriends> {
                 //Map<String, dynamic> data = document.data() as Map<String, dynamic>;
                 //String name = data['email'];
 
+                bool mutual = false;
+                
                 // Display
                 return MouseRegion(
                   onEnter: (PointerEvent details) => setState(() => AddFriends.hovering2[docID] = true),
                   onExit: (PointerEvent details) => setState(() => AddFriends.hovering2[docID] = false),
                   child: ListTile(
-                    title: Text(docID),
+                    title: Text(
+                      docID,
+                      style: TextStyle(
+                        color: mutual ? Colors.green : Colors.red
+                      )
+                    ),
                     trailing: Visibility(
                       visible: AddFriends.hovering2[docID] ?? false,
                       child: IconButton (
