@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:transform66/pages/edit_new_user_page.dart';
-import 'package:transform66/pages/instructions_page.dart';
+//import 'package:transform66/pages/instructions_page.dart';
 import 'package:transform66/pages/testimonials_page.dart';
 
 
@@ -52,7 +52,7 @@ class StartedPage extends StatelessWidget {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: const Text("About US"),
+                          title: const Text("About Us"),
                           content: const Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
@@ -87,7 +87,7 @@ class StartedPage extends StatelessWidget {
                     ),
                   ),
                   child: const Text(
-                    'About US',
+                    'About Us',
                     style: TextStyle(color: Colors.black, decoration: TextDecoration.underline), // Change color to black
                   ),
                 ),
