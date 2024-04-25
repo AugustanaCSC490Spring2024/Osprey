@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:transform66/auth.dart';
 import 'package:transform66/services/firestore.dart';
 
@@ -28,14 +29,16 @@ class _AddFriendsState extends State<AddFriends> {
           controller: textController
         ),
         actions: [
-          ElevatedButton(
-            onPressed: () {
-              firestoreService.addFriend(textController.text);
-              AddFriends.hovering2[textController.text] = false;
-              textController.clear();
-              Navigator.pop(context);
-            },
-            child: const Text("Send request")
+          Center(
+            child: ElevatedButton(
+              onPressed: () {
+                firestoreService.addFriend(textController.text);
+                AddFriends.hovering2[textController.text] = false;
+                textController.clear();
+                Navigator.pop(context);
+              },
+              child: const Text("Send request")
+            )
           )
         ]
       )
@@ -46,18 +49,17 @@ class _AddFriendsState extends State<AddFriends> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Friends',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 24
+        title: Text(
+          "Friends",
+          style: GoogleFonts.architectsDaughter(
+            textStyle: const TextStyle(color: Colors.black)
           )
         ),
         backgroundColor: Colors.teal
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: askForName,
-        child: const Icon(Icons.add)
+        child: const Icon(Icons.add_reaction_outlined)
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: firestoreService.getFriendsStream(),
@@ -78,12 +80,19 @@ class _AddFriendsState extends State<AddFriends> {
                 //Map<String, dynamic> data = document.data() as Map<String, dynamic>;
                 //String name = data['email'];
 
+                bool mutual = false;
+                
                 // Display
                 return MouseRegion(
                   onEnter: (PointerEvent details) => setState(() => AddFriends.hovering2[docID] = true),
                   onExit: (PointerEvent details) => setState(() => AddFriends.hovering2[docID] = false),
                   child: ListTile(
-                    title: Text(docID),
+                    title: Text(
+                      docID,
+                      style: TextStyle(
+                        color: mutual ? Colors.green : Colors.red
+                      )
+                    ),
                     trailing: Visibility(
                       visible: AddFriends.hovering2[docID] ?? false,
                       child: IconButton (
@@ -100,6 +109,9 @@ class _AddFriendsState extends State<AddFriends> {
           }
           else {
             // Why doesn't this work?
+            // from leandra: this message will pop up when you first click on add friends page
+            // even if you do have friends but only for a second, can explain more just a mental
+            // note for myself to remember
             return const Text("No friends yet");
           }
         }

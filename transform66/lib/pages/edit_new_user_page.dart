@@ -113,8 +113,7 @@ Future<void> addUserDetails() async {
   List<String> selectedTasks = TaskWidget.selectedTasks;
   
   // Add user details to Firestore
-  await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).set({
-    'email':FirebaseAuth.instance.currentUser!.email,
+  await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.email).set({
     'first_day':DateTime.now(),
     'last_day':DateTime.now().add(const Duration(days: 66)),
     'tasks': selectedTasks.map((taskName) => {'taskName': taskName, 'isCompleted': false}).toList(),
