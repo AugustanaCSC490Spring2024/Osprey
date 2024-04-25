@@ -35,7 +35,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
         );
       } else {
-        // User's email is not verified, redirect to VerifyEmailPage
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -138,17 +137,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _insteadButton() {
-    return TextButton(
-      onPressed: () {
-        setState(() {
-          isLogin = !isLogin;
-        });
-      },
-      child: Text(isLogin ? 'Register instead' : 'Login instead'),
-    );
-  }
-
   @override
   void dispose() {
     _controllerEmail.dispose();
@@ -169,15 +157,37 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
+
               children: <Widget>[
                 _loginOrRegisterButton(),
-                _insteadButton(),
-                GestureDetector(
-                child: const Text( 'Forgot Password?',
-                  ),
-                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ForgotPasswordPage(),)),
-                )
+                Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                onPressed: () {
+                  setState(() {
+                    isLogin = !isLogin;
+                    });
+                  },
+                  child: Text(isLogin ? 'Register instead' : 'Login instead'),
+                ),
+                const Text("|"),
+                TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ForgotPasswordPage(),
+                    ),
+                  );
+                    
+        
+                  },
+                  child: Text('Forgot Password?'),
+                ),
+
+                ],),
+                
 
               ],
             ),
