@@ -100,6 +100,9 @@ class _AddFriendsState extends State<AddFriends> {
           }
           else {
             // Why doesn't this work?
+            // from leandra: this message will pop up when you first click on add friends page
+            // even if you do have friends but only for a second, can explain more just a mental
+            // note for myself to remember
             return const Text("No friends yet");
           }
         }

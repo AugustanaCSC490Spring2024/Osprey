@@ -5,12 +5,17 @@ import 'package:transform66/pages/calendar_page.dart';
 import 'package:transform66/pages/instructions_page.dart';
 import 'package:transform66/pages/login_register_page.dart';
 import 'package:transform66/pages/testimonials_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:transform66/widget_tree.dart';
+
 class ProgressPage extends StatelessWidget {
   const ProgressPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: const Text(
           'Transform66',
@@ -38,7 +43,7 @@ class ProgressPage extends StatelessWidget {
                 Auth().signOut();
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => LoginPage()), // Navigate back to LoginPage
+                  MaterialPageRoute(builder: (context) => const LoginPage()), // Navigate back to LoginPage
                 );
               }
             },
@@ -80,21 +85,17 @@ class ProgressPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 30),
-                TaskWidget(
-                  taskName: 'Drink 1 gallon of Water',
-                  onPressed: () {},
+                const TaskWidget(
+                  taskName: 'Drink 1 gallon of Water'
                 ),
-                TaskWidget(
-                  taskName: 'Read 10 pages of a non-fiction book',
-                  onPressed: () {},
+                const TaskWidget(
+                  taskName: 'Read 10 pages of a non-fiction book'
                 ),
-                TaskWidget(
+                const TaskWidget(
                   taskName: '45 min outdoor exercise',
-                  onPressed: () {},
                 ),
-                TaskWidget(
+                const TaskWidget(
                   taskName: '3 pages of creative writing',
-                  onPressed: () {},
                 ),
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   TextButton(
@@ -120,7 +121,7 @@ class ProgressPage extends StatelessWidget {
                           decoration:
                               TextDecoration.underline), // Change color to black
                     ),
-                  ),
+                  ),// Add Friends button
                   TextButton(
                     onPressed: () {
                       Navigator.push(
@@ -144,7 +145,7 @@ class ProgressPage extends StatelessWidget {
                           decoration:
                               TextDecoration.underline), // Change color to black
                     ),
-                  ),
+                  ), // Instructions button
                   TextButton(
                     onPressed: () {
                       Navigator.push(
@@ -168,7 +169,7 @@ class ProgressPage extends StatelessWidget {
                           decoration:
                               TextDecoration.underline), // Change color to black
                     ),
-                  ),
+                  ), // Testimonials button
                 ])
               ],
             ),
@@ -181,11 +182,11 @@ class ProgressPage extends StatelessWidget {
 
 class TaskWidget extends StatefulWidget {
   final String taskName;
-  final VoidCallback onPressed;
+  static List<String> selectedTasks = [];
+  static List<String> finishedTasks = [];
 
   const TaskWidget({
     required this.taskName,
-    required this.onPressed,
     super.key,
   });
 
@@ -210,6 +211,13 @@ class _TaskWidgetState extends State<TaskWidget> {
                 onChanged: (value) {
                   setState(() {
                     _isChecked = value!;
+                    if (_isChecked) {
+                      TaskWidget.finishedTasks.add(widget.taskName);
+                      //isCompleted = true;
+                    } else {
+                      TaskWidget.finishedTasks.remove(widget.taskName);
+                      //isCompleted = false;
+                    }
                   });
                 },
               ),
@@ -222,7 +230,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                       widget.taskName,
                       style: const TextStyle(color: Colors.black),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                   ],
                 ),
               ),
@@ -234,3 +242,5 @@ class _TaskWidgetState extends State<TaskWidget> {
     );
   }
 }
+
+
