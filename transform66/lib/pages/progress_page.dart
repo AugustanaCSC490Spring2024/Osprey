@@ -5,6 +5,8 @@ import 'package:transform66/pages/calendar_page.dart';
 import 'package:transform66/pages/instructions_page.dart';
 import 'package:transform66/pages/login_register_page.dart';
 import 'package:transform66/pages/testimonials_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class ProgressPage extends StatelessWidget {
   const ProgressPage({Key? key}) : super(key: key);
@@ -82,15 +84,7 @@ class ProgressPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 30),
-                  const TaskWidget(taskName: 'Drink 1 gallon of Water'),
-                  const TaskWidget(
-                      taskName: 'Read 10 pages of a non-fiction book'),
-                  const TaskWidget(
-                    taskName: '45 min outdoor exercise',
-                  ),
-                  const TaskWidget(
-                    taskName: '3 pages of creative writing',
-                  ),
+                  //this will be where the tasks are displayed
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     TextButton(
                       onPressed: () {
