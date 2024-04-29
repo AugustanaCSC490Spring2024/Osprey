@@ -19,4 +19,15 @@ class FirestoreService {
   Future<void> removeFriend(String docID) {
     return friends.doc(docID).delete();
   }
+
+  Future<bool> hasUser(String name) async {
+    DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.instance.collection("users").doc(name).get();
+    
+    if (doc.exists) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
 }
