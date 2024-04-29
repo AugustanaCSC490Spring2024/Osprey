@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/auth.dart';
 import 'package:transform66/pages/add_friends_page.dart';
@@ -7,7 +6,6 @@ import 'package:transform66/pages/instructions_page.dart';
 import 'package:transform66/pages/login_register_page.dart';
 import 'package:transform66/pages/testimonials_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:transform66/services/firestore.dart';
 
 class ProgressPage extends StatelessWidget {
@@ -31,23 +29,19 @@ class ProgressPage extends StatelessWidget {
             IconButton(
                 icon: const Icon(Icons.calendar_month_sharp),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Calendar(),
-                    ),
-                  );
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Calendar()));
                 }),
             PopupMenuButton<String>(
               onSelected: (String result) {
                 if (result == 'Sign Out') {
                   Auth().signOut();
                   Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            const LoginPage()), // Navigate back to LoginPage
-                  );
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const LoginPage()) // Navigate back to LoginPage
+                      );
                 }
               },
               itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
@@ -63,23 +57,11 @@ class ProgressPage extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(height: 75),
-              Image.asset(
-                'assets/images/Transform66.png',
-                height: 110,
-              ),
+              Image.asset('assets/images/Transform66.png', height: 110),
               const SizedBox(height: 75),
-              const Text(
-                '0/66 days completed',
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-              const Text(
-                'Your progress for today:',
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
+              const Text('0/66 days completed', style: TextStyle(fontSize: 16)),
+              const Text('Your progress for today:',
+                  style: TextStyle(fontSize: 16)),
               SingleChildScrollView(
                 child: StreamBuilder<QuerySnapshot>(
                     stream: getTasksStream(),
@@ -95,8 +77,7 @@ class ProgressPage extends StatelessWidget {
                           itemCount: taskDocs.length,
                           itemBuilder: (context, index) {
                             return TaskWidget(
-                              taskName: taskDocs[index].get("taskName"),
-                            );
+                                taskName: taskDocs[index].get("taskName"));
                           },
                         );
                       } else {
@@ -111,75 +92,53 @@ class ProgressPage extends StatelessWidget {
                   TextButton(
                     onPressed: () {
                       Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AddFriends(),
-                        ),
-                      );
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AddFriends()));
                     },
                     style: ButtonStyle(
-                      textStyle: MaterialStateProperty.all(
-                        const TextStyle(
-                          fontSize: 10,
-                        ),
-                      ),
-                    ),
+                        textStyle: MaterialStateProperty.all(
+                            const TextStyle(fontSize: 10))),
                     child: const Text(
                       'Add Friends',
                       style: TextStyle(
-                        color: Colors.black,
-                        decoration: TextDecoration.underline,
-                      ),
+                          color: Colors.black,
+                          decoration: TextDecoration.underline),
                     ),
                   ),
                   TextButton(
                     onPressed: () {
                       Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => InstructionsPage(),
-                        ),
-                      );
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => InstructionsPage()));
                     },
                     style: ButtonStyle(
-                      textStyle: MaterialStateProperty.all(
-                        const TextStyle(
-                          fontSize: 10,
-                        ),
-                      ),
-                    ),
+                        textStyle: MaterialStateProperty.all(
+                            const TextStyle(fontSize: 10))),
                     child: const Text(
                       'Instructions',
                       style: TextStyle(
-                        color: Colors.black,
-                        decoration: TextDecoration.underline,
-                      ),
+                          color: Colors.black,
+                          decoration: TextDecoration.underline),
                     ),
                   ),
                   TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Testimonials(),
-                        ),
-                      );
-                    },
-                    style: ButtonStyle(
-                      textStyle: MaterialStateProperty.all(
-                        const TextStyle(
-                          fontSize: 10,
-                        ),
-                      ),
-                    ),
-                    child: const Text(
-                      'Testimonials',
-                      style: TextStyle(
-                        color: Colors.black,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Testimonials()));
+                      },
+                      style: ButtonStyle(
+                          textStyle: MaterialStateProperty.all(
+                              const TextStyle(fontSize: 10))),
+                      child: const Text(
+                        'Testimonials',
+                        style: TextStyle(
+                            color: Colors.black,
+                            decoration: TextDecoration.underline),
+                      )),
                 ],
               )
             ],
