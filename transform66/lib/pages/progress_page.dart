@@ -59,32 +59,131 @@ class ProgressPage extends StatelessWidget {
             ),
           ],
         ),
-        body: Column(
-          children: [
-            SingleChildScrollView(
-              child: StreamBuilder<QuerySnapshot>(
-                  stream: getTasksStream(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      List<QueryDocumentSnapshot> taskDocs = snapshot.data!.docs;
-                      return ListView.builder(
-                        shrinkWrap:
-                            true, // Make the ListView scrollable within SingleChildScrollView
-                        physics:
-                            const NeverScrollableScrollPhysics(), // Disable scrolling of the ListView
-                        itemCount: taskDocs.length,
-                        itemBuilder: (context, index) {
-                          return TaskWidget(
-                            taskName: taskDocs[index].get("taskName"),
-                          );
-                        },
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 75),
+              Image.asset(
+                'assets/images/Transform66.png',
+                height: 110,
+              ),
+              const SizedBox(height: 75),
+              const Text(
+                '0/66 days completed',
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              const Text(
+                'Your progress for today:',
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              SingleChildScrollView(
+                child: StreamBuilder<QuerySnapshot>(
+                    stream: getTasksStream(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        List<QueryDocumentSnapshot> taskDocs =
+                            snapshot.data!.docs;
+                        return ListView.builder(
+                          shrinkWrap:
+                              true, // Make the ListView scrollable within SingleChildScrollView
+                          physics:
+                              const NeverScrollableScrollPhysics(), // Disable scrolling of the ListView
+                          itemCount: taskDocs.length,
+                          itemBuilder: (context, index) {
+                            return TaskWidget(
+                              taskName: taskDocs[index].get("taskName"),
+                            );
+                          },
+                        );
+                      } else {
+                        return const Text("Loading...");
+                      }
+                    }),
+              ),
+              const SizedBox(height: 50),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AddFriends(),
+                        ),
                       );
-                    } else {
-                      return const Text("Loading...");
-                    }
-                  }),
-            ),
-          ],
+                    },
+                    style: ButtonStyle(
+                      textStyle: MaterialStateProperty.all(
+                        const TextStyle(
+                          fontSize: 10,
+                        ),
+                      ),
+                    ),
+                    child: const Text(
+                      'Add Friends',
+                      style: TextStyle(
+                        color: Colors.black,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => InstructionsPage(),
+                        ),
+                      );
+                    },
+                    style: ButtonStyle(
+                      textStyle: MaterialStateProperty.all(
+                        const TextStyle(
+                          fontSize: 10,
+                        ),
+                      ),
+                    ),
+                    child: const Text(
+                      'Instructions',
+                      style: TextStyle(
+                        color: Colors.black,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Testimonials(),
+                        ),
+                      );
+                    },
+                    style: ButtonStyle(
+                      textStyle: MaterialStateProperty.all(
+                        const TextStyle(
+                          fontSize: 10,
+                        ),
+                      ),
+                    ),
+                    child: const Text(
+                      'Testimonials',
+                      style: TextStyle(
+                        color: Colors.black,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ));
   }
 }
@@ -119,6 +218,7 @@ class _TaskWidgetState extends State<TaskWidget> {
           width: 350,
           height: 50,
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Checkbox(
                 value: _isChecked,
@@ -151,7 +251,7 @@ class _TaskWidgetState extends State<TaskWidget> {
             ],
           ),
         ),
-        const Divider(), // Horizontal line
+        //const Divider(), // Horizontal line
       ],
     );
   }
