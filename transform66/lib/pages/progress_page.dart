@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:transform66/auth.dart';
 import 'package:transform66/pages/add_friends_page.dart';
@@ -6,11 +8,18 @@ import 'package:transform66/pages/instructions_page.dart';
 import 'package:transform66/pages/login_register_page.dart';
 import 'package:transform66/pages/testimonials_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:transform66/widget_tree.dart';
+import 'package:transform66/services/firestore.dart';
 
-class ProgressPage extends StatelessWidget {
-  const ProgressPage({Key? key}) : super(key: key);
+class ProgressPage extends StatefulWidget {
+  const ProgressPage({super.key});
+
+  @override
+  State<ProgressPage> createState() => _ProgressPageState();
+}
+
+class _ProgressPageState extends State<ProgressPage> {
+
+  final FirestoreService firestoreService = FirestoreService();
 
   @override
   Widget build(BuildContext context) {
@@ -30,23 +39,19 @@ class ProgressPage extends StatelessWidget {
             IconButton(
                 icon: const Icon(Icons.calendar_month_sharp),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Calendar(),
-                    ),
-                  );
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Calendar()));
                 }),
             PopupMenuButton<String>(
               onSelected: (String result) {
                 if (result == 'Sign Out') {
                   Auth().signOut();
                   Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            const LoginPage()), // Navigate back to LoginPage
-                  );
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const LoginPage()) // Navigate back to LoginPage
+                      );
                 }
               },
               itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
@@ -59,118 +64,96 @@ class ProgressPage extends StatelessWidget {
           ],
         ),
         body: SingleChildScrollView(
-          child: Align(
-            alignment: Alignment.center,
-            child: SizedBox(
-              width: 350,
-              child: Column(
+          child: Column(
+            children: [
+              const SizedBox(height: 75),
+              Image.asset('assets/images/Transform66.png', height: 110),
+              const SizedBox(height: 75),
+              const Text('0/66 days completed', style: TextStyle(fontSize: 16)),
+              const Text('Your progress for today:',
+                  style: TextStyle(fontSize: 16)),
+              SingleChildScrollView(
+                child: StreamBuilder<QuerySnapshot>(
+                    stream: firestoreService.getTasksStream(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        List<QueryDocumentSnapshot> taskDocs =
+                            snapshot.data!.docs;
+                        return ListView.builder(
+                          shrinkWrap:
+                              true, // Make the ListView scrollable within SingleChildScrollView
+                          physics:
+                              const NeverScrollableScrollPhysics(), // Disable scrolling of the ListView
+                          itemCount: taskDocs.length,
+                          itemBuilder: (context, index) {
+                            return TaskWidget(
+                                taskName: taskDocs[index].get("taskName"), isCompleted: taskDocs[index].get("isCompleted"));
+                          },
+                        );
+                      } else {
+                        return const Text("Loading...");
+                      }
+                    }),
+              ),
+              const SizedBox(height: 50),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    'assets/images/Transform66.png',
-                    width: 300,
-                    height: 300,
-                  ),
-                  //const SizedBox(height: 20),
-                  const Text(
-                    '0/66 days completed',
-                    style: TextStyle(
-                      fontSize: 16,
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AddFriends()));
+                    },
+                    style: ButtonStyle(
+                        textStyle: MaterialStateProperty.all(
+                            const TextStyle(fontSize: 10))),
+                    child: const Text(
+                      'Add Friends',
+                      style: TextStyle(
+                          color: Colors.black,
+                          decoration: TextDecoration.underline),
                     ),
                   ),
-                  const Text(
-                    'Your progress for today:',
-                    style: TextStyle(
-                      fontSize: 16,
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => InstructionsPage()));
+                    },
+                    style: ButtonStyle(
+                        textStyle: MaterialStateProperty.all(
+                            const TextStyle(fontSize: 10))),
+                    child: const Text(
+                      'Instructions',
+                      style: TextStyle(
+                          color: Colors.black,
+                          decoration: TextDecoration.underline),
                     ),
                   ),
-                  const SizedBox(height: 30),
-                  const TaskWidget(taskName: 'Drink 1 gallon of Water'),
-                  const TaskWidget(
-                      taskName: 'Read 10 pages of a non-fiction book'),
-                  const TaskWidget(
-                    taskName: '45 min outdoor exercise',
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Testimonials()));
+                    },
+                    style: ButtonStyle(
+                        textStyle: MaterialStateProperty.all(
+                            const TextStyle(fontSize: 10))),
+                    child: const Text(
+                      'Testimonials',
+                      style: TextStyle(
+                        color: Colors.black,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
                   ),
-                  const TaskWidget(
-                    taskName: '3 pages of creative writing',
-                  ),
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AddFriends(),
-                          ),
-                        );
-                      },
-                      style: ButtonStyle(
-                        textStyle: MaterialStateProperty.all(
-                          const TextStyle(
-                            fontSize: 10,
-                          ),
-                        ),
-                      ),
-                      child: const Text(
-                        'Add Friends',
-                        style: TextStyle(
-                            color: Colors.black,
-                            decoration: TextDecoration
-                                .underline), // Change color to black
-                      ),
-                    ), // Add Friends button
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => InstructionsPage(),
-                          ),
-                        );
-                      },
-                      style: ButtonStyle(
-                        textStyle: MaterialStateProperty.all(
-                          const TextStyle(
-                            fontSize: 10,
-                          ),
-                        ),
-                      ),
-                      child: const Text(
-                        'Instructions',
-                        style: TextStyle(
-                            color: Colors.black,
-                            decoration: TextDecoration
-                                .underline), // Change color to black
-                      ),
-                    ), // Instructions button
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Testimonials(),
-                          ),
-                        );
-                      },
-                      style: ButtonStyle(
-                        textStyle: MaterialStateProperty.all(
-                          const TextStyle(
-                            fontSize: 10,
-                          ),
-                        ),
-                      ),
-                      child: const Text(
-                        'Testimonials',
-                        style: TextStyle(
-                            color: Colors.black,
-                            decoration: TextDecoration
-                                .underline), // Change color to black
-                      ),
-                    ), // Testimonials button
-                  ])
                 ],
-              ),
-            ),
+              )
+            ],
           ),
         ));
   }
@@ -178,11 +161,13 @@ class ProgressPage extends StatelessWidget {
 
 class TaskWidget extends StatefulWidget {
   final String taskName;
+  var isCompleted = false;
   static List<String> selectedTasks = [];
   static List<String> finishedTasks = [];
 
-  const TaskWidget({
+  TaskWidget({
     required this.taskName,
+    required this.isCompleted,
     super.key,
   });
 
@@ -191,28 +176,27 @@ class TaskWidget extends StatefulWidget {
 }
 
 class _TaskWidgetState extends State<TaskWidget> {
-  bool _isChecked = false;
+  final FirestoreService firestoreService = FirestoreService();
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         SizedBox(
-          width: double.infinity,
+          width: 350,
           height: 50,
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Checkbox(
-                value: _isChecked,
+                value: widget.isCompleted,
                 onChanged: (value) {
                   setState(() {
-                    _isChecked = value!;
-                    if (_isChecked) {
-                      TaskWidget.finishedTasks.add(widget.taskName);
-                      //isCompleted = true;
+                    widget.isCompleted = value!;
+                    if (value) {
+                      firestoreService.updateTask(widget.taskName, true);
                     } else {
-                      TaskWidget.finishedTasks.remove(widget.taskName);
-                      //isCompleted = false;
+                      firestoreService.updateTask(widget.taskName, false);
                     }
                   });
                 },
@@ -233,7 +217,7 @@ class _TaskWidgetState extends State<TaskWidget> {
             ],
           ),
         ),
-        const Divider(), // Horizontal line
+        //const Divider(), // Horizontal line
       ],
     );
   }
