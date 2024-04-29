@@ -40,6 +40,12 @@ class FirestoreService {
     return tasksStream;
   }
 
+  Future<void> updateTask(String docID, bool isCompleted) {
+    return tasks.doc(docID).update({
+      "isCompleted":isCompleted
+    });
+  }
+
   Future<bool> hasUser(String name) async {
     DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.instance.collection("users").doc(name).get();
     

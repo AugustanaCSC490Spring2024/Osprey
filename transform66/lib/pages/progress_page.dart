@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:transform66/auth.dart';
 import 'package:transform66/pages/add_friends_page.dart';
@@ -8,8 +10,16 @@ import 'package:transform66/pages/testimonials_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:transform66/services/firestore.dart';
 
-class ProgressPage extends StatelessWidget {
-  const ProgressPage({Key? key}) : super(key: key);
+class ProgressPage extends StatefulWidget {
+  const ProgressPage({super.key});
+
+  @override
+  State<ProgressPage> createState() => _ProgressPageState();
+}
+
+class _ProgressPageState extends State<ProgressPage> {
+
+  final FirestoreService firestoreService = FirestoreService();
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +74,7 @@ class ProgressPage extends StatelessWidget {
                   style: TextStyle(fontSize: 16)),
               SingleChildScrollView(
                 child: StreamBuilder<QuerySnapshot>(
-                    stream: getTasksStream(),
+                    stream: firestoreService.getTasksStream(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         List<QueryDocumentSnapshot> taskDocs =
@@ -77,7 +87,7 @@ class ProgressPage extends StatelessWidget {
                           itemCount: taskDocs.length,
                           itemBuilder: (context, index) {
                             return TaskWidget(
-                                taskName: taskDocs[index].get("taskName"));
+                                taskName: taskDocs[index].get("taskName"), isCompleted: taskDocs[index].get("isCompleted"));
                           },
                         );
                       } else {
@@ -124,21 +134,23 @@ class ProgressPage extends StatelessWidget {
                     ),
                   ),
                   TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Testimonials()));
-                      },
-                      style: ButtonStyle(
-                          textStyle: MaterialStateProperty.all(
-                              const TextStyle(fontSize: 10))),
-                      child: const Text(
-                        'Testimonials',
-                        style: TextStyle(
-                            color: Colors.black,
-                            decoration: TextDecoration.underline),
-                      )),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Testimonials()));
+                    },
+                    style: ButtonStyle(
+                        textStyle: MaterialStateProperty.all(
+                            const TextStyle(fontSize: 10))),
+                    child: const Text(
+                      'Testimonials',
+                      style: TextStyle(
+                        color: Colors.black,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
                 ],
               )
             ],
@@ -147,18 +159,15 @@ class ProgressPage extends StatelessWidget {
   }
 }
 
-Stream<QuerySnapshot> getTasksStream() {
-  final FirestoreService firestoreService = FirestoreService();
-  return firestoreService.getTasksStream();
-}
-
 class TaskWidget extends StatefulWidget {
   final String taskName;
+  var isCompleted = false;
   static List<String> selectedTasks = [];
   static List<String> finishedTasks = [];
 
-  const TaskWidget({
+  TaskWidget({
     required this.taskName,
+    required this.isCompleted,
     super.key,
   });
 
@@ -167,7 +176,7 @@ class TaskWidget extends StatefulWidget {
 }
 
 class _TaskWidgetState extends State<TaskWidget> {
-  bool _isChecked = false;
+  final FirestoreService firestoreService = FirestoreService();
 
   @override
   Widget build(BuildContext context) {
@@ -180,16 +189,14 @@ class _TaskWidgetState extends State<TaskWidget> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Checkbox(
-                value: _isChecked,
+                value: widget.isCompleted,
                 onChanged: (value) {
                   setState(() {
-                    _isChecked = value!;
-                    if (_isChecked) {
-                      TaskWidget.finishedTasks.add(widget.taskName);
-                      //isCompleted = true;
+                    widget.isCompleted = value!;
+                    if (value) {
+                      firestoreService.updateTask(widget.taskName, true);
                     } else {
-                      TaskWidget.finishedTasks.remove(widget.taskName);
-                      //isCompleted = false;
+                      firestoreService.updateTask(widget.taskName, false);
                     }
                   });
                 },
