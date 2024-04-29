@@ -53,7 +53,7 @@ class StartedPage extends StatelessWidget {
                       builder: (BuildContext context) {
                         return AlertDialog(
                           title: const Text("About Us"),
-                          content: const Column(
+                          content: const SingleChildScrollView(child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -66,7 +66,7 @@ class StartedPage extends StatelessWidget {
                                 "Behind the scenes of Transform 66 are a team of visionary software developers: Riva Kansakar, Stuti Shrestha, Leandra Gottschalk, and Jack Brandt. With their diverse backgrounds and shared passion for personal growth, this talented group came together to bring Transform 66 to life."
                               ),
                             ],
-                          ),
+                          ),),
                           actions: <Widget>[
                             TextButton(
                               onPressed: () {
