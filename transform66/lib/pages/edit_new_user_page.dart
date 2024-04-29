@@ -94,13 +94,22 @@ class EditNewUserPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await addUserDetails();
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ProgressPage(),
-            ),
-          );
+          if (TaskWidget.selectedTasks.isEmpty) {
+            // Show error message
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Please select at least one task.'),
+              ),
+            );
+          } else {
+            await addUserDetails();
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProgressPage(),
+              ),
+            );
+          }
         },
         backgroundColor: Colors.red,
         child: const Text("Start"),
