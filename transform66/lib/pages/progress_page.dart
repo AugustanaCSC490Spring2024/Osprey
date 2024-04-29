@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/auth.dart';
 import 'package:transform66/pages/add_friends_page.dart';
@@ -7,6 +8,7 @@ import 'package:transform66/pages/login_register_page.dart';
 import 'package:transform66/pages/testimonials_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:transform66/services/firestore.dart';
 
 class ProgressPage extends StatelessWidget {
   const ProgressPage({Key? key}) : super(key: key);
@@ -57,114 +59,39 @@ class ProgressPage extends StatelessWidget {
             ),
           ],
         ),
-        body: SingleChildScrollView(
-          child: Align(
-            alignment: Alignment.center,
-            child: SizedBox(
-              width: 350,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 75),
-                  Image.asset(
-                    'assets/images/Transform66.png',
-                    height: 110,
-                  ),
-                  const SizedBox(height: 75),
-                  const Text(
-                    '0/66 days completed',
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-                  const Text(
-                    'Your progress for today:',
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  //this will be where the tasks are displayed
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AddFriends(),
-                          ),
-                        );
-                      },
-                      style: ButtonStyle(
-                        textStyle: MaterialStateProperty.all(
-                          const TextStyle(
-                            fontSize: 10,
-                          ),
-                        ),
-                      ),
-                      child: const Text(
-                        'Add Friends',
-                        style: TextStyle(
-                            color: Colors.black,
-                            decoration: TextDecoration
-                                .underline), // Change color to black
-                      ),
-                    ), // Add Friends button
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => InstructionsPage(),
-                          ),
-                        );
-                      },
-                      style: ButtonStyle(
-                        textStyle: MaterialStateProperty.all(
-                          const TextStyle(
-                            fontSize: 10,
-                          ),
-                        ),
-                      ),
-                      child: const Text(
-                        'Instructions',
-                        style: TextStyle(
-                            color: Colors.black,
-                            decoration: TextDecoration
-                                .underline), // Change color to black
-                      ),
-                    ), // Instructions button
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Testimonials(),
-                          ),
-                        );
-                      },
-                      style: ButtonStyle(
-                        textStyle: MaterialStateProperty.all(
-                          const TextStyle(
-                            fontSize: 10,
-                          ),
-                        ),
-                      ),
-                      child: const Text(
-                        'Testimonials',
-                        style: TextStyle(
-                            color: Colors.black,
-                            decoration: TextDecoration
-                                .underline), // Change color to black
-                      ),
-                    ), // Testimonials button
-                  ])
-                ],
-              ),
+        body: Column(
+          children: [
+            SingleChildScrollView(
+              child: StreamBuilder<QuerySnapshot>(
+                  stream: getTasksStream(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      List<QueryDocumentSnapshot> taskDocs = snapshot.data!.docs;
+                      return ListView.builder(
+                        shrinkWrap:
+                            true, // Make the ListView scrollable within SingleChildScrollView
+                        physics:
+                            const NeverScrollableScrollPhysics(), // Disable scrolling of the ListView
+                        itemCount: taskDocs.length,
+                        itemBuilder: (context, index) {
+                          return TaskWidget(
+                            taskName: taskDocs[index].get("taskName"),
+                          );
+                        },
+                      );
+                    } else {
+                      return const Text("Loading...");
+                    }
+                  }),
             ),
-          ),
+          ],
         ));
   }
+}
+
+Stream<QuerySnapshot> getTasksStream() {
+  final FirestoreService firestoreService = FirestoreService();
+  return firestoreService.getTasksStream();
 }
 
 class TaskWidget extends StatefulWidget {
@@ -189,7 +116,7 @@ class _TaskWidgetState extends State<TaskWidget> {
     return Column(
       children: [
         SizedBox(
-          width: double.infinity,
+          width: 350,
           height: 50,
           child: Row(
             children: [
