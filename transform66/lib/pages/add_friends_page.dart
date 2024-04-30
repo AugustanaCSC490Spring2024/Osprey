@@ -95,6 +95,9 @@ class _AddFriendsState extends State<AddFriends> {
                             Center(child: TextButton(
                               child: const Text("Remove"),
                               onPressed: () {
+                                if (document.get("status")=="accepted") {
+                                  FirebaseFirestore.instance.collection("users").doc(docID).collection("friends").doc(FirebaseAuth.instance.currentUser!.email!).update({"status":"requested"});
+                                }
                                 firestoreService.removeFriend(FirebaseAuth.instance.currentUser!.email!,docID);
                                 Navigator.of(context).pop();
                               }

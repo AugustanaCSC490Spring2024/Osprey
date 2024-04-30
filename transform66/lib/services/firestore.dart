@@ -52,6 +52,15 @@ class FirestoreService {
   }
 
   Future<void> requestFriend(String person, String friend) async {
+    DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.instance.collection("users").doc(friend).collection("friends").doc(person).get();
+    if (doc.exists) {
+      FirebaseFirestore.instance.collection("users").doc(person).collection("friends").doc(friend).set({
+      "date":Timestamp.now(),
+      "status":"accepted"
+    });
+    FirebaseFirestore.instance.collection("users").doc(friend).collection("friends").doc(person).update({"status":"accepted"});
+    }
+    else {
     FirebaseFirestore.instance.collection("users").doc(person).collection("friends").doc(friend).set({
       "date":Timestamp.now(),
       "status":"requested"
@@ -60,6 +69,7 @@ class FirestoreService {
       "date":Timestamp.now(),
       "status":"pending"
     });
+    }
   }
 
   Future<void> removeFriend(String person, String friend) async {
