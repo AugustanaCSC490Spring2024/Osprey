@@ -17,7 +17,7 @@ class _AddFriendsState extends State<AddFriends> {
   final FirestoreService firestoreService = FirestoreService();
   final TextEditingController textController = TextEditingController();
 
-  final Map<String, String> statusMap = {"requested":"*","pending":"NEW","accepted":""};
+  final Map<String, String> statusMap = {"requested":"REQUEST SENT","pending":"NEW","accepted":""};
 
   void askForName() {
     showDialog(
@@ -77,12 +77,21 @@ class _AddFriendsState extends State<AddFriends> {
                   title: Text(
                     docID
                   ),
+                  trailing: Text(statusMap[document.get("status")]!),
                   onTap: () {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
+                          title: const Text("Actions"),
                           actions: <Widget>[
+                            Visibility(visible: document.get("status")=="pending",child: Center(child: TextButton(
+                              child: const Text("Accept"),
+                              onPressed: () {
+                                firestoreService.acceptFriend(FirebaseAuth.instance.currentUser!.email!,docID);
+                                Navigator.of(context).pop();
+                              }
+                            ))),
                             Center(child: TextButton(
                               child: const Text("Remove"),
                               onPressed: () {

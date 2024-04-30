@@ -67,6 +67,11 @@ class FirestoreService {
     doc1.delete();
   }
 
+  Future<void> acceptFriend(String person, String friend) async {
+    FirebaseFirestore.instance.collection("users").doc(person).collection("friends").doc(friend).update({"status":"accepted"});
+    FirebaseFirestore.instance.collection("users").doc(friend).collection("friends").doc(person).update({"status":"accepted"});
+  }
+
   Future<bool> hasUser(String name) async {
     DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.instance.collection("users").doc(name).get();
     
