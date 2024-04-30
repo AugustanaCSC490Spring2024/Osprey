@@ -3,26 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class FirestoreService {
 
-  // friends collection reference
-  final CollectionReference friends = FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.email).collection("friends");
   // tasks collection reference
   final CollectionReference dates = FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.email).collection("dates");
-
-  // actions for friends collection
-  Future<void> addFriend(String email) {
-    return friends.doc(email).set({
-      "date":Timestamp.now()
-    });
-  }
-
-  Stream<QuerySnapshot> getFriendsStream() {
-    final friendsStream = friends.orderBy("date").snapshots();
-    return friendsStream;
-  }
-
-  Future<void> removeFriend(String docID) {
-    return friends.doc(docID).delete();
-  }
 
   // actions for tasks collection
   void addTasks(List<String> selectedTasks) {
@@ -56,8 +38,48 @@ class FirestoreService {
     });
   }
 
+
+
+
+
+
+
+
+
+  Stream<QuerySnapshot> getFriendsStream() {
+    final friendsStream = FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.email).collection("friends").orderBy("date").snapshots();
+    return friendsStream;
+  }
+
+  Future<void> requestFriend(String person, String friend) async {
+    FirebaseFirestore.instance.collection("users").doc(person).collection("friends").doc(friend).set({
+      "date":Timestamp.now(),
+      "status":"requested"
+    });
+    FirebaseFirestore.instance.collection("users").doc(friend).collection("friends").doc(person).set({
+      "date":Timestamp.now(),
+      "status":"pending"
+    });
+  }
+
+  Future<void> removeFriend(String person, String friend) async {
+    DocumentReference doc1 = FirebaseFirestore.instance.collection("users").doc(person).collection("friends").doc(friend);
+    doc1.delete();
+  }
+
   Future<bool> hasUser(String name) async {
     DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.instance.collection("users").doc(name).get();
+    
+    if (doc.exists) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  Future<bool> hasFriend(String person, String friend) async {
+    DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.instance.collection("users").doc(person).collection("friends").doc(friend).get();
     
     if (doc.exists) {
       return true;
