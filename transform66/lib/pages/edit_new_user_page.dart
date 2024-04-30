@@ -124,7 +124,7 @@ Future<void> addUserDetails() async {
 
   final FirestoreService firestoreService = FirestoreService();
 
-  //firestoreService.addTasks(selectedTasks);
+  firestoreService.addTasks(selectedTasks);
   
   // Add user details to Firestore
   await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.email).set({

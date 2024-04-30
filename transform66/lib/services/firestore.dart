@@ -26,6 +26,13 @@ class FirestoreService {
 
   // actions for tasks collection
   Future<void> addTasks(List<String> selectedTasks) {
+    // for (int i = 0; i < 66; i++){
+    //  for (String taskName in selectedTasks) {
+    //    tasks.doc("Day $i").set({
+    //      "taskName":taskName,
+    //      "isCompleted":false
+    //   }});
+    // }
     for (String taskName in selectedTasks) {
       tasks.doc(taskName).set({
         "taskName":taskName,

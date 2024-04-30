@@ -162,8 +162,6 @@ class _ProgressPageState extends State<ProgressPage> {
 class TaskWidget extends StatefulWidget {
   final String taskName;
   var isCompleted = false;
-  static List<String> selectedTasks = [];
-  static List<String> finishedTasks = [];
 
   TaskWidget({
     required this.taskName,
