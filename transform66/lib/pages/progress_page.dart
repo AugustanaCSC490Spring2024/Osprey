@@ -86,7 +86,7 @@ class _ProgressPageState extends State<ProgressPage> {
                               const NeverScrollableScrollPhysics(), // Disable scrolling of the ListView
                           itemCount: taskDocs.length,
                           itemBuilder: (context, index) {
-                            return TaskWidget(
+                            return TaskCompletionWidget(
                                 taskName: taskDocs[index].get("taskName"), isCompleted: taskDocs[index].get("isCompleted"));
                           },
                         );
@@ -159,29 +159,27 @@ class _ProgressPageState extends State<ProgressPage> {
   }
 }
 
-class TaskWidget extends StatefulWidget {
+class TaskCompletionWidget extends StatefulWidget {
   final String taskName;
   var isCompleted = false;
-  static List<String> selectedTasks = [];
-  static List<String> finishedTasks = [];
 
-  TaskWidget({
+  TaskCompletionWidget({
     required this.taskName,
     required this.isCompleted,
     super.key,
   });
 
   @override
-  _TaskWidgetState createState() => _TaskWidgetState();
+  _TaskCompletionWidgetState createState() => _TaskCompletionWidgetState();
 }
 
-class _TaskWidgetState extends State<TaskWidget> {
+class _TaskCompletionWidgetState extends State<TaskCompletionWidget> {
   final FirestoreService firestoreService = FirestoreService();
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
+    return //Column(
+      //children: [
         SizedBox(
           width: 350,
           height: 50,
@@ -216,9 +214,9 @@ class _TaskWidgetState extends State<TaskWidget> {
               ),
             ],
           ),
-        ),
+        //),
         //const Divider(), // Horizontal line
-      ],
+     // ],
     );
   }
 }

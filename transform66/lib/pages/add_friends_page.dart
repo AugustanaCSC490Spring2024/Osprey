@@ -17,6 +17,8 @@ class _AddFriendsState extends State<AddFriends> {
   final FirestoreService firestoreService = FirestoreService();
   final TextEditingController textController = TextEditingController();
 
+  final Map<String, String> statusMap = {"requested":"REQUEST SENT","pending":"NEW","accepted":""};
+
   void askForName() {
     showDialog(
       context: context,
@@ -31,9 +33,12 @@ class _AddFriendsState extends State<AddFriends> {
           Center(
             child: TextButton(
               onPressed: () async {
-                bool test = await firestoreService.hasUser(textController.text);
-                if (test) {
-                  firestoreService.addFriend(textController.text);
+                // whether or not there is a user
+                bool test1 = await firestoreService.hasUser(textController.text);
+                // whether or not the request already exists
+                bool test2 = await firestoreService.hasFriend(FirebaseAuth.instance.currentUser!.email!,textController.text);
+                if (test1&&!test2) {
+                  firestoreService.requestFriend(FirebaseAuth.instance.currentUser!.email!,textController.text);
                 }
                 textController.clear();
                 Navigator.pop(context);
@@ -67,18 +72,41 @@ class _AddFriendsState extends State<AddFriends> {
               itemBuilder: (context, index) {
                 DocumentSnapshot document = friendList[index];
                 String docID = document.id;
-                bool mutual = false;
                 
                 return ListTile(
                   title: Text(
                     docID
                   ),
-                  trailing: IconButton (
-                    onPressed: () {
-                      firestoreService.removeFriend(docID);
-                      },
-                    icon: const Icon(Icons.close)
-                  )
+                  trailing: Text(statusMap[document.get("status")]!),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text("Actions"),
+                          actions: <Widget>[
+                            Visibility(visible: document.get("status")=="pending",child: Center(child: TextButton(
+                              child: const Text("Accept"),
+                              onPressed: () {
+                                firestoreService.acceptFriend(FirebaseAuth.instance.currentUser!.email!,docID);
+                                Navigator.of(context).pop();
+                              }
+                            ))),
+                            Center(child: TextButton(
+                              child: const Text("Remove"),
+                              onPressed: () {
+                                if (document.get("status")=="accepted") {
+                                  FirebaseFirestore.instance.collection("users").doc(docID).collection("friends").doc(FirebaseAuth.instance.currentUser!.email!).update({"status":"requested"});
+                                }
+                                firestoreService.removeFriend(FirebaseAuth.instance.currentUser!.email!,docID);
+                                Navigator.of(context).pop();
+                              }
+                            ))
+                          ]
+                        );
+                      }
+                    );
+                  }
                 );
               }
             );
