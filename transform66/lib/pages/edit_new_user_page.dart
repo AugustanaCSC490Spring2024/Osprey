@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/firestore_actions/tasks_firestore.dart';
-import 'package:transform66/pages/progress_page.dart';
+import 'package:transform66/page_view.dart';
 
 class EditNewUserPage extends StatelessWidget {
   const EditNewUserPage({Key? key}) : super(key: key);
@@ -15,11 +15,11 @@ class EditNewUserPage extends StatelessWidget {
           'Transform66',
           style: TextStyle(
             color: Colors.black,
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
+            fontSize: 24
           ),
         ),
         backgroundColor: Colors.teal,
+        automaticallyImplyLeading: false,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,7 +28,7 @@ class EditNewUserPage extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                'Choose tasks you will commit for 66 days:',
+                'Choose tasks you will commit to for 66 days:',
                 style: TextStyle(
                   fontSize: 16,
                 ),
@@ -106,7 +106,7 @@ class EditNewUserPage extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ProgressPage(),
+                builder: (context) => PageViewHelper(),
               ),
             );
           }

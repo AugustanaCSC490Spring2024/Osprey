@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:transform66/pages/edit_new_user_page.dart';
-//import 'package:transform66/pages/instructions_page.dart';
 import 'package:transform66/pages/testimonials_page.dart';
 
 
@@ -12,11 +11,10 @@ class StartedPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Transform66'),
-        centerTitle: true,
         backgroundColor: Colors.teal,
+        automaticallyImplyLeading: false,
       ),
       body: Align(
-        alignment: Alignment.center,
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -78,19 +76,11 @@ class StartedPage extends StatelessWidget {
                       },
                     );
                   },
-                  style: ButtonStyle(
-                    textStyle: MaterialStateProperty.all(
-                      const TextStyle(
-                        fontSize: 10,
-                      ),
-                    ),
-                  ),
                   child: const Text(
-                    'About Us',
-                    style: TextStyle(color: Colors.black, decoration: TextDecoration.underline), // Change color to black
+                    'About Us' // Change color to black
                   ),
                 ),
-                const Text(' | '),
+                const Text("|"),
                 TextButton(
                   onPressed: () {
                     Navigator.push(
@@ -100,16 +90,8 @@ class StartedPage extends StatelessWidget {
                       ),
                     );
                   },
-                  style: ButtonStyle(
-                    textStyle: MaterialStateProperty.all(
-                      const TextStyle(
-                        fontSize: 10,
-                      ),
-                    ),
-                  ),
                   child: const Text(
-                    'Testimonials',
-                    style: TextStyle(color: Colors.black, decoration: TextDecoration.underline), // Change color to black
+                    'Testimonials'
                   ),
                 ),
               ],
@@ -120,4 +102,3 @@ class StartedPage extends StatelessWidget {
   );
   }
 }
-

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:transform66/auth.dart';
 import 'package:transform66/firestore_actions/tasks_firestore.dart';
 import 'package:transform66/pages/add_friends_page.dart';
-import 'package:transform66/pages/calendar_page.dart';
 import 'package:transform66/pages/instructions_page.dart';
 import 'package:transform66/pages/login_register_page.dart';
 import 'package:transform66/pages/testimonials_page.dart';
@@ -26,21 +25,15 @@ class _ProgressPageState extends State<ProgressPage> {
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
           title: const Text(
-            'Transform66',
+            'Progress',
             style: TextStyle(
               color: Colors.black,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+              fontSize: 24
             ),
           ),
           backgroundColor: Colors.teal,
+          automaticallyImplyLeading: false,
           actions: [
-            IconButton(
-                icon: const Icon(Icons.calendar_month_sharp),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Calendar()));
-                }),
             PopupMenuButton<String>(
               onSelected: (String result) {
                 if (result == 'Sign Out') {
@@ -69,8 +62,7 @@ class _ProgressPageState extends State<ProgressPage> {
               Image.asset('assets/images/Transform66.png', height: 110),
               const SizedBox(height: 75),
               const Text('0/66 days completed', style: TextStyle(fontSize: 16)),
-              const Text('Your progress for today:',
-                  style: TextStyle(fontSize: 16)),
+              const SizedBox(height: 25),
               SingleChildScrollView(
                 child: StreamBuilder<QuerySnapshot>(
                     stream: FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.email!).collection("dates").orderBy("taskName").snapshots(),

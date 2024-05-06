@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:transform66/auth.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:transform66/auth.dart';
 
 class Calendar extends StatefulWidget {
   Calendar({Key? key}) : super(key: key);
@@ -36,20 +36,14 @@ class _CalendarState extends State<Calendar> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Transform66',
+          'Calendar',
           style: TextStyle(
             color: Colors.black,
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
+            fontSize: 24
           ),
         ),
         backgroundColor: Colors.teal,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        automaticallyImplyLeading: false
       ),
       body: Container(
         height: double.infinity,
@@ -66,7 +60,7 @@ class _CalendarState extends State<Calendar> {
                   fontSize: 16,
                 ),
               ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             TableCalendar(
               focusedDay: _selectedDay,
               firstDay: DateTime(1990),
