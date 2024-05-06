@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:transform66/auth.dart';
-import 'package:transform66/services/firestore.dart';
+import 'package:transform66/firestore_actions/friends_firestore.dart';
 
 class AddFriends extends StatefulWidget {
+  
   AddFriends({Key? key}) : super(key: key);
 
   @override
@@ -12,12 +12,11 @@ class AddFriends extends StatefulWidget {
 }
 
 class _AddFriendsState extends State<AddFriends> {
-  final User? user = Auth().currentUser;
-
-  final FirestoreService firestoreService = FirestoreService();
+  
+  final FriendsFirestoreService ffs = FriendsFirestoreService();
   final TextEditingController textController = TextEditingController();
-
   final Map<String, String> statusMap = {"requested":"REQUEST SENT","pending":"NEW","accepted":""};
+  final String yourEmail = FirebaseAuth.instance.currentUser!.email!;
 
   void askForName() {
     showDialog(
@@ -33,13 +32,7 @@ class _AddFriendsState extends State<AddFriends> {
           Center(
             child: TextButton(
               onPressed: () async {
-                // whether or not there is a user
-                bool test1 = await firestoreService.hasUser(textController.text);
-                // whether or not the request already exists
-                bool test2 = await firestoreService.hasFriend(FirebaseAuth.instance.currentUser!.email!,textController.text);
-                if (test1&&!test2) {
-                  firestoreService.requestFriend(FirebaseAuth.instance.currentUser!.email!,textController.text);
-                }
+                ffs.requestFriend(yourEmail,textController.text);
                 textController.clear();
                 Navigator.pop(context);
               },
@@ -63,7 +56,7 @@ class _AddFriendsState extends State<AddFriends> {
         child: const Icon(Icons.add_reaction_outlined)
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: firestoreService.getFriendsStream(),
+        stream: FirebaseFirestore.instance.collection("users").doc(yourEmail).collection("friends").orderBy("date").snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List friendList = snapshot.data!.docs;
@@ -71,11 +64,11 @@ class _AddFriendsState extends State<AddFriends> {
               itemCount: friendList.length,
               itemBuilder: (context, index) {
                 DocumentSnapshot document = friendList[index];
-                String docID = document.id;
+                String friendID = document.id;
                 
                 return ListTile(
                   title: Text(
-                    docID
+                    friendID
                   ),
                   trailing: Text(statusMap[document.get("status")]!),
                   onTap: () {
@@ -85,23 +78,27 @@ class _AddFriendsState extends State<AddFriends> {
                         return AlertDialog(
                           title: const Text("Actions"),
                           actions: <Widget>[
-                            Visibility(visible: document.get("status")=="pending",child: Center(child: TextButton(
-                              child: const Text("Accept"),
-                              onPressed: () {
-                                firestoreService.acceptFriend(FirebaseAuth.instance.currentUser!.email!,docID);
-                                Navigator.of(context).pop();
-                              }
-                            ))),
-                            Center(child: TextButton(
-                              child: const Text("Remove"),
-                              onPressed: () {
-                                if (document.get("status")=="accepted") {
-                                  FirebaseFirestore.instance.collection("users").doc(docID).collection("friends").doc(FirebaseAuth.instance.currentUser!.email!).update({"status":"requested"});
+                            Visibility(
+                              visible: document.get("status")=="pending",
+                              child: Center(
+                                child: TextButton(
+                                  child: const Text("Accept"),
+                                  onPressed: () {
+                                    ffs.acceptFriend(yourEmail,friendID);
+                                    Navigator.of(context).pop();
+                                  }
+                                )
+                              )
+                            ),
+                            Center(
+                              child: TextButton(
+                                child: const Text("Remove"),
+                                onPressed: () {
+                                  ffs.removeFriend(yourEmail,friendID);
+                                  Navigator.of(context).pop();
                                 }
-                                firestoreService.removeFriend(FirebaseAuth.instance.currentUser!.email!,docID);
-                                Navigator.of(context).pop();
-                              }
-                            ))
+                              )
+                            )
                           ]
                         );
                       }

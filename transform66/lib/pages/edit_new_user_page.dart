@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:transform66/firestore_actions/tasks_firestore.dart';
 import 'package:transform66/pages/progress_page.dart';
-import 'package:transform66/services/firestore.dart';
 
 class EditNewUserPage extends StatelessWidget {
   const EditNewUserPage({Key? key}) : super(key: key);
@@ -122,9 +122,9 @@ class EditNewUserPage extends StatelessWidget {
 Future<void> addUserDetails() async {
   List<String> selectedTasks = TaskWidget.selectedTasks;
 
-  final FirestoreService firestoreService = FirestoreService();
+  final TasksFirestoreService tfs = TasksFirestoreService();
 
-  firestoreService.addTasks(selectedTasks);
+  tfs.addTasks(selectedTasks);
   
   // Add user details to Firestore
   await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.email).set({

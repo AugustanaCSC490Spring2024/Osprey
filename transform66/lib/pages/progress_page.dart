@@ -1,14 +1,13 @@
-// ignore_for_file: must_be_immutable
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/auth.dart';
+import 'package:transform66/firestore_actions/tasks_firestore.dart';
 import 'package:transform66/pages/add_friends_page.dart';
 import 'package:transform66/pages/calendar_page.dart';
 import 'package:transform66/pages/instructions_page.dart';
 import 'package:transform66/pages/login_register_page.dart';
 import 'package:transform66/pages/testimonials_page.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:transform66/services/firestore.dart';
 
 class ProgressPage extends StatefulWidget {
   const ProgressPage({super.key});
@@ -19,7 +18,7 @@ class ProgressPage extends StatefulWidget {
 
 class _ProgressPageState extends State<ProgressPage> {
 
-  final FirestoreService firestoreService = FirestoreService();
+  final TasksFirestoreService tfs = TasksFirestoreService();
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +73,7 @@ class _ProgressPageState extends State<ProgressPage> {
                   style: TextStyle(fontSize: 16)),
               SingleChildScrollView(
                 child: StreamBuilder<QuerySnapshot>(
-                    stream: firestoreService.getTasksStream(),
+                    stream: FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.email!).collection("dates").orderBy("taskName").snapshots(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         List<QueryDocumentSnapshot> taskDocs =
@@ -106,16 +105,11 @@ class _ProgressPageState extends State<ProgressPage> {
                           MaterialPageRoute(
                               builder: (context) => AddFriends()));
                     },
-                    style: ButtonStyle(
-                        textStyle: MaterialStateProperty.all(
-                            const TextStyle(fontSize: 10))),
                     child: const Text(
-                      'Add Friends',
-                      style: TextStyle(
-                          color: Colors.black,
-                          decoration: TextDecoration.underline),
+                      'Friends'
                     ),
                   ),
+                  const Text("|"),
                   TextButton(
                     onPressed: () {
                       Navigator.push(
@@ -123,16 +117,11 @@ class _ProgressPageState extends State<ProgressPage> {
                           MaterialPageRoute(
                               builder: (context) => InstructionsPage()));
                     },
-                    style: ButtonStyle(
-                        textStyle: MaterialStateProperty.all(
-                            const TextStyle(fontSize: 10))),
                     child: const Text(
-                      'Instructions',
-                      style: TextStyle(
-                          color: Colors.black,
-                          decoration: TextDecoration.underline),
+                      'Instructions'
                     ),
                   ),
+                  const Text("|"),
                   TextButton(
                     onPressed: () {
                       Navigator.push(
@@ -140,15 +129,8 @@ class _ProgressPageState extends State<ProgressPage> {
                           MaterialPageRoute(
                               builder: (context) => Testimonials()));
                     },
-                    style: ButtonStyle(
-                        textStyle: MaterialStateProperty.all(
-                            const TextStyle(fontSize: 10))),
                     child: const Text(
-                      'Testimonials',
-                      style: TextStyle(
-                        color: Colors.black,
-                        decoration: TextDecoration.underline,
-                      ),
+                      'Testimonials'
                     ),
                   ),
                 ],
@@ -174,13 +156,11 @@ class TaskCompletionWidget extends StatefulWidget {
 }
 
 class _TaskCompletionWidgetState extends State<TaskCompletionWidget> {
-  final FirestoreService firestoreService = FirestoreService();
+  final TasksFirestoreService tfs = TasksFirestoreService();
 
   @override
   Widget build(BuildContext context) {
-    return //Column(
-      //children: [
-        SizedBox(
+    return SizedBox(
           width: 350,
           height: 50,
           child: Row(
@@ -192,9 +172,9 @@ class _TaskCompletionWidgetState extends State<TaskCompletionWidget> {
                   setState(() {
                     widget.isCompleted = value!;
                     if (value) {
-                      firestoreService.updateTask(widget.taskName, true);
+                      tfs.updateTask(widget.taskName, true);
                     } else {
-                      firestoreService.updateTask(widget.taskName, false);
+                      tfs.updateTask(widget.taskName, false);
                     }
                   });
                 },
@@ -214,9 +194,6 @@ class _TaskCompletionWidgetState extends State<TaskCompletionWidget> {
               ),
             ],
           ),
-        //),
-        //const Divider(), // Horizontal line
-     // ],
     );
   }
 }
