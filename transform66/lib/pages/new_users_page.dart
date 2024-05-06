@@ -11,8 +11,7 @@ class StartedPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Transform66'),
-        backgroundColor: Colors.teal,
-        automaticallyImplyLeading: false,
+        backgroundColor: Colors.teal
       ),
       body: Align(
         child: Column(
@@ -24,7 +23,7 @@ class StartedPage extends StatelessWidget {
               width: 200,
               height: 100,
               child: ElevatedButton(
-                onPressed: () {Navigator.push(
+                onPressed: () {Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => EditNewUserPage()),
                   );

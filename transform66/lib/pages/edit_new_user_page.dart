@@ -18,8 +18,7 @@ class EditNewUserPage extends StatelessWidget {
             fontSize: 24
           ),
         ),
-        backgroundColor: Colors.teal,
-        automaticallyImplyLeading: false,
+        backgroundColor: Colors.teal
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,7 +102,7 @@ class EditNewUserPage extends StatelessWidget {
             );
           } else {
             await addUserDetails();
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => PageViewHelper(),

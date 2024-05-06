@@ -42,8 +42,7 @@ class _CalendarState extends State<Calendar> {
             fontSize: 24
           ),
         ),
-        backgroundColor: Colors.teal,
-        automaticallyImplyLeading: false
+        backgroundColor: Colors.teal
       ),
       body: Container(
         height: double.infinity,

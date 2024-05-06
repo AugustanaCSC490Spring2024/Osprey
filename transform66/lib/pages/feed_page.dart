@@ -18,8 +18,7 @@ class Feed extends StatelessWidget {
             fontSize: 24
           ),
         ),
-        backgroundColor: Colors.teal,
-        automaticallyImplyLeading: false,
+        backgroundColor: Colors.teal
       ), 
     );
   }

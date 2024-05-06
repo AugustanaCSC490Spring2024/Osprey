@@ -32,7 +32,6 @@ class _ProgressPageState extends State<ProgressPage> {
             ),
           ),
           backgroundColor: Colors.teal,
-          automaticallyImplyLeading: false,
           actions: [
             PopupMenuButton<String>(
               onSelected: (String result) {

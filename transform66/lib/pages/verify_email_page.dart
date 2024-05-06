@@ -71,8 +71,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       ? StartedPage()
       : Scaffold(
           appBar: AppBar(
-            backgroundColor: Color.fromRGBO(144, 195, 200, 1),
-            automaticallyImplyLeading: false,
+            backgroundColor: Color.fromRGBO(144, 195, 200, 1)
             // leading: IconButton(
             //   icon: Icon(Icons.arrow_back),
             //   onPressed: () {
@@ -105,5 +104,5 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                   ),
                 ],
               )));
-}
+  }
 }
