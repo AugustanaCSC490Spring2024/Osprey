@@ -26,4 +26,11 @@ class FriendsFirestoreService {
     FirebaseFirestore.instance.collection("users").doc(currentUser).collection("friends").doc(requestedFriend).delete();
     FirebaseFirestore.instance.collection("users").doc(requestedFriend).collection("friends").doc(currentUser).delete();
   }
+
+  Future<void> sendMessage(String currentUser, String requestedFriend) async {
+    FirebaseFirestore.instance.collection("users").doc(requestedFriend).collection("feed").doc().set({
+        "date":Timestamp.now(),
+        "message":"You've got this!"
+      });
+  }
 }

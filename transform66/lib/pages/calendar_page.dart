@@ -46,14 +46,14 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   TextStyle getDayTextStyle(DateTime date) {
     if (date.year == 2024 && date.month == 5 && date.day == 1) {
-      return TextStyle(
+      return const TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.bold,
         fontSize: 12, // Small font size for Day 1
         // textAlign: TextAlign.center,
       );
     } else {
-      return TextStyle(
+      return const TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.bold,
       );
@@ -63,6 +63,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //appBar: null, // Remove the app bar
       //appBar: null, // Remove the app bar
       body: Container(
         padding: const EdgeInsets.all(20),
@@ -107,11 +108,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           style: getDayTextStyle(
                               date), // Use the custom text style
                         ),
-                        SizedBox(height: 2), // Add space between lines
+                        const SizedBox(height: 2), // Add space between lines
                         Text(
                           getDayText(date)
                               .split('\n')[1], // Display second line (4)
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
