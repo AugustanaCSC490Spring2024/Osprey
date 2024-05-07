@@ -65,7 +65,7 @@ class _ProgressPageState extends State<ProgressPage> {
               const SizedBox(height: 25),
               SingleChildScrollView(
                 child: StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.email!).collection("dates").orderBy("taskName").snapshots(),
+                    stream: FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.email!).collection("tasks").orderBy("taskName").snapshots(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         List<QueryDocumentSnapshot> taskDocs =
