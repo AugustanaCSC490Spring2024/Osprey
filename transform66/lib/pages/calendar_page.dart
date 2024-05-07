@@ -50,6 +50,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         color: Colors.white,
         fontWeight: FontWeight.bold,
         fontSize: 12, // Small font size for Day 1
+        // textAlign: TextAlign.center,
       );
     } else {
       return TextStyle(

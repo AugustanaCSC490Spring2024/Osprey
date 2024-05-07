@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:transform66/page_view.dart';
 import 'package:transform66/pages/forgot_password.dart';
-import 'package:transform66/pages/progress_page.dart';
 import 'package:transform66/pages/verify_email_page.dart';
+
 bool _isPasswordVisible = false;
 
 class LoginPage extends StatefulWidget {
@@ -31,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => ProgressPage(),
+            builder: (context) => PageViewHelper(),
           ),
         );
       } else {
@@ -58,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
     );
 
       String uid = userCredential.user!.uid;
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) => VerifyEmailPage(),
@@ -157,7 +158,6 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
-
               children: <Widget>[
                 Center(
                   child: Image.asset(

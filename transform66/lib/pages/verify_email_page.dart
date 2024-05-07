@@ -2,11 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:transform66/auth.dart';
-import 'package:transform66/pages/home_page.dart';
 import 'package:transform66/pages/new_users_page.dart';
-import 'package:transform66/pages/login_register_page.dart';
-import 'package:transform66/pages/progress_page.dart';
 
 class VerifyEmailPage extends StatefulWidget {
   @override
@@ -27,7 +23,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       sendVerificationEmail();
 
       timer = Timer.periodic(
-        Duration(seconds: 3),
+        const Duration(seconds: 3),
         (_) => checkEmailVerified(),
       );
     }
@@ -44,7 +40,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       await user.sendEmailVerification();
 
       setState(() => canResendEmail = false);
-      await Future.delayed(Duration(seconds: 5));
+      await Future.delayed(const Duration(seconds: 5));
       setState(() => canResendEmail = true);
     } catch (e) {
       print('An error occured while trying to send email verification');
@@ -75,20 +71,20 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       ? StartedPage()
       : Scaffold(
           appBar: AppBar(
-            backgroundColor: Color.fromRGBO(144, 195, 200, 1),
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) => LoginPage(),
-                  ),
-                );
-              },
-            ),
+            backgroundColor: Color.fromRGBO(144, 195, 200, 1)
+            // leading: IconButton(
+            //   icon: Icon(Icons.arrow_back),
+            //   onPressed: () {
+            //     Navigator.of(context).pushReplacement(
+            //       MaterialPageRoute(
+            //         builder: (context) => LoginPage(),
+            //       ),
+            //     );
+            //   },
+            // ),
           ),
           body: Padding(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -97,7 +93,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                     style: TextStyle(fontSize: 20),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size.fromHeight(50),
@@ -108,5 +104,5 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                   ),
                 ],
               )));
-}
+  }
 }

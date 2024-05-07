@@ -10,16 +10,15 @@ class Feed extends StatelessWidget {
   @override
   Widget build(BuildContext context){
     return Scaffold(
-            appBar: AppBar(
+        appBar: AppBar(
         title: const Text(
-          'Feed page',
+          'Feed',
           style: TextStyle(
             color: Colors.black,
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
+            fontSize: 24
           ),
         ),
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.teal
       ), 
     );
   }
