@@ -40,7 +40,7 @@ class _ProgressPageState extends State<ProgressPage> {
                 icon: const Icon(Icons.calendar_month_sharp),
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Calendar()));
+                      MaterialPageRoute(builder: (context) => CalendarScreen()));
                 }),
             PopupMenuButton<String>(
               onSelected: (String result) {

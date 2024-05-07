@@ -1,71 +1,79 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:transform66/auth.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class Calendar extends StatefulWidget {
-  Calendar({Key? key}) : super(key: key);
-
-  @override
-  _CalendarState createState() => _CalendarState();
+void main() {
+  runApp(MyApp());
 }
 
-class _CalendarState extends State<Calendar> {
-  late User? user;
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Calendar',
+      theme: ThemeData(
+        primarySwatch: Colors.teal,
+      ),
+      home: CalendarScreen(),
+    );
+  }
+}
+
+class CalendarScreen extends StatefulWidget {
+  @override
+  _CalendarScreenState createState() => _CalendarScreenState();
+}
+
+class _CalendarScreenState extends State<CalendarScreen> {
   late DateTime _selectedDay;
   late CalendarFormat _calendarFormat;
   late Map<DateTime, List<dynamic>> _events;
-  //late TextEditingController _eventController;
 
   @override
   void initState() {
     super.initState();
-    user = Auth().currentUser;
     _selectedDay = DateTime.now();
     _calendarFormat = CalendarFormat.month;
     _events = {};
-    //_eventController = TextEditingController();
   }
 
-  Future<void> signOut() async {
-    await Auth().signOut();
+  String getDayText(DateTime date) {
+    if (date.year == 2024 && date.month == 5 && date.day == 4) {
+      return 'Day 1\n4';
+    } else {
+      return '${date.day}\n'; // Always return two lines, even if the second line is empty
+    }
+  }
+
+  TextStyle getDayTextStyle(DateTime date) {
+    if (date.year == 2024 && date.month == 5 && date.day == 1) {
+      return TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+        fontSize: 12, // Small font size for Day 1
+      );
+    } else {
+      return TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Transform66',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        backgroundColor: Colors.teal,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
+      appBar: null, // Remove the app bar
       body: Container(
-        height: double.infinity,
-        width: double.infinity,
         padding: const EdgeInsets.all(20),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            //_calendarButton(),
-            const Text(
-                'Your history:',
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
             SizedBox(height: 20),
             TableCalendar(
               focusedDay: _selectedDay,
@@ -77,13 +85,41 @@ class _CalendarState extends State<Calendar> {
                   _calendarFormat = format;
                 });
               },
-              onPageChanged: (focusedDay) {
-                _selectedDay = focusedDay;
-              },
               eventLoader: (day) {
-                // Return events for a particular day from _events map
                 return _events[day] ?? [];
               },
+              calendarBuilders: CalendarBuilders(
+                defaultBuilder: (context, date, _) {
+                  return Container(
+                    margin: const EdgeInsets.all(4.0),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Colors.teal,
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          getDayText(date)
+                              .split('\n')[0], // Display first line (Day 1)
+                          style: getDayTextStyle(
+                              date), // Use the custom text style
+                        ),
+                        SizedBox(height: 2), // Add space between lines
+                        Text(
+                          getDayText(date)
+                              .split('\n')[1], // Display second line (4)
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
           ],
         ),
