@@ -34,12 +34,6 @@ class _ProgressPageState extends State<ProgressPage> {
           ),
           backgroundColor: Colors.teal,
           actions: [
-            IconButton(
-                icon: const Icon(Icons.calendar_month_sharp),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => CalendarScreen()));
-                }),
             PopupMenuButton<String>(
               onSelected: (String result) {
                 if (result == 'Sign Out') {
@@ -135,7 +129,8 @@ class _ProgressPageState extends State<ProgressPage> {
               )
             ],
           ),
-        ));
+        ),
+      );
   }
 }
 

@@ -19,8 +19,8 @@ class Feed extends StatelessWidget {
           ),
         ),
         backgroundColor: Colors.teal
-      ), 
-    );
+      ),
+  );
   }
 
 }
