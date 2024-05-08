@@ -29,10 +29,13 @@ class InstructionsPage extends StatelessWidget {
                 Text(
                   "1. When you click the start transform 66 button, then you are directed to customizing your task.\n\n"
                   "2. Choose a couple of tasks that you want to commit to for 66 days.\n\n"
-                  "3. Remember that if you miss a day you will be taken back to day 1 so do not forget to do your task and mark it down.\n\n"
-                  "4. When you right swipe for feed and friend.\n\n"
-                  "5. When you swipe left, you can view your progress in the calendar.\n\n"
-                  "6. Click three dots in the top right corner to view instructions and about us. There is also a signout button that will take you back to the login page.\n\n",
+                  "3. Remember that if you miss a day you will be taken back to day 1 so don't forget to do your task and mark it down.\n\n"
+                  "4. Press Feed icon to keep yourself updated on what tasks your friends are commiting.\n\n"
+                  "5. Press Calendar icon to view your progress. You can see what day you are on and how many days are remaining.\n\n"
+                  "6. Click three dots in the top right corner to signout, it'll take you back to the login page.\n\n"
+                  "7. If you click Friends icon, you will be directed to a page where you can request your friend. \n\n"
+                  "8. After requesting, your friend will have a notification if they want to accept or reject the invitation.\n\n"
+                  "9. If they accept the friend request, you will be able to message your friend and see them in your feed.\n\n",
                   style: TextStyle(
                     fontSize: 16,
                   ),
