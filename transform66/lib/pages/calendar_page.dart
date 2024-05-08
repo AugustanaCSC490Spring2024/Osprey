@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() {
   runApp(MyApp());
@@ -27,6 +29,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
   late DateTime _selectedDay;
   late CalendarFormat _calendarFormat;
   late Map<DateTime, List<dynamic>> _events;
+  late DateTime _startDate = DateTime(2022, 1, 1);
+  final String yourEmail = FirebaseAuth.instance.currentUser!.email!;
 
   @override
   void initState() {
@@ -36,26 +40,41 @@ class _CalendarScreenState extends State<CalendarScreen> {
     _events = {};
   }
 
-  String getDayText(DateTime date) {
-    if (date.year == 2024 && date.month == 5 && date.day == 4) {
-      return 'Day 1\n4';
+  Future<DateTime> fetchStartDate() async {
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(yourEmail)
+        .get();
+    if (snapshot.exists) {
+      return (snapshot.data() as Map<String, dynamic>)['first_day'].toDate();
     } else {
-      return '${date.day}\n'; // Always return two lines, even if the second line is empty
+      return DateTime.now();
+    }
+  }
+
+  String getDayText(DateTime date) {
+    if (_startDate != null) {
+      int dayDifference = date.difference(_startDate).inDays;
+      if (dayDifference >= 0 && dayDifference <= 65) {
+        return 'Day ${dayDifference + 1}\n${date.day}';
+      } else {
+        return '${date.day}\n';
+      }
+    } else {
+      return '${date.day}\n';
     }
   }
 
   TextStyle getDayTextStyle(DateTime date) {
-    if (date.year == 2024 && date.month == 5 && date.day == 1) {
-      return const TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
-        fontSize: 12, // Small font size for Day 1
-        // textAlign: TextAlign.center,
+    if (_startDate != null && date == _startDate) {
+      return TextStyle(
+        color: Color(0xFF636466),
+        fontSize: 13, 
       );
     } else {
-      return const TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
+      return TextStyle(
+        color: Color(0xFF636466),
+        fontSize: 13,
       );
     }
   }
@@ -63,68 +82,87 @@ class _CalendarScreenState extends State<CalendarScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //appBar: null, // Remove the app bar
-      //appBar: null, // Remove the app bar
-      body: Container(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // IconButton(
-            //   icon: Icon(Icons.arrow_back),
-            //   onPressed: () {
-            //     Navigator.of(context).pop();
-            //   },
-            // ),
-            SizedBox(height: 20),
-            TableCalendar(
-              focusedDay: _selectedDay,
-              firstDay: DateTime(1990),
-              lastDay: DateTime(2050),
-              calendarFormat: _calendarFormat,
-              onFormatChanged: (format) {
-                setState(() {
-                  _calendarFormat = format;
-                });
-              },
-              eventLoader: (day) {
-                return _events[day] ?? [];
-              },
-              calendarBuilders: CalendarBuilders(
-                defaultBuilder: (context, date, _) {
-                  return Container(
-                    margin: const EdgeInsets.all(4.0),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Colors.teal,
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          getDayText(date)
-                              .split('\n')[0], // Display first line (Day 1)
-                          style: getDayTextStyle(
-                              date), // Use the custom text style
-                        ),
-                        const SizedBox(height: 2), // Add space between lines
-                        Text(
-                          getDayText(date)
-                              .split('\n')[1], // Display second line (4)
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
+      appBar: null, 
+      body: FutureBuilder<DateTime>(
+        future: fetchStartDate(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error fetching data'));
+          } else {
+            _startDate = snapshot.data!;
+            return Container(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  SizedBox(height: 20),
+                  TableCalendar(
+                    focusedDay: _selectedDay,
+                    firstDay: DateTime(1990),
+                    lastDay: DateTime(2050),
+                    calendarFormat: _calendarFormat,
+                    onFormatChanged: (format) {
+                      setState(() {
+                        _calendarFormat = format;
+                      });
+                    },
+                    eventLoader: (day) {
+                      return _events[day] ?? [];
+                    },
+                    calendarBuilders: CalendarBuilders(
+                      defaultBuilder: (context, date, _) {
+                        return Container(
+                          margin: const EdgeInsets.all(4.0),
+                          decoration: BoxDecoration(
+                            color: Colors.teal.withOpacity(0.3),
+                            borderRadius: BorderRadius.circular(4.0),
+                            
                           ),
-                        ),
-                      ],
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                top: 8,
+                                left: 0,
+                                right: 0,
+                                child: Text(
+                                  getDayText(date).split('\n')[0],
+                                  style: getDayTextStyle(date),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              Positioned(
+                                top: 24,
+                                left: 0,
+                                right: 0,
+                                child: Text(
+                                  getDayText(date).split('\n')[1],
+                                  style: TextStyle(
+                                    color: Color(0xFF636466),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
+            );
+          }
+        },
       ),
     );
   }
