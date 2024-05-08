@@ -41,10 +41,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   Future<DateTime> fetchStartDate() async {
-    // Fetch start date from Firestore
     DocumentSnapshot snapshot = await FirebaseFirestore.instance
         .collection("users")
-        .doc(yourEmail) 
+        .doc(yourEmail)
         .get();
     if (snapshot.exists) {
       return (snapshot.data() as Map<String, dynamic>)['first_day'].toDate();
@@ -53,32 +52,29 @@ class _CalendarScreenState extends State<CalendarScreen> {
     }
   }
 
-String getDayText(DateTime date) {
-  if (_startDate != null) {
-    int dayDifference = date.difference(_startDate).inDays;
-    if (dayDifference >= 0 && dayDifference <= 65) { // Change the limit to 65 for Day 66
-      return 'Day ${dayDifference + 1}\n${date.day}';
+  String getDayText(DateTime date) {
+    if (_startDate != null) {
+      int dayDifference = date.difference(_startDate).inDays;
+      if (dayDifference >= 0 && dayDifference <= 65) {
+        return 'Day ${dayDifference + 1}\n${date.day}';
+      } else {
+        return '${date.day}\n';
+      }
     } else {
       return '${date.day}\n';
     }
-  } else {
-    return '${date.day}\n';
   }
-}
-
-
 
   TextStyle getDayTextStyle(DateTime date) {
     if (_startDate != null && date == _startDate) {
       return TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
-        fontSize: 12, // Small font size for Day 1
+        color: Color(0xFF636466),
+        fontSize: 13, 
       );
     } else {
       return TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
+        color: Color(0xFF636466),
+        fontSize: 13,
       );
     }
   }
@@ -86,7 +82,7 @@ String getDayText(DateTime date) {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: null, // Remove the app bar
+      appBar: null, 
       body: FutureBuilder<DateTime>(
         future: fetchStartDate(),
         builder: (context, snapshot) {
@@ -126,8 +122,9 @@ String getDayText(DateTime date) {
                         return Container(
                           margin: const EdgeInsets.all(4.0),
                           decoration: BoxDecoration(
-                            color: Colors.teal,
-                            borderRadius: BorderRadius.circular(8.0),
+                            color: Colors.teal.withOpacity(0.3),
+                            borderRadius: BorderRadius.circular(4.0),
+                            
                           ),
                           child: Stack(
                             children: [
@@ -148,9 +145,9 @@ String getDayText(DateTime date) {
                                 child: Text(
                                   getDayText(date).split('\n')[1],
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: Color(0xFF636466),
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 16,
+                                    fontSize: 15,
                                   ),
                                   textAlign: TextAlign.center,
                                 ),

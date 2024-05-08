@@ -64,11 +64,11 @@ class _AddFriendsState extends State<AddFriends> {
               itemCount: friendList.length,
               itemBuilder: (context, index) {
                 DocumentSnapshot document = friendList[index];
-                String friendID = document.id;
+                String friendEmail = document.id;
                 
                 return ListTile(
                   title: Text(
-                    friendID
+                    friendEmail
                   ),
                   trailing: Text(statusMap[document.get("status")]!),
                   onTap: () {
@@ -76,31 +76,33 @@ class _AddFriendsState extends State<AddFriends> {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: const Text("Actions"),
-                          actions: <Widget>[
+                          content: Column(mainAxisSize: MainAxisSize.min,children: <Widget>[
                             Visibility(
                               visible: document.get("status")=="pending",
-                              child: Center(
-                                child: TextButton(
+                              child: Row(mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[const Icon(Icons.check),TextButton(
                                   child: const Text("Accept"),
                                   onPressed: () {
-                                    ffs.acceptFriend(yourEmail,friendID);
+                                    ffs.acceptFriend(yourEmail,friendEmail);
                                     Navigator.of(context).pop();
                                   }
                                 )
-                              )
+                          ])
                             ),
-                            Center(
-                              child: TextButton(
-                                child: const Text("Remove"),
-                                onPressed: () {
-                                  ffs.removeFriend(yourEmail,friendID);
-                                  Navigator.of(context).pop();
-                                }
-                              )
-                            )
-                          ]
-                        );
+                            Visibility(
+                              visible: document.get("status")=="accepted",
+                              child: Row(mainAxisAlignment: MainAxisAlignment.center,children:<Widget>[const Icon(Icons.insert_emoticon),
+                                TextButton(
+                                  child: const Text("Send message"),
+                                  onPressed: () {
+                                    ffs.sendMessage(yourEmail,friendEmail);
+                                    Navigator.of(context).pop();
+                                  }
+                                )
+                          ])
+                            ),
+                            Row(mainAxisAlignment: MainAxisAlignment.center,children:<Widget>[const Icon(Icons.close),TextButton(child:const Text("Remove"),onPressed: () {ffs.removeFriend(yourEmail,friendEmail);Navigator.of(context).pop();})])
+                        ]));
                       }
                     );
                   }
