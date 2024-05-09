@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:transform66/auth.dart';
 import 'package:transform66/pages/calendar_page.dart';
 import 'package:transform66/pages/feed_page.dart';
+import 'package:transform66/pages/instructions_page.dart';
+import 'package:transform66/pages/login_register_page.dart';
 import 'package:transform66/pages/progress_page.dart';
 
 class PageViewHelper extends StatefulWidget {
@@ -35,7 +38,7 @@ class _PageViewHelperState extends State<PageViewHelper>
       _selectedIndex = index;
       _pageViewController.animateToPage(
         index,
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         curve: Curves.ease,
       );
     });
@@ -57,7 +60,40 @@ class _PageViewHelperState extends State<PageViewHelper>
           });
         },
       ),
+      appBar: AppBar(
+        backgroundColor: Color.fromRGBO(93, 166, 172, 1),
+        actions: [
+          IconButton(icon:const Icon(Icons.info_outlined),onPressed: () {
+                                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              InstructionsPage())
+                      );
+                                  }),
+            PopupMenuButton<String>(
+              onSelected: (String result) {
+                if (result == 'Sign Out') {
+                  Auth().signOut();
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const LoginPage())
+                      );
+                }
+              },
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                const PopupMenuItem<String>(
+                  value: 'Sign Out',
+                  child: Text('Sign Out'),
+                ),
+              ],
+            ),
+          ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color.fromRGBO(93, 166, 172, 1),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.feed),
@@ -72,7 +108,7 @@ class _PageViewHelperState extends State<PageViewHelper>
             label: 'Calendar',
           ),
         ],
-        selectedItemColor: Colors.teal,
+        selectedItemColor: Colors.white,
         selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
