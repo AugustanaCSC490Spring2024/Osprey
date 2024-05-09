@@ -6,7 +6,6 @@ import 'package:transform66/firestore_actions/tasks_firestore.dart';
 import 'package:transform66/pages/add_friends_page.dart';
 import 'package:transform66/pages/instructions_page.dart';
 import 'package:transform66/pages/login_register_page.dart';
-import 'package:transform66/pages/testimonials_page.dart';
 import 'package:transform66/pages/calendar_page.dart';
 
 class ProgressPage extends StatefulWidget {
@@ -111,18 +110,6 @@ class _ProgressPageState extends State<ProgressPage> {
                     },
                     child: const Text(
                       'Instructions'
-                    ),
-                  ),
-                  const Text("|"),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Testimonials()));
-                    },
-                    child: const Text(
-                      'Testimonials'
                     ),
                   ),
                 ],
