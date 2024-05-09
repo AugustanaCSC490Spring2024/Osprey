@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
         password: _controllerPassword.text.trim(),
     );
 
-      String uid = userCredential.user!.uid;
+      // String uid = userCredential.user!.uid;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -74,16 +74,14 @@ class _LoginPageState extends State<LoginPage> {
   }
 
 
-  Widget _title() {
-    return const Text('Transform66');
-  }
-
-  Widget _entryField(String title, TextEditingController controller) {
-    if (title.toLowerCase() == 'password') {
-      return TextField(
-        controller: controller,
+  // Widget _title() {
+  //   return const Text('Transform66');
+  // }
+Widget _entryFieldPassword(){
+        return TextField(
+        controller: _controllerPassword,
         decoration: InputDecoration(
-          labelText: title,
+          labelText: "Password",
           suffixIcon: IconButton(
             icon: Icon(
                 _isPasswordVisible ? Icons.visibility : Icons.visibility_off),
@@ -96,14 +94,17 @@ class _LoginPageState extends State<LoginPage> {
         ),
         obscureText: !_isPasswordVisible,
       );
-    } else {
+}
+
+  Widget _entryFieldEmail() {
+
       return TextField(
-        controller: controller,
+        controller: _controllerEmail,
         decoration: InputDecoration(
-          labelText: title,
+          labelText: "Email",
         ),
       );
-    }
+    
   }
 
   Widget _errorMessage() {
@@ -129,8 +130,8 @@ class _LoginPageState extends State<LoginPage> {
       padding: const EdgeInsets.all(20),
       child: Column(
         children: [
-          _entryField('email', _controllerEmail),
-          _entryField('password', _controllerPassword),
+          _entryFieldEmail(),
+          _entryFieldPassword(),
           _errorMessage(),
           _submitButton(),
         ],
