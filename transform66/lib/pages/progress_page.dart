@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/firestore_actions/tasks_firestore.dart';
-import 'package:transform66/pages/add_friends_page.dart';
-import 'package:transform66/pages/instructions_page.dart';
 
 class ProgressPage extends StatefulWidget {
   const ProgressPage({super.key});
@@ -49,40 +47,12 @@ class _ProgressPageState extends State<ProgressPage> {
                       } else {
                         return const Text("Loading...");
                       }
-                    }),
-              ),
-              const SizedBox(height: 50),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => AddFriends()));
-                    },
-                    child: const Text(
-                      'Friends'
-                    ),
-                  ),
-                  const Text("|"),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => InstructionsPage()));
-                    },
-                    child: const Text(
-                      'Instructions'
-                    ),
-                  ),
-                ],
+                    }
+                  )
               )
-            ],
-          ),
-        ),
+            ]
+          )
+        )
       );
   }
 }

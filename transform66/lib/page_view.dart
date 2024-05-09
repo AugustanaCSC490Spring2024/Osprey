@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:transform66/auth.dart';
+import 'package:transform66/pages/add_friends_page.dart';
 import 'package:transform66/pages/calendar_page.dart';
 import 'package:transform66/pages/feed_page.dart';
 import 'package:transform66/pages/instructions_page.dart';
@@ -64,11 +65,19 @@ class _PageViewHelperState extends State<PageViewHelper>
         backgroundColor: Color.fromRGBO(93, 166, 172, 1),
         actions: [
           IconButton(icon:const Icon(Icons.info_outlined),onPressed: () {
-                                    Navigator.pushReplacement(
+                                    Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
                               InstructionsPage())
+                      );
+                                  }),
+            IconButton(icon:const Icon(Icons.emoji_emotions_outlined),onPressed: () {
+                                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              AddFriends())
                       );
                                   }),
             PopupMenuButton<String>(

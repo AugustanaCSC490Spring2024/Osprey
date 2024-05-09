@@ -49,7 +49,7 @@ class _AddFriendsState extends State<AddFriends> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Friends"),
-        backgroundColor: Colors.teal
+        backgroundColor: const Color.fromRGBO(93, 166, 172, 1)
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: askForName,

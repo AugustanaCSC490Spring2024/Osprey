@@ -20,7 +20,7 @@ class InstructionsPage extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: Colors.teal,
+        backgroundColor: Color.fromRGBO(93, 166, 172, 1),
       ), 
       body: const AlertDialog(
           content: SingleChildScrollView(
