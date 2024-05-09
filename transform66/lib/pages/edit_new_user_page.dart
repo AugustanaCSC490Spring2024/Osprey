@@ -72,7 +72,7 @@ class EditNewUserPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextButton(
-              onPressed: () {},
+              onPressed: () => _showAddTaskDialog(context),
               style: ButtonStyle(
                 textStyle: MaterialStateProperty.all(
                   const TextStyle(
@@ -116,20 +116,64 @@ class EditNewUserPage extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
-}
 
-Future<void> addUserDetails() async {
-  List<String> selectedTasks = TaskWidget.selectedTasks;
+  void _showAddTaskDialog(BuildContext context) {
+    String newTaskName = '';
 
-  final TasksFirestoreService tfs = TasksFirestoreService();
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Add New Task'),
+          content: TextFormField(
+            onChanged: (value) {
+              newTaskName = value;
+            },
+            decoration: const InputDecoration(
+              hintText: 'Enter task name',
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                // Add the new task
+                if (newTaskName.isNotEmpty) {
+                  Navigator.of(context).pop();
+                  TaskWidget.selectedTasks.add(newTaskName);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Task added: $newTaskName'),
+                    ),
+                  );
+                }
+              },
+              child: const Text('Add'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
-  tfs.addTasks(selectedTasks);
-  
-  // Add user details to Firestore
-  await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.email).set({
-    'first_day':DateTime.now(),
-    'last_day':DateTime.now().add(const Duration(days: 66)),
-  });
+  Future<void> addUserDetails() async {
+    List<String> selectedTasks = TaskWidget.selectedTasks;
+
+    final TasksFirestoreService tfs = TasksFirestoreService();
+
+    tfs.addTasks(selectedTasks);
+    
+    // Add user details to Firestore
+    await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.email).set({
+      'first_day':DateTime.now(),
+      'last_day':DateTime.now().add(const Duration(days: 66)),
+    });
+  }
 }
 
 class TaskWidget extends StatefulWidget {
