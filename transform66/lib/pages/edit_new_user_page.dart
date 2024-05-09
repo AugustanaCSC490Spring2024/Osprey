@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/firestore_actions/tasks_firestore.dart';
-import 'package:transform66/page_view.dart';
+import 'package:transform66/pages/page_view.dart';
 
 class EditNewUserPage extends StatelessWidget {
   const EditNewUserPage({Key? key}) : super(key: key);
