@@ -53,31 +53,27 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   String getDayText(DateTime date) {
-    if (_startDate != null) {
-      int dayDifference = date.difference(_startDate).inDays;
+      int dayDifference = (date.difference(_startDate).inHours/24).round();
       if (dayDifference >= 0 && dayDifference <= 65) {
-        return 'Day ${dayDifference + 1}\n${date.day}';
+        return 'Day ${dayDifference+1}\n${date.day}';
       } else {
         return '${date.day}\n';
       }
-    } else {
-      return '${date.day}\n';
-    }
   }
 
-  TextStyle getDayTextStyle(DateTime date) {
-    if (_startDate != null && date == _startDate) {
-      return TextStyle(
-        color: Color(0xFF636466),
-        fontSize: 13, 
-      );
-    } else {
-      return TextStyle(
-        color: Color(0xFF636466),
-        fontSize: 13,
-      );
-    }
-  }
+  // TextStyle getDayTextStyle(DateTime date) {
+  //   if (_startDate != null && date == _startDate) {
+  //     return TextStyle(
+  //       color: Color(0xFF636466),
+  //       fontSize: 13,
+  //     );
+  //   } else {
+  //     return TextStyle(
+  //       color: Color(0xFF636466),
+  //       fontSize: 13,
+  //     );
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -94,9 +90,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
             return Container(
               padding: const EdgeInsets.all(20),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: 20),
                   TableCalendar(
                     focusedDay: _selectedDay,
                     firstDay: DateTime(1990),
@@ -113,7 +108,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     calendarBuilders: CalendarBuilders(
                       defaultBuilder: (context, date, _) {
                         return Container(
-                          margin: const EdgeInsets.all(4.0),
+                          margin: const EdgeInsets.all(4),
                           decoration: BoxDecoration(
                             color: Colors.teal.withOpacity(0.3),
                             borderRadius: BorderRadius.circular(4.0),
@@ -127,7 +122,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 right: 0,
                                 child: Text(
                                   getDayText(date).split('\n')[0],
-                                  style: getDayTextStyle(date),
+                                  style: TextStyle(color:Color(0xFF636466)),
                                   textAlign: TextAlign.center,
                                 ),
                               ),

@@ -11,15 +11,11 @@ class EditNewUserPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Transform66',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 24
-          ),
-        ),
-        backgroundColor: Colors.teal
-      ),
+          title: const Center(child: Text(
+            'Transform66',
+            style: TextStyle(color: Colors.black, fontSize: 24),
+          )),
+          backgroundColor: Colors.teal),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -124,7 +120,7 @@ class EditNewUserPage extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Add New Task'),
+          title: const Text('Add new task'),
           content: TextFormField(
             onChanged: (value) {
               newTaskName = value;
@@ -167,11 +163,13 @@ class EditNewUserPage extends StatelessWidget {
     final TasksFirestoreService tfs = TasksFirestoreService();
 
     tfs.addTasks(selectedTasks);
-    
+
     // Add user details to Firestore
-    await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.email).set({
-      'first_day':DateTime.now(),
-      'last_day':DateTime.now().add(const Duration(days: 66)),
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.email)
+        .set({
+      'first_day': DateTime.now()
     });
   }
 }

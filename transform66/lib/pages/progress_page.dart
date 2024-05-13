@@ -11,49 +11,47 @@ class ProgressPage extends StatefulWidget {
 }
 
 class _ProgressPageState extends State<ProgressPage> {
-
   final TasksFirestoreService tfs = TasksFirestoreService();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: true,
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 75),
-              Image.asset('assets/images/Transform66.png', height: 110),
-              const SizedBox(height: 75),
-              const Text('0/66 days completed', style: TextStyle(fontSize: 16)),
-              const SizedBox(height: 25),
-              SingleChildScrollView(
-                child: StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.email!).collection("dates").orderBy("taskName").snapshots(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        List<QueryDocumentSnapshot> taskDocs =
-                            snapshot.data!.docs;
-                        return ListView.builder(
-                          shrinkWrap:
-                              true, // Make the ListView scrollable within SingleChildScrollView
-                          physics:
-                              const NeverScrollableScrollPhysics(), // Disable scrolling of the ListView
-                          itemCount: taskDocs.length,
-                          itemBuilder: (context, index) {
-                            return TaskCompletionWidget(
-                                taskName: taskDocs[index].get("taskName"), isCompleted: taskDocs[index].get("isCompleted"));
-                          },
-                        );
-                      } else {
-                        return const Text("Loading...");
-                      }
+        body: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+          Image.asset('assets/images/Transform66.png', height: 110),
+          const SizedBox(height:50),
+          const Text('0/66 days completed', style: TextStyle(fontSize: 16)),
+          const SizedBox(height:50),
+              StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection("users")
+                      .doc(FirebaseAuth.instance.currentUser!.email!)
+                      .collection("dates")
+                      .orderBy("taskName")
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      List<QueryDocumentSnapshot> taskDocs =
+                          snapshot.data!.docs;
+                      return ListView.builder(
+                        shrinkWrap:
+                            true, // Make the ListView scrollable within SingleChildScrollView
+                        physics:
+                            const NeverScrollableScrollPhysics(), // Disable scrolling of the ListView
+                        itemCount: taskDocs.length,
+                        itemBuilder: (context, index) {
+                          return TaskCompletionWidget(
+                              taskName: taskDocs[index].get("taskName"),
+                              isCompleted: taskDocs[index].get("isCompleted"));
+                        },
+                      );
+                    } else {
+                      return const Text("Loading...");
                     }
-                  )
-              )
-            ]
-          )
-        )
-      );
+                  })
+        ]));
   }
 }
 
@@ -77,39 +75,37 @@ class _TaskCompletionWidgetState extends State<TaskCompletionWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-          width: 350,
-          height: 50,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Checkbox(
-                value: widget.isCompleted,
-                onChanged: (value) {
-                  setState(() {
-                    widget.isCompleted = value!;
-                    if (value) {
-                      tfs.updateTask(widget.taskName, true);
-                    } else {
-                      tfs.updateTask(widget.taskName, false);
-                    }
-                  });
-                },
-              ),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.taskName,
-                      style: const TextStyle(color: Colors.black),
-                    ),
-                    const SizedBox(height: 10),
-                  ],
-                ),
-              ),
-            ],
+      width: 350,
+      height: 50,
+      child: Row(
+        children: [
+          Checkbox(
+            value: widget.isCompleted,
+            onChanged: (value) {
+              setState(() {
+                widget.isCompleted = value!;
+                if (value) {
+                  tfs.updateTask(widget.taskName, true);
+                } else {
+                  tfs.updateTask(widget.taskName, false);
+                }
+              });
+            },
           ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.taskName,
+                  style: const TextStyle(color: Colors.black),
+                ),
+                const SizedBox(height: 10),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
