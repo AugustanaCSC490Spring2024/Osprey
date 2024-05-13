@@ -169,7 +169,8 @@ class EditNewUserPage extends StatelessWidget {
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.email)
         .set({
-      'first_day': DateTime.now()
+      'first_day': DateTime.now(),
+      'receiveUpdates':false
     });
   }
 }
