@@ -1,12 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:transform66/auth.dart';
 import 'package:transform66/firestore_actions/tasks_firestore.dart';
-import 'package:transform66/pages/add_friends_page.dart';
-import 'package:transform66/pages/instructions_page.dart';
-import 'package:transform66/pages/login_register_page.dart';
-import 'package:transform66/pages/calendar_page.dart';
 
 class ProgressPage extends StatefulWidget {
   const ProgressPage({super.key});
@@ -23,37 +18,6 @@ class _ProgressPageState extends State<ProgressPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: true,
-        appBar: AppBar(
-          title: const Text(
-            'Progress',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 24
-            ),
-          ),
-          backgroundColor: Colors.teal,
-          actions: [
-            PopupMenuButton<String>(
-              onSelected: (String result) {
-                if (result == 'Sign Out') {
-                  Auth().signOut();
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const LoginPage()) // Navigate back to LoginPage
-                      );
-                }
-              },
-              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                const PopupMenuItem<String>(
-                  value: 'Sign Out',
-                  child: Text('Sign Out'),
-                ),
-              ],
-            ),
-          ],
-        ),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -83,40 +47,12 @@ class _ProgressPageState extends State<ProgressPage> {
                       } else {
                         return const Text("Loading...");
                       }
-                    }),
-              ),
-              const SizedBox(height: 50),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => AddFriends()));
-                    },
-                    child: const Text(
-                      'Friends'
-                    ),
-                  ),
-                  const Text("|"),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => InstructionsPage()));
-                    },
-                    child: const Text(
-                      'Instructions'
-                    ),
-                  ),
-                ],
+                    }
+                  )
               )
-            ],
-          ),
-        ),
+            ]
+          )
+        )
       );
   }
 }

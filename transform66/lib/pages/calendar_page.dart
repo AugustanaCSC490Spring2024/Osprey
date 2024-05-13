@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 void main() {
   runApp(MyApp());
@@ -82,7 +82,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: null, 
       body: FutureBuilder<DateTime>(
         future: fetchStartDate(),
         builder: (context, snapshot) {
