@@ -4,12 +4,14 @@ import 'package:transform66/firestore_actions/feed_firestore.dart';
 //import 'package:transform66/firestore_actions/tasks_firestore.dart';
 
 class FeedPageWidget extends StatefulWidget {
-  final String taskName;
-  var isCompleted = false;
+  final String user;
+  final DateTime date;
+  final String message;
 
   FeedPageWidget({
-    required this.taskName,
-    required this.isCompleted,
+    required this.user,
+    required this.date,
+    required this.message,
     super.key,
   });
 
@@ -33,7 +35,7 @@ class _FeedPageWidgetState extends State<FeedPageWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.taskName,
+                  widget.message,
                   style: const TextStyle(color: Colors.black),
                 )
               ]

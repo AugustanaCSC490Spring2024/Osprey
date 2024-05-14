@@ -27,13 +27,6 @@ class FriendsFirestoreService {
     FirebaseFirestore.instance.collection("users").doc(requestedFriend).collection("friends").doc(currentUser).delete();
   }
 
-  Future<void> sendMessage(String currentUser, String requestedFriend) async {
-    FirebaseFirestore.instance.collection("users").doc(requestedFriend).collection("feed").doc().set({
-        "date":Timestamp.now(),
-        "message":"You've got this!"
-      });
-  }
-
   Future<bool> getReceiveUpdatesStatus(String currentUser) async {
     DocumentSnapshot<Map<String, dynamic>> doc1 = await FirebaseFirestore.instance.collection("users").doc(currentUser).get();
     return doc1.get("receiveUpdates");

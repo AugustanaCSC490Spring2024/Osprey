@@ -97,7 +97,7 @@ class _TaskCompletionWidgetState extends State<TaskCompletionWidget> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text("Task Completed"),
-          content: const Text("Congratulations! You've completed a task!\n Would you like to share this achievement with your friends?"),
+          content: const Text("Congratulations! You've completed a task!\nWould you like to share this achievement with your friends?"),
           actions: [
             TextButton(
               onPressed: () {
@@ -113,6 +113,13 @@ class _TaskCompletionWidgetState extends State<TaskCompletionWidget> {
                 Navigator.of(context).pop();
               },
               child: const Text("Share")
+            ),
+            TextButton(
+              onPressed: () {
+                tfs.updateTask(widget.taskName, false);
+                Navigator.of(context).pop();
+              },
+              child: const Text("Cancel")
             )
           ]
         );
