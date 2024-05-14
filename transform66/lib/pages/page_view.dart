@@ -3,9 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/auth.dart';
 import 'package:transform66/firestore_actions/friends_firestore.dart';
-import 'package:transform66/pages/add_friends_page.dart';
 import 'package:transform66/pages/calendar_page.dart';
 import 'package:transform66/pages/feed_page.dart';
+import 'package:transform66/pages/friends.dart';
 import 'package:transform66/pages/login_register_page.dart';
 import 'package:transform66/pages/progress_page.dart';
 
@@ -20,12 +20,13 @@ class _PageViewHelperState extends State<PageViewHelper>
     with TickerProviderStateMixin {
   late PageController _pageViewController;
   late TabController _tabController;
-  int _selectedIndex = 1;
+  int _selectedIndex = 2;
 
   Map<int, String> instructionsMap = {
-    0: "This is the feed page. When you mark a task done, it will show up here. Messages from your friends will show up here. You can also choose whether to receive updates from your friends as well.",
-    1: "This is the progress page. Swipe left to view the feed page and swipe right to view the calendar page.",
-    2: "This is the calendar page. Plan your challenge here!"
+    0: "This is the friends page. Use the button to add a friend. They will have to accept your request. Click on their name to remove them, or to send them a message.",
+    1: "This is the feed page. When you mark a task done, it will show up here. Messages from your friends will show up here. You can also choose whether to receive updates from your friends as well.",
+    2: "This is the progress page. Swipe left to view the feed page and swipe right to view the calendar page.",
+    3: "This is the calendar page. Plan your challenge here!"
   };
 
   final FriendsFirestoreService ffs = FriendsFirestoreService();
@@ -36,7 +37,7 @@ class _PageViewHelperState extends State<PageViewHelper>
   void initState() {
     super.initState();
     _pageViewController = PageController(initialPage: _selectedIndex);
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -63,6 +64,7 @@ class _PageViewHelperState extends State<PageViewHelper>
         body: PageView(
           controller: _pageViewController,
           children: [
+            Friends(),
             Feed(),
             ProgressPage(),
             CalendarScreen(),
@@ -79,12 +81,6 @@ class _PageViewHelperState extends State<PageViewHelper>
             IconButton(
                 icon: const Icon(Icons.info_outlined),
                 onPressed: () => _showInstructions(context)),
-            IconButton(
-                icon: const Icon(Icons.emoji_emotions_outlined),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AddFriends()));
-                }),
             PopupMenuButton<String>(
               onSelected: (String result) {
                 if (result == 'Sign Out') {
@@ -105,8 +101,13 @@ class _PageViewHelperState extends State<PageViewHelper>
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.teal,
           items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.emoji_emotions_outlined),
+              label: 'Friends',
+            ),
             BottomNavigationBarItem(
               icon: Icon(Icons.feed),
               label: 'Feed',
@@ -122,7 +123,6 @@ class _PageViewHelperState extends State<PageViewHelper>
           ],
           selectedItemColor: Colors.white,
           selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-          showSelectedLabels: false,
           showUnselectedLabels: false,
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
@@ -142,7 +142,7 @@ class _PageViewHelperState extends State<PageViewHelper>
                 textAlign: TextAlign.center)
               ),
               Visibility(
-                visible: _selectedIndex == 0,
+                visible: _selectedIndex == 1,
                 child: StreamBuilder<DocumentSnapshot<Map<String,dynamic>>> (stream: db.collection("users").doc(yourEmail).snapshots(),builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
                   if (snapshot.hasError) {
                     return const Text('Something went wrong');

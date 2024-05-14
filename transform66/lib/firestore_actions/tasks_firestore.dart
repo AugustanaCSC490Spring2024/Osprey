@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class TasksFirestoreService {
 
-  // tasks collection reference
   final CollectionReference dates = FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.email).collection("dates");
 
   void addTasks(List<String> selectedTasks) {
@@ -13,6 +12,7 @@ class TasksFirestoreService {
         "isCompleted":false
       });
     }
+    selectedTasks.clear();
   }
 
   Future<void> updateTask(String docID, bool isCompleted) {
