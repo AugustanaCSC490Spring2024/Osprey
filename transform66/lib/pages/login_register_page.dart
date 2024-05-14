@@ -58,7 +58,6 @@ class _LoginPageState extends State<LoginPage> {
         password: _controllerPassword.text.trim(),
     );
 
-      // String uid = userCredential.user!.uid;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -74,9 +73,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
 
-  // Widget _title() {
-  //   return const Text('Transform66');
-  // }
+
 Widget _entryFieldPassword(){
         return TextField(
         controller: _controllerPassword,
@@ -125,7 +122,7 @@ Widget _entryFieldPassword(){
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius:
-            BorderRadius.circular(10), // Adjust the border radius as needed
+            BorderRadius.circular(10), 
       ),
       padding: const EdgeInsets.all(20),
       child: Column(
