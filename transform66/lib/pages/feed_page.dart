@@ -17,16 +17,6 @@ class _FeedState extends State<Feed> {
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text(
-      //     'Feed',
-      //     style: TextStyle(
-      //       color: Colors.black,
-      //       fontSize: 24
-      //     ),
-      //   ),
-      //   backgroundColor: Colors.teal
-      // ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection("users").doc(yourEmail).collection("feed").orderBy("date").snapshots(),
         builder: (context, snapshot) {
@@ -36,7 +26,6 @@ class _FeedState extends State<Feed> {
               itemCount: friendList.length,
               itemBuilder: (context, index) {
                 DocumentSnapshot document = friendList[index];
-                
                 return ListTile(
                   title: Text(
                     document.get("message")

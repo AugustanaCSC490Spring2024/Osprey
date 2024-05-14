@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/firestore_actions/tasks_firestore.dart';
 
+import 'package:transform66/firestore_actions/feed_firestore.dart';
+
 class ProgressPage extends StatefulWidget {
   const ProgressPage({super.key});
 
@@ -11,7 +13,7 @@ class ProgressPage extends StatefulWidget {
 }
 
 class _ProgressPageState extends State<ProgressPage> {
-  final TasksFirestoreService tfs = TasksFirestoreService();
+  //final TasksFirestoreService tfs = TasksFirestoreService();
   final String yourEmail = FirebaseAuth.instance.currentUser!.email!;
   final db = FirebaseFirestore.instance;
 
@@ -44,7 +46,7 @@ class _ProgressPageState extends State<ProgressPage> {
                   stream: FirebaseFirestore.instance
                       .collection("users")
                       .doc(FirebaseAuth.instance.currentUser!.email!)
-                      .collection("dates")
+                      .collection("tasks")
                       .orderBy("taskName")
                       .snapshots(),
                   builder: (context, snapshot) {
@@ -87,6 +89,7 @@ class TaskCompletionWidget extends StatefulWidget {
 
 class _TaskCompletionWidgetState extends State<TaskCompletionWidget> {
   final TasksFirestoreService tfs = TasksFirestoreService();
+  final FeedFirestoreService ffs = FeedFirestoreService();
 
   @override
   Widget build(BuildContext context) {
