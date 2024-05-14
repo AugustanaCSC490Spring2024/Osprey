@@ -12,6 +12,9 @@ class ProgressPage extends StatefulWidget {
 
 class _ProgressPageState extends State<ProgressPage> {
   final TasksFirestoreService tfs = TasksFirestoreService();
+  final String yourEmail = FirebaseAuth.instance.currentUser!.email!;
+  final db = FirebaseFirestore.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +25,20 @@ class _ProgressPageState extends State<ProgressPage> {
               children: [
           Image.asset('assets/images/Transform66.png', height: 110),
           const SizedBox(height:50),
-          const Text('0/66 days completed', style: TextStyle(fontSize: 16)),
+          StreamBuilder<DocumentSnapshot<Map<String,dynamic>>> (
+            stream: db.collection("users").doc(yourEmail).snapshots(),
+            builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
+              if (snapshot.hasError) {
+                return const Text('Something went wrong');
+              }
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Text("Loading");
+              }
+              Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+              int dayDifference = (DateTime.now().difference(data["first_day"].toDate()).inHours/24).round();
+              return Text("Day $dayDifference",style: const TextStyle(fontSize: 16));
+            }
+          ),
           const SizedBox(height:50),
               StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
@@ -94,18 +110,18 @@ class _TaskCompletionWidgetState extends State<TaskCompletionWidget> {
           ),
           Expanded(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   widget.taskName,
                   style: const TextStyle(color: Colors.black),
-                ),
-                const SizedBox(height: 10),
-              ],
-            ),
-          ),
-        ],
-      ),
+                )
+              ]
+            )
+          )
+        ]
+      )
     );
   }
 }

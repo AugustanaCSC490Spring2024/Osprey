@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/auth.dart';
+import 'package:transform66/firestore_actions/friends_firestore.dart';
 import 'package:transform66/pages/add_friends_page.dart';
 import 'package:transform66/pages/calendar_page.dart';
 import 'package:transform66/pages/feed_page.dart';
@@ -24,6 +27,10 @@ class _PageViewHelperState extends State<PageViewHelper>
     1: "This is the progress page. Swipe left to view the feed page and swipe right to view the calendar page.",
     2: "This is the calendar page. Plan your challenge here!"
   };
+
+  final FriendsFirestoreService ffs = FriendsFirestoreService();
+  final String yourEmail = FirebaseAuth.instance.currentUser!.email!;
+  final db = FirebaseFirestore.instance;
 
   @override
   void initState() {
@@ -55,7 +62,7 @@ class _PageViewHelperState extends State<PageViewHelper>
     return Scaffold(
         body: PageView(
           controller: _pageViewController,
-          children: <Widget>[
+          children: [
             Feed(),
             ProgressPage(),
             CalendarScreen(),
@@ -124,9 +131,43 @@ class _PageViewHelperState extends State<PageViewHelper>
 
   void _showInstructions(BuildContext context) {
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(content: Text(instructionsMap[_selectedIndex]!));
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Center(
+                child: Text(instructionsMap[_selectedIndex]!,
+                textAlign: TextAlign.center)
+              ),
+              Visibility(
+                visible: _selectedIndex == 0,
+                child: StreamBuilder<DocumentSnapshot<Map<String,dynamic>>> (stream: db.collection("users").doc(yourEmail).snapshots(),builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
+                  if (snapshot.hasError) {
+                    return const Text('Something went wrong');
+                  }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Text("Loading");
+                  }
+                  Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+                  return Column(children: [
+                    const SizedBox(height:20),
+                    const Text("Receive updates from friends?"),
+                    TextButton(
+                      onPressed:() {
+                        ffs.setReceiveUpdatesStatus(yourEmail,!data["receiveUpdates"]);
+                      },
+                      child: Text(data["receiveUpdates"]?"Turn off":"Turn on")
+                      )
+                    ]
+                  );
+                }
+              )
+            )
+          ])
+        );
+      }
+    );
   }
 }

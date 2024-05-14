@@ -9,7 +9,7 @@ class StartedPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Transform66'),
+        title: const Center(child:Text('Transform66')),
         backgroundColor: Colors.teal,
       ),
       body: Column(

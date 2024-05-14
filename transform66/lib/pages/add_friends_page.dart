@@ -32,7 +32,9 @@ class _AddFriendsState extends State<AddFriends> {
           Center(
             child: TextButton(
               onPressed: () async {
-                ffs.requestFriend(yourEmail,textController.text);
+                if (textController.text!=yourEmail) {
+                  ffs.requestFriend(yourEmail,textController.text);
+                }
                 textController.clear();
                 Navigator.pop(context);
               },
@@ -49,7 +51,7 @@ class _AddFriendsState extends State<AddFriends> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Friends"),
-        backgroundColor: const Color.fromRGBO(93, 166, 172, 1)
+        backgroundColor: Colors.teal
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: askForName,
