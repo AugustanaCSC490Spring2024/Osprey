@@ -91,6 +91,36 @@ class _TaskCompletionWidgetState extends State<TaskCompletionWidget> {
   final TasksFirestoreService tfs = TasksFirestoreService();
   final FeedFirestoreService ffs = FeedFirestoreService();
 
+  void _taskCompletionPopUp(){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Task Completed"),
+          content: const Text("Congratulations! You've completed a task!\n Would you like to share this achievement with your friends?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                ffs.addPostPrivate(FirebaseAuth.instance.currentUser!.email!, widget.taskName);
+                Navigator.of(context).pop();
+              },
+              child: const Text("Keep Private")
+            ),
+            TextButton(
+              onPressed: () {
+                ffs.addPostPrivate(FirebaseAuth.instance.currentUser!.email!, widget.taskName);
+                ffs.addPostPublic(FirebaseAuth.instance.currentUser!.email!, widget.taskName);
+                Navigator.of(context).pop();
+              },
+              child: const Text("Share")
+            )
+          ]
+        );
+      }
+    );
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -105,6 +135,7 @@ class _TaskCompletionWidgetState extends State<TaskCompletionWidget> {
                 widget.isCompleted = value!;
                 if (value) {
                   tfs.updateTask(widget.taskName, true);
+                  _taskCompletionPopUp();
                 } else {
                   tfs.updateTask(widget.taskName, false);
                 }

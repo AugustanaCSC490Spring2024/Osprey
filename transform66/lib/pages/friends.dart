@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:transform66/firestore_actions/feed_firestore.dart';
 import 'package:transform66/firestore_actions/friends_firestore.dart';
+import 'package:transform66/pages/feed_page.dart';
 
 class Friends extends StatefulWidget {
   
@@ -14,6 +16,7 @@ class Friends extends StatefulWidget {
 class _FriendsState extends State<Friends> {
   
   final FriendsFirestoreService ffs = FriendsFirestoreService();
+  final FeedFirestoreService ffs2 = FeedFirestoreService();
   final TextEditingController textController = TextEditingController();
   final Map<String, String> statusMap = {"requested":"REQUEST SENT","pending":"NEW","accepted":""};
   final String yourEmail = FirebaseAuth.instance.currentUser!.email!;
@@ -88,7 +91,7 @@ class _FriendsState extends State<Friends> {
                                 TextButton(
                                   child: const Text("Send message"),
                                   onPressed: () {
-                                    ffs.sendMessage(yourEmail,friendEmail);
+                                    ffs2.sendMotivation(yourEmail,friendEmail);
                                     Navigator.of(context).pop();
                                   }
                                 )
