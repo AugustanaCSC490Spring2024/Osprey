@@ -9,7 +9,8 @@ class TasksFirestoreService {
     for (String taskName in selectedTasks) {
       tasks.doc(taskName).set({
         "taskName":taskName,
-        "isCompleted":false
+        "isCompleted":false,
+        "receiveUpdates":false
       });
     }
     selectedTasks.clear();
