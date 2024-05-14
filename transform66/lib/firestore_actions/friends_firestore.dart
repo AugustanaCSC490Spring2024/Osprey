@@ -33,4 +33,13 @@ class FriendsFirestoreService {
         "message":"You've got this!"
       });
   }
+
+  Future<bool> getReceiveUpdatesStatus(String currentUser) async {
+    DocumentSnapshot<Map<String, dynamic>> doc1 = await FirebaseFirestore.instance.collection("users").doc(currentUser).get();
+    return doc1.get("receiveUpdates");
+  }
+
+  void setReceiveUpdatesStatus(String currentUser, bool target) {
+    FirebaseFirestore.instance.collection("users").doc(currentUser).update({"receiveUpdates":target});
+  }
 }

@@ -1,13 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/auth.dart';
-import 'package:transform66/pages/add_friends_page.dart';
+import 'package:transform66/firestore_actions/friends_firestore.dart';
 import 'package:transform66/pages/calendar_page.dart';
 import 'package:transform66/pages/feed_page.dart';
+import 'package:transform66/pages/friends.dart';
 import 'package:transform66/pages/login_register_page.dart';
 import 'package:transform66/pages/progress_page.dart';
 
 class PageViewHelper extends StatefulWidget {
-  const PageViewHelper({Key? key}) : super(key: key);
+  const PageViewHelper({super.key});
 
   @override
   State<PageViewHelper> createState() => _PageViewHelperState();
@@ -17,13 +20,24 @@ class _PageViewHelperState extends State<PageViewHelper>
     with TickerProviderStateMixin {
   late PageController _pageViewController;
   late TabController _tabController;
-  int _selectedIndex = 1; // Initially selected index
+  int _selectedIndex = 2;
+
+  Map<int, String> instructionsMap = {
+    0: "This is the friends page. Use the button to add a friend. They will have to accept your request. Click on their name to remove them, or to send them a message.",
+    1: "This is the feed page. When you mark a task done, it will show up here. Messages from your friends will show up here. You can also choose whether to receive updates from your friends as well.",
+    2: "This is the progress page. Swipe left to view the feed page and swipe right to view the calendar page.",
+    3: "This is the calendar page. Plan your challenge here!"
+  };
+
+  final FriendsFirestoreService ffs = FriendsFirestoreService();
+  final String yourEmail = FirebaseAuth.instance.currentUser!.email!;
+  final db = FirebaseFirestore.instance;
 
   @override
   void initState() {
     super.initState();
     _pageViewController = PageController(initialPage: _selectedIndex);
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -47,32 +61,26 @@ class _PageViewHelperState extends State<PageViewHelper>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        controller: _pageViewController,
-        children: <Widget>[
-          Feed(),
-          ProgressPage(),
-          CalendarScreen(),
-        ],
-        onPageChanged: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-      ),
-      appBar: AppBar(
-        backgroundColor: Color.fromRGBO(93, 166, 172, 1),
-        actions: [
-          IconButton(icon:const Icon(Icons.info_outlined),onPressed: () => _showInstructions(context)
-                                  ),
-            IconButton(icon:const Icon(Icons.emoji_emotions_outlined),onPressed: () {
-                                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              AddFriends())
-                      );
-                                  }),
+        body: PageView(
+          controller: _pageViewController,
+          children: [
+            Friends(),
+            Feed(),
+            ProgressPage(),
+            CalendarScreen(),
+          ],
+          onPageChanged: (index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
+        ),
+        appBar: AppBar(
+          backgroundColor: Colors.teal,
+          actions: [
+            IconButton(
+                icon: const Icon(Icons.info_outlined),
+                onPressed: () => _showInstructions(context)),
             PopupMenuButton<String>(
               onSelected: (String result) {
                 if (result == 'Sign Out') {
@@ -80,9 +88,7 @@ class _PageViewHelperState extends State<PageViewHelper>
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              const LoginPage())
-                      );
+                          builder: (context) => const LoginPage()));
                 }
               },
               itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
@@ -93,55 +99,73 @@ class _PageViewHelperState extends State<PageViewHelper>
               ],
             ),
           ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color.fromRGBO(93, 166, 172, 1),
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.feed),
-            label: 'Feed',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_filled),
-            label: 'Progress',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_month),
-            label: 'Calendar',
-          ),
-        ],
-        selectedItemColor: Colors.white,
-        selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-      )
-    );
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Colors.teal,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.emoji_emotions_outlined),
+              label: 'Friends',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.feed),
+              label: 'Feed',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home_filled),
+              label: 'Progress',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.calendar_month),
+              label: 'Calendar',
+            ),
+          ],
+          selectedItemColor: Colors.white,
+          selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+          showUnselectedLabels: false,
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+        ));
   }
+
   void _showInstructions(BuildContext context) {
     showDialog(
-      context:context,
+      context: context,
       builder: (BuildContext context) {
-        return const AlertDialog(
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(
-                  "1. When you click the start transform 66 button, then you are directed to customizing your task.\n\n"
-                  "2. Choose a couple of tasks that you want to commit to for 66 days.\n\n"
-                  "3. Remember that if you miss a day you will be taken back to day 1 so don't forget to do your task and mark it down.\n\n"
-                  "4. Swipe right and you will see Feed to keep yourself updated on what tasks your friends are commiting.\n\n"
-                  "5. Swipe right and you will see Calendar to view your progress. You can see what day you are on and how many days are remaining.\n\n"
-                  "6. Click three dots in the top right corner to signout, it'll take you back to the login page.\n\n"
-                  "7. If you click Friends icon, you will be directed to a page where you can request your friend. \n\n"
-                  "8. After requesting, your friend will have a notification if they want to accept or reject the invitation.\n\n"
-                  "9. If they accept the friend request, you will be able to message your friend and see them in your feed.\n\n",
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-              
-              ],
-            )),
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Center(
+                child: Text(instructionsMap[_selectedIndex]!,
+                textAlign: TextAlign.center)
+              ),
+              Visibility(
+                visible: _selectedIndex == 1,
+                child: StreamBuilder<DocumentSnapshot<Map<String,dynamic>>> (stream: db.collection("users").doc(yourEmail).snapshots(),builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
+                  if (snapshot.hasError) {
+                    return const Text('Something went wrong');
+                  }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Text("Loading");
+                  }
+                  Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+                  return Column(children: [
+                    const SizedBox(height:20),
+                    const Text("Receive updates from friends?"),
+                    TextButton(
+                      onPressed:() {
+                        ffs.setReceiveUpdatesStatus(yourEmail,!data["receiveUpdates"]);
+                      },
+                      child: Text(data["receiveUpdates"]?"Turn off":"Turn on")
+                      )
+                    ]
+                  );
+                }
+              )
+            )
+          ])
         );
       }
     );

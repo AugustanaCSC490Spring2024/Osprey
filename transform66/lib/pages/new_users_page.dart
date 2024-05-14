@@ -1,14 +1,15 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:transform66/pages/edit_new_user_page.dart';
 
 class StartedPage extends StatelessWidget {
-  const StartedPage({Key? key}) : super(key: key);
+  const StartedPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Transform66'),
+        title: const Center(child:Text('Transform66')),
         backgroundColor: Colors.teal,
       ),
       body: Column(
@@ -74,7 +75,8 @@ class StartedPage extends StatelessWidget {
   showDialog(
     context: context,
     builder: (BuildContext context) {
-      return AlertDialog(
+      if (kIsWeb) {
+        return AlertDialog(
         title: const Text("About Us"),
         content: SingleChildScrollView(
           child: Column(
@@ -130,6 +132,22 @@ class StartedPage extends StatelessWidget {
           ),
         ],
       );
+      }
+      else {
+        return const AlertDialog(
+        title: Text("About Us"),
+        content: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Transform 66 is a revolutionary application designed to catalyze personal growth and habit formation with its origins rooted in the understanding that it takes approximately 66 days to solidify a new habit.\n\n"
+                "At its core, Transform 66 is more than just a productivity tool—it's a companion on the journey towards self-improvement. By providing a structured platform and a nurturing community, Transform 66 empowers individuals to set meaningful goals and stay committed to them over the course of 66 days.\n\n"
+                "Whether you're striving to enhance your health, develop new skills, or cultivate positive habits, Transform 66 is here to support you every step of the way. Join the Transform 66 community and unlock your full potential today.\n\n"
+                "Developers\n\n",
+              )])));
+      }
+      
     },
   );
 }

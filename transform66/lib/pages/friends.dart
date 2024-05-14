@@ -3,15 +3,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/firestore_actions/friends_firestore.dart';
 
-class AddFriends extends StatefulWidget {
+class Friends extends StatefulWidget {
   
-  AddFriends({Key? key}) : super(key: key);
+  Friends({Key? key}) : super(key: key);
 
   @override
-  State<AddFriends> createState() => _AddFriendsState();
+  State<Friends> createState() => _FriendsState();
 }
 
-class _AddFriendsState extends State<AddFriends> {
+class _FriendsState extends State<Friends> {
   
   final FriendsFirestoreService ffs = FriendsFirestoreService();
   final TextEditingController textController = TextEditingController();
@@ -32,7 +32,9 @@ class _AddFriendsState extends State<AddFriends> {
           Center(
             child: TextButton(
               onPressed: () async {
-                ffs.requestFriend(yourEmail,textController.text);
+                if (textController.text!=yourEmail) {
+                  ffs.requestFriend(yourEmail,textController.text);
+                }
                 textController.clear();
                 Navigator.pop(context);
               },
@@ -47,20 +49,13 @@ class _AddFriendsState extends State<AddFriends> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Friends"),
-        backgroundColor: const Color.fromRGBO(93, 166, 172, 1)
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: askForName,
-        child: const Icon(Icons.add_reaction_outlined)
-      ),
-      body: StreamBuilder<QuerySnapshot>(
+      body: Column(children:[Expanded(child:StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection("users").doc(yourEmail).collection("friends").orderBy("date").snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List friendList = snapshot.data!.docs;
             return ListView.builder(
+              shrinkWrap: true,
               itemCount: friendList.length,
               itemBuilder: (context, index) {
                 DocumentSnapshot document = friendList[index];
@@ -79,19 +74,17 @@ class _AddFriendsState extends State<AddFriends> {
                           content: Column(mainAxisSize: MainAxisSize.min,children: <Widget>[
                             Visibility(
                               visible: document.get("status")=="pending",
-                              child: Row(mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[const Icon(Icons.check),TextButton(
+                              child: TextButton(
                                   child: const Text("Accept"),
                                   onPressed: () {
                                     ffs.acceptFriend(yourEmail,friendEmail);
                                     Navigator.of(context).pop();
                                   }
                                 )
-                          ])
                             ),
                             Visibility(
                               visible: document.get("status")=="accepted",
-                              child: Row(mainAxisAlignment: MainAxisAlignment.center,children:<Widget>[const Icon(Icons.insert_emoticon),
+                              child:
                                 TextButton(
                                   child: const Text("Send message"),
                                   onPressed: () {
@@ -99,22 +92,23 @@ class _AddFriendsState extends State<AddFriends> {
                                     Navigator.of(context).pop();
                                   }
                                 )
-                          ])
                             ),
-                            Row(mainAxisAlignment: MainAxisAlignment.center,children:<Widget>[const Icon(Icons.close),TextButton(child:const Text("Remove"),onPressed: () {ffs.removeFriend(yourEmail,friendEmail);Navigator.of(context).pop();})])
-                        ]));
+                            TextButton(child:const Text("Remove"),onPressed: () {ffs.removeFriend(yourEmail,friendEmail);Navigator.of(context).pop();})])
+                        );
                       }
                     );
                   }
                 );
               }
-            );
+      );
           }
           else {
             return const Text("");
           }
         }
-      )
+      )),
+      TextButton(onPressed: () => askForName(), child: const Text("Add a friend")),
+      ])
     );
   }
 }

@@ -33,6 +33,7 @@ class _EditNewUserPageState extends State<EditNewUserPage> {
         ),
         backgroundColor: Colors.teal,
       ),
+
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -116,7 +117,7 @@ class _EditNewUserPageState extends State<EditNewUserPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Add New Task'),
+          title: const Text('Add new task'),
           content: TextFormField(
             onChanged: (value) {
               newTaskName = value;
@@ -168,13 +169,13 @@ class _EditNewUserPageState extends State<EditNewUserPage> {
     final TasksFirestoreService tfs = TasksFirestoreService();
 
     tfs.addTasks(selectedTasks);
-
     await FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.email)
         .set({
       'first_day': DateTime.now(),
       'last_day': DateTime.now().add(const Duration(days: 66)),
+
     });
   }
 }

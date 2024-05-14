@@ -73,10 +73,6 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-
-  // Widget _title() {
-  //   return const Text('Transform66');
-  // }
 Widget _entryFieldPassword(){
         return TextField(
         controller: _controllerPassword,
