@@ -24,34 +24,41 @@ class FeedFirestoreService {
       "date": Timestamp.now(),
       "message": "$userName wants to remind you that you've got this!",
       "isLiked": false,
-      "imageNum": imageNum
+      "imageNum": imageNum,
+      "imageType": "m"
     });
   }
 
-  Future<void> celebrationPost(String currentUser, String friend, String taskName) async {
+  Future<void> celebrationPost(String currentUser, String friend, String taskName, int imageNum) async {
     var userName = currentUser.split('@')[0];
     FirebaseFirestore.instance.collection("users").doc(friend).collection("friendsFeed").doc().set({
       "date": Timestamp.now(),
       "message": "$userName congratulates you on completing the task: $taskName",
-      "isLiked": false
+      "isLiked": false,
+      "imageNum": imageNum,
+      "imageType": "c"
     });
   }
 
-  Future<void> addPostPrivate(String currentUser, taskName) async {
+  Future<void> addPostPrivate(String currentUser, String taskName, int imageNum) async {
     FirebaseFirestore.instance.collection("users").doc(currentUser).collection("personalFeed").doc().set({
       "date": Timestamp.now(),
-      "message": "You have completed the task: $taskName"
+      "message": "You have completed the task: $taskName",
+      "imageNum": imageNum,
+      "imageType": "c"
     });
   }
 
-  Future<void> addPostPublic(String currentUser, taskName) async {
+  Future<void> addPostPublic(String currentUser, taskName, int imageNum) async {
     var friendsList = await getFriendsList();
     var userName = currentUser.split('@')[0];
     for (String friend in friendsList) {
       FirebaseFirestore.instance.collection("users").doc(friend).collection("friendsFeed").doc().set({
         "date": Timestamp.now(),
         "message": "$userName has completed the task: $taskName",
-        "isLiked": false
+        "isLiked": false,
+        "imageNum": imageNum,
+        "imageType": "c"
       });
     }
   }

@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable, library_private_types_in_public_api
 
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -102,15 +104,17 @@ class _TaskCompletionWidgetState extends State<TaskCompletionWidget> {
           actions: [
             TextButton(
               onPressed: () {
-                ffs.addPostPrivate(FirebaseAuth.instance.currentUser!.email!, widget.taskName);
+                var randomInt = Random().nextInt(10) + 1;
+                ffs.addPostPrivate(FirebaseAuth.instance.currentUser!.email!, widget.taskName, randomInt);
                 Navigator.of(context).pop();
               },
               child: const Text("Keep Private")
             ),
             TextButton(
               onPressed: () {
-                ffs.addPostPrivate(FirebaseAuth.instance.currentUser!.email!, widget.taskName);
-                ffs.addPostPublic(FirebaseAuth.instance.currentUser!.email!, widget.taskName);
+                var randomInt = Random().nextInt(10) + 1;
+                ffs.addPostPrivate(FirebaseAuth.instance.currentUser!.email!, widget.taskName, randomInt);
+                ffs.addPostPublic(FirebaseAuth.instance.currentUser!.email!, widget.taskName, randomInt);
                 Navigator.of(context).pop();
               },
               child: const Text("Share")
