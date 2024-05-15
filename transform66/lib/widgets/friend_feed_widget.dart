@@ -1,20 +1,28 @@
+// ignore_for_file: must_be_immutable
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/firestore_actions/feed_firestore.dart';
-//import 'package:transform66/firestore_actions/tasks_firestore.dart';
 
 class FriendFeedWidget extends StatefulWidget {
-  final String user;
-  final DateTime date;
+  final String userName;
+  final Timestamp date;
   final String message;
+  var isLiked = false;
+  final String imageType;
+  final String imagePath = "images/feedImages/";
 
   FriendFeedWidget({
-    required this.user,
+    required this.userName,
     required this.date,
     required this.message,
+    required this.isLiked,
+    required this.imageType,
     super.key,
   });
 
   @override
+  // ignore: library_private_types_in_public_api
   _FriendFeedWidgetState createState() => _FriendFeedWidgetState();
 }
 
@@ -23,25 +31,23 @@ class _FriendFeedWidgetState extends State<FriendFeedWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 350,
-      height: 50,
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.message,
-                  style: const TextStyle(color: Colors.black),
-                )
-              ]
-            )
-          )
-        ]
-      )
-    );
+    return Card(child: Padding(padding: const EdgeInsets.all(10),child: 
+      Column(children: [
+        Row(children: [
+          const CircleAvatar(radius: 20, backgroundImage: AssetImage("assets/images/Transform66.png"), backgroundColor: Colors.transparent),
+          const SizedBox(width: 10),
+          Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text(widget.userName, style: const TextStyle(fontSize: 16, color: Colors.black)),
+                Text(widget.message, style: const TextStyle(fontSize: 18, color: Colors.black)),
+              ])
+        ],),
+        const SizedBox(height: 5),
+        SizedBox(
+          width:300,
+          height:300,
+          child: Image(image: AssetImage("${widget.imagePath}${widget.imageType}.jpg"))),
+        const SizedBox(height: 5),
+      ]),
+    ));
   }
 }

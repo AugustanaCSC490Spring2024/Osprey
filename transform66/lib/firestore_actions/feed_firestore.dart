@@ -22,10 +22,11 @@ class FeedFirestoreService {
     var userName = currentUser.split('@')[0];
     FirebaseFirestore.instance.collection("users").doc(friend).collection("friendsFeed").doc().set({
       "date": Timestamp.now(),
-      "message": "$userName wants to remind you that you've got this!",
+      "userName": userName,
+      "message": "You've got this!",
       "isLiked": false,
-      "imageNum": imageNum,
-      "imageType": "m"
+      //"imageNum": imageNum,
+      "imageType": "m$imageNum"
     });
   }
 
@@ -33,19 +34,22 @@ class FeedFirestoreService {
     var userName = currentUser.split('@')[0];
     FirebaseFirestore.instance.collection("users").doc(friend).collection("friendsFeed").doc().set({
       "date": Timestamp.now(),
-      "message": "$userName congratulates you on completing the task: $taskName",
+      "userName": userName,
+      "message": "Congratulations on completing the task: $taskName",
       "isLiked": false,
-      "imageNum": imageNum,
-      "imageType": "c"
+      //"imageNum": imageNum,
+      "imageType": "c$imageNum"
     });
   }
 
   Future<void> addPostPrivate(String currentUser, String taskName, int imageNum) async {
+    var userName = currentUser.split('@')[0];
     FirebaseFirestore.instance.collection("users").doc(currentUser).collection("personalFeed").doc().set({
       "date": Timestamp.now(),
-      "message": "You have completed the task: $taskName",
-      "imageNum": imageNum,
-      "imageType": "c"
+      "userName": userName,
+      "message": "You completed the task: $taskName",
+      //"imageNum": imageNum,
+      "imageType": "c$imageNum"
     });
   }
 
@@ -55,10 +59,11 @@ class FeedFirestoreService {
     for (String friend in friendsList) {
       FirebaseFirestore.instance.collection("users").doc(friend).collection("friendsFeed").doc().set({
         "date": Timestamp.now(),
-        "message": "$userName has completed the task: $taskName",
+        "userName": userName,
+        "message": "I completed my task: $taskName",
         "isLiked": false,
-        "imageNum": imageNum,
-        "imageType": "c"
+        //"imageNum": imageNum,
+        "imageType": "c$imageNum"
       });
     }
   }
