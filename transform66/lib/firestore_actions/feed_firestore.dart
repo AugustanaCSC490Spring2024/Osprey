@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -16,12 +18,13 @@ class FeedFirestoreService {
     return friendList;
   }
 
-  Future<void> sendMotivation(String currentUser, String friend) async {
+  Future<void> sendMotivation(String currentUser, String friend, int imageNum) async {
     var userName = currentUser.split('@')[0];
     FirebaseFirestore.instance.collection("users").doc(friend).collection("friendsFeed").doc().set({
       "date": Timestamp.now(),
       "message": "$userName wants to remind you that you've got this!",
-      "isLiked": false
+      "isLiked": false,
+      "imageNum": imageNum
     });
   }
 
@@ -37,8 +40,7 @@ class FeedFirestoreService {
   Future<void> addPostPrivate(String currentUser, taskName) async {
     FirebaseFirestore.instance.collection("users").doc(currentUser).collection("personalFeed").doc().set({
       "date": Timestamp.now(),
-      "message": "You have completed the task: $taskName",
-      "isLiked": false
+      "message": "You have completed the task: $taskName"
     });
   }
 

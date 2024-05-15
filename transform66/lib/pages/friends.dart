@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -91,7 +93,8 @@ class _FriendsState extends State<Friends> {
                                 TextButton(
                                   child: const Text("Send motivation"),
                                   onPressed: () {
-                                    ffs2.sendMotivation(yourEmail,friendEmail);
+                                    var randomInt = Random().nextInt(12) + 1;
+                                    ffs2.sendMotivation(yourEmail,friendEmail, randomInt);
                                     Navigator.of(context).pop();
                                   }
                                 )
