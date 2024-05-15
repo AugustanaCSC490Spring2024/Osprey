@@ -65,7 +65,7 @@ class _PageViewHelperState extends State<PageViewHelper>
           controller: _pageViewController,
           children: [
             Friends(),
-            Feed(),
+            FeedPage(),
             ProgressPage(),
             CalendarScreen(),
           ],
