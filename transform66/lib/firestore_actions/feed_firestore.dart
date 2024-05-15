@@ -25,6 +25,15 @@ class FeedFirestoreService {
     });
   }
 
+  Future<void> celebrationPost(String currentUser, String friend, String taskName) async {
+    var userName = currentUser.split('@')[0];
+    FirebaseFirestore.instance.collection("users").doc(friend).collection("friendsFeed").doc().set({
+      "date": Timestamp.now(),
+      "message": "$userName congratulates you on completing the task: $taskName",
+      "isLiked": false
+    });
+  }
+
   Future<void> addPostPrivate(String currentUser, taskName) async {
     FirebaseFirestore.instance.collection("users").doc(currentUser).collection("personalFeed").doc().set({
       "date": Timestamp.now(),

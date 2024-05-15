@@ -1,14 +1,13 @@
-
 import 'package:flutter/material.dart';
 import 'package:transform66/firestore_actions/feed_firestore.dart';
 //import 'package:transform66/firestore_actions/tasks_firestore.dart';
 
-class FeedPageWidget extends StatefulWidget {
+class FriendFeedWidget extends StatefulWidget {
   final String user;
   final DateTime date;
   final String message;
 
-  FeedPageWidget({
+  FriendFeedWidget({
     required this.user,
     required this.date,
     required this.message,
@@ -16,11 +15,11 @@ class FeedPageWidget extends StatefulWidget {
   });
 
   @override
-  _FeedPageWidgetState createState() => _FeedPageWidgetState();
+  _FriendFeedWidgetState createState() => _FriendFeedWidgetState();
 }
 
-class _FeedPageWidgetState extends State<FeedPageWidget> {
-  final FeedFirestoreService tfs = FeedFirestoreService();
+class _FriendFeedWidgetState extends State<FriendFeedWidget> {
+  final FeedFirestoreService ffs2 = FeedFirestoreService();
 
   @override
   Widget build(BuildContext context) {

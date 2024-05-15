@@ -89,7 +89,7 @@ class _FriendsState extends State<Friends> {
                               visible: document.get("status")=="accepted",
                               child:
                                 TextButton(
-                                  child: const Text("Send message"),
+                                  child: const Text("Send motivation"),
                                   onPressed: () {
                                     ffs2.sendMotivation(yourEmail,friendEmail);
                                     Navigator.of(context).pop();

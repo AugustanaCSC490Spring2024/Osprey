@@ -2,6 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/auth.dart';
+import 'package:transform66/firestore_actions/feed_firestore.dart';
+import 'package:transform66/firestore_actions/friends_firestore.dart';
+import 'package:transform66/widgets/friend_feed_widget.dart';
 
 class FeedPage extends StatefulWidget {
   const FeedPage({super.key});
