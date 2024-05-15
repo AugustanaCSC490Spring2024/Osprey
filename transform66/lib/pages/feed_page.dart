@@ -41,7 +41,7 @@
 //             return const Text("");
 //           }
 //         }
-//       ) 
+//       )
 //     );
 //   }
 // }
@@ -50,12 +50,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/auth.dart';
-import 'package:transform66/firestore_actions/feed_firestore.dart';
-import 'package:transform66/firestore_actions/friends_firestore.dart';
-import 'package:transform66/widgets/feed_widget.dart';
 
 class Feed extends StatefulWidget {
-  Feed({Key? key}) : super(key: key);
+  const Feed({super.key});
 
   @override
   State<Feed> createState() => _FeedState();
@@ -71,7 +68,7 @@ class _FeedState extends State<Feed> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromRGBO(144, 195, 200, 1),
+          backgroundColor: const Color.fromRGBO(144, 195, 200, 1),
           bottom: const TabBar(
             tabs: [
               Tab(text: "Personal Updates"),

@@ -168,16 +168,8 @@ class _EditNewUserPageState extends State<EditNewUserPage> {
 
   Future<void> addUserDetails() async {
     final TasksFirestoreService tfs = TasksFirestoreService();
-
     tfs.addTasks(selectedTasks);
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.email)
-        .set({
-      'first_day': DateTime.now(),
-      'last_day': DateTime.now().add(const Duration(days: 66)),
-
-    });
+    await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.email).set({'first_day': DateUtils.dateOnly(DateTime.now()),});
   }
 }
 
