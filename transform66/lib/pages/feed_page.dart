@@ -2,12 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/auth.dart';
-import 'package:transform66/firestore_actions/feed_firestore.dart';
-import 'package:transform66/firestore_actions/friends_firestore.dart';
-import 'package:transform66/widgets/feed_widget.dart';
 
 class FeedPage extends StatefulWidget {
-  FeedPage({Key? key}) : super(key: key);
+  const FeedPage({super.key});
 
   @override
   State<FeedPage> createState() => _FeedPageState();
@@ -23,7 +20,7 @@ class _FeedPageState extends State<FeedPage> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromRGBO(144, 195, 200, 1),
+          backgroundColor: const Color.fromRGBO(144, 195, 200, 1),
           bottom: const TabBar(
             tabs: [
               Tab(text: "Personal Updates"),

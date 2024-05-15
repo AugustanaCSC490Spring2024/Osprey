@@ -3,11 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/firestore_actions/feed_firestore.dart';
 import 'package:transform66/firestore_actions/friends_firestore.dart';
-import 'package:transform66/pages/feed_page.dart';
 
 class Friends extends StatefulWidget {
-  
-  Friends({Key? key}) : super(key: key);
+  const Friends({super.key});
 
   @override
   State<Friends> createState() => _FriendsState();
@@ -27,7 +25,7 @@ class _FriendsState extends State<Friends> {
       builder: (context) => AlertDialog(
         content: TextField(
           decoration: const InputDecoration(
-            labelText: "email"
+            labelText: "Email"
           ),
           controller: textController
         ),
@@ -52,6 +50,8 @@ class _FriendsState extends State<Friends> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButton: Padding(padding:const EdgeInsets.only(bottom:20),child:FloatingActionButton(onPressed: () => askForName(), child: const Icon(Icons.add_reaction_outlined))),
       body: Column(children:[Expanded(child:StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection("users").doc(yourEmail).collection("friends").orderBy("date").snapshots(),
         builder: (context, snapshot) {
@@ -109,8 +109,7 @@ class _FriendsState extends State<Friends> {
             return const Text("");
           }
         }
-      )),
-      TextButton(onPressed: () => askForName(), child: const Text("Add a friend")),
+      ))
       ])
     );
   }

@@ -120,8 +120,7 @@ Widget _entryFieldPassword(){
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius:
-            BorderRadius.circular(10), // Adjust the border radius as needed
+        borderRadius: BorderRadius.circular(10), // Adjust the border radius as needed
       ),
       padding: const EdgeInsets.all(20),
       child: Column(
