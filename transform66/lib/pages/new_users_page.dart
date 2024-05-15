@@ -9,7 +9,7 @@ class StartedPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(child:Text('Transform66')),
+        title: const Center(child: Text('Transform66')),
         backgroundColor: Colors.teal,
       ),
       body: Column(
@@ -71,56 +71,67 @@ class StartedPage extends StatelessWidget {
     );
   }
 
-  void _showAboutDialog(BuildContext context) {
+ void _showAboutDialog(BuildContext context) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
-      if (kIsWeb) {
-        return AlertDialog(
+      return AlertDialog(
         title: const Text("About Us"),
-        content: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                "Transform 66 is a revolutionary application designed to catalyze personal growth and habit formation with its origins rooted in the understanding that it takes approximately 66 days to solidify a new habit.\n\n"
-                "At its core, Transform 66 is more than just a productivity tool—it's a companion on the journey towards self-improvement. By providing a structured platform and a nurturing community, Transform 66 empowers individuals to set meaningful goals and stay committed to them over the course of 66 days.\n\n"
-                "Whether you're striving to enhance your health, develop new skills, or cultivate positive habits, Transform 66 is here to support you every step of the way. Join the Transform 66 community and unlock your full potential today.\n\n"
-                "Developers\n\n",
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  _buildDeveloperInfo(
-                    '../assets/images/Riva.jpg',
-                    'Riva Kansakar',
-                    'Riva Kansakar is a computer science and business administration major.',
-                  ),
-                  const SizedBox(width: 20),
-                  _buildDeveloperInfo(
-                    '../assets/images/Stuti.jpg',
-                    'Stuti Shrestha',
-                    'Stuti Shrestha is a computer science, data science and data analytics major.',
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Row(
-                children: [
-                  _buildDeveloperInfo(
-                    '../assets/images/Jack.jpg',
-                    'Jack Brandt',
-                    'Jack Brandt is a computer science major.',
-                  ),
-                  const SizedBox(width: 20),
-                  _buildDeveloperInfo(
-                    '../assets/images/Leandra.jpg',
-                    'Leandra Gottschalk',
-                    'Leandra Gottschalk is a computer science and data analytics major.',
-                  ),
-                ],
-              ),
-            ],
+        content: SizedBox(
+          // Set a fixed height to make the content scrollable if it exceeds this height
+          height: MediaQuery.of(context).size.height * 0.6,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "Transform 66 is a revolutionary application designed to catalyze personal growth and habit formation with its origins rooted in the understanding that it takes approximately 66 days to solidify a new habit.\n\n"
+                  "At its core, Transform 66 is more than just a productivity tool—it's a companion on the journey towards self-improvement. By providing a structured platform and a nurturing community, Transform 66 empowers individuals to set meaningful goals and stay committed to them over the course of 66 days.\n\n"
+                  "Whether you're striving to enhance your health, develop new skills, or cultivate positive habits, Transform 66 is here to support you every step of the way. Join the Transform 66 community and unlock your full potential today.\n\n"
+                  "Developers\n\n",
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildDeveloperInfo(
+                        'assets/images/Riva.jpg',
+                        'Riva Kansakar',
+                        'Riva Kansakar is a computer science and business administration major.',
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    Expanded(
+                      child: _buildDeveloperInfo(
+                        'assets/images/Stuti.jpg',
+                        'Stuti Shrestha',
+                        'Stuti Shrestha is a computer science, data science and data analytics major.',
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildDeveloperInfo(
+                        'assets/images/Jack.jpg',
+                        'Jack Brandt',
+                        'Jack Brandt is a computer science and German major.',
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    Expanded(
+                      child: _buildDeveloperInfo(
+                        'assets/images/Leandra.jpg',
+                        'Leandra Gottschalk',
+                        'Leandra Gottschalk is a computer science and data analytics major.',
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
         actions: <Widget>[
@@ -132,50 +143,30 @@ class StartedPage extends StatelessWidget {
           ),
         ],
       );
-      }
-      else {
-        return const AlertDialog(
-        title: Text("About Us"),
-        content: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Transform 66 is a revolutionary application designed to catalyze personal growth and habit formation with its origins rooted in the understanding that it takes approximately 66 days to solidify a new habit.\n\n"
-                "At its core, Transform 66 is more than just a productivity tool—it's a companion on the journey towards self-improvement. By providing a structured platform and a nurturing community, Transform 66 empowers individuals to set meaningful goals and stay committed to them over the course of 66 days.\n\n"
-                "Whether you're striving to enhance your health, develop new skills, or cultivate positive habits, Transform 66 is here to support you every step of the way. Join the Transform 66 community and unlock your full potential today.\n\n"
-                "Developers\n\n",
-              )])));
-      }
-      
     },
   );
 }
 
 Widget _buildDeveloperInfo(String imagePath, String name, String description) {
-  return Expanded(
-    child: Column(
-      children: [
-        Image.asset(
-          imagePath,
-          width: 100,
-          height: 100,
-          fit: BoxFit.cover,
-        ),
-        const SizedBox(height: 10),
-        Text(
-          name,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 5),
-        Text(
-          description,
-          textAlign: TextAlign.center,
-        ),
-      ],
-    ),
+  return Column(
+    children: [
+      Image.asset(
+        imagePath,
+        width: 100,
+        height: 100,
+        fit: BoxFit.cover,
+      ),
+      const SizedBox(height: 10),
+      Text(
+        name,
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
+      const SizedBox(height: 5),
+      Text(
+        description,
+        textAlign: TextAlign.center,
+      ),
+    ],
   );
 }
-
-
 }
