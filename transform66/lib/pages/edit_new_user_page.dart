@@ -49,6 +49,7 @@ class _EditNewUserPageState extends State<EditNewUserPage> {
           Expanded(
             child: Scrollbar(
               child: SingleChildScrollView(
+                primary: true,
                 child: SizedBox(
                   width: 950,
                   child: Column(

@@ -1,7 +1,11 @@
+// ignore_for_file: must_be_immutable, library_private_types_in_public_api
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/firestore_actions/tasks_firestore.dart';
+
+import 'package:transform66/firestore_actions/feed_firestore.dart';
 
 class ProgressPage extends StatefulWidget {
   const ProgressPage({super.key});
@@ -11,7 +15,7 @@ class ProgressPage extends StatefulWidget {
 }
 
 class _ProgressPageState extends State<ProgressPage> {
-  final TasksFirestoreService tfs = TasksFirestoreService();
+  //final TasksFirestoreService tfs = TasksFirestoreService();
   final String yourEmail = FirebaseAuth.instance.currentUser!.email!;
   final db = FirebaseFirestore.instance;
 
@@ -44,7 +48,7 @@ class _ProgressPageState extends State<ProgressPage> {
                   stream: FirebaseFirestore.instance
                       .collection("users")
                       .doc(FirebaseAuth.instance.currentUser!.email!)
-                      .collection("dates")
+                      .collection("tasks")
                       .orderBy("taskName")
                       .snapshots(),
                   builder: (context, snapshot) {
@@ -87,6 +91,44 @@ class TaskCompletionWidget extends StatefulWidget {
 
 class _TaskCompletionWidgetState extends State<TaskCompletionWidget> {
   final TasksFirestoreService tfs = TasksFirestoreService();
+  final FeedFirestoreService ffs = FeedFirestoreService();
+
+  void _taskCompletionPopUp(){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Task Completed"),
+          content: const Text("Congratulations! You've completed a task!\nWould you like to share this achievement with your friends?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                ffs.addPostPrivate(FirebaseAuth.instance.currentUser!.email!, widget.taskName);
+                Navigator.of(context).pop();
+              },
+              child: const Text("Keep Private")
+            ),
+            TextButton(
+              onPressed: () {
+                ffs.addPostPrivate(FirebaseAuth.instance.currentUser!.email!, widget.taskName);
+                ffs.addPostPublic(FirebaseAuth.instance.currentUser!.email!, widget.taskName);
+                Navigator.of(context).pop();
+              },
+              child: const Text("Share")
+            ),
+            TextButton(
+              onPressed: () {
+                tfs.updateTask(widget.taskName, false);
+                Navigator.of(context).pop();
+              },
+              child: const Text("Cancel")
+            )
+          ]
+        );
+      }
+    );
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +144,7 @@ class _TaskCompletionWidgetState extends State<TaskCompletionWidget> {
                 widget.isCompleted = value!;
                 if (value) {
                   tfs.updateTask(widget.taskName, true);
+                  _taskCompletionPopUp();
                 } else {
                   tfs.updateTask(widget.taskName, false);
                 }
