@@ -19,14 +19,16 @@ class FeedFirestoreService {
     var userName = currentUser.split('@')[0];
     FirebaseFirestore.instance.collection("users").doc(friend).collection("feed").doc().set({
       "date": Timestamp.now(),
-      "message": "$userName wants to remind you that you've got this!"
+      "message": "$userName wants to remind you that you've got this!",
+      "isLiked": false
     });
   }
 
   Future<void> addPostPrivate(String currentUser, taskName) async {
     FirebaseFirestore.instance.collection("users").doc(currentUser).collection("feed").doc().set({
       "date": Timestamp.now(),
-      "message": "You have completed the task: $taskName"
+      "message": "You have completed the task: $taskName",
+      "isLiked": false
     });
   }
 
@@ -35,7 +37,8 @@ class FeedFirestoreService {
     for (String friend in friendsList) {
       FirebaseFirestore.instance.collection("users").doc(friend).collection("feed").doc().set({
         "date": Timestamp.now(),
-        "message": "$currentUser has completed the task: $taskName"
+        "message": "$currentUser has completed the task: $taskName",
+        "isLiked": false
       });
     }
   }
