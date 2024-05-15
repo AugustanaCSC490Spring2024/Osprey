@@ -6,7 +6,7 @@ class FeedFirestoreService {
   final CollectionReference personalFeed = FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.email).collection("personalFeed");
   final CollectionReference friendsFeed = FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.email).collection("friendsFeed");
   final CollectionReference friends = FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.email).collection("friends");
-
+  
   Future<List<String>> getFriendsList() async {
     List<String> friendList = [];
     QuerySnapshot querySnapshot = await friends.get();
@@ -35,10 +35,11 @@ class FeedFirestoreService {
 
   Future<void> addPostPublic(String currentUser, taskName) async {
     var friendsList = await getFriendsList();
+    var userName = currentUser.split('@')[0];
     for (String friend in friendsList) {
       FirebaseFirestore.instance.collection("users").doc(friend).collection("friendsFeed").doc().set({
         "date": Timestamp.now(),
-        "message": "$currentUser has completed the task: $taskName",
+        "message": "$userName has completed the task: $taskName",
         "isLiked": false
       });
     }
