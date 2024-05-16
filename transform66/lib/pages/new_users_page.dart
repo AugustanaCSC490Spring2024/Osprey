@@ -123,6 +123,19 @@ class StartedPage extends StatelessWidget {
                     ),
                   ],
                 ),
+                const Text(
+                  "\n\nImage credits\n"
+                  "The images used in this application are from the following sources:\n"
+                  "Photo by Nik on Unsplash, Photo by Cristofer Maximilian on Unsplash, Photo by Fab Lentz on Unsplash, " 
+                  "Photo by Mika Baumeister on Unsplash, Photo by Randy Tarampi on Unsplash, Photo by Drew Beamer on Unsplash, "
+                  "Photo by Olena Bohovyk on Unsplash, Photo by Prateek Katyal on Unsplash, Photo by Nathan Dumlao on Unsplash, "
+                  "Photo by Manasvita S on Unsplash, Photo by Aman Upadhyay on Unsplash, Photo by Brigitte Tohm on Unsplash, "
+                  "Photo by Jason Dent on Unsplash, Photo by Ray Hennessy on Unsplash, Photo by Patti Black on Unsplash, "
+                  "Photo by Kier in Sight Archives on Unsplash, Photo by Georgia de Lotz on Unsplash, Photo by Ethan Hoover on Unsplash, "
+                  "Photo by Luca Upper on Unsplash, Photo by Austin Park on Unsplash, Photo by Let's go Together on Unsplash, "
+                  "Photo by Jason Leung on Unsplash",
+                ),
+                const SizedBox(height: 10),
               ],
             ),
           ),
