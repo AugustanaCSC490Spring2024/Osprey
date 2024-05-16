@@ -25,26 +25,42 @@ class _ProgressPageState extends State<ProgressPage> {
     return Scaffold(
         resizeToAvoidBottomInset: true,
         body: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-          Image.asset('assets/images/Transform66.png', height: 110),
-          const SizedBox(height:50),
-          StreamBuilder<DocumentSnapshot<Map<String,dynamic>>> (
-            stream: db.collection("users").doc(yourEmail).snapshots(),
-            builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
-              if (snapshot.hasError) {
-                return const Text('Something went wrong');
-              }
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Text("Loading");
-              }
-              Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
-              int dayDifference = (DateTime.now().difference(data["first_day"].toDate()).inHours/24).round();
-              return Text("Day $dayDifference",style: const TextStyle(fontSize: 16));
-            }
-          ),
-          const SizedBox(height:50),
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset('assets/images/Transform66.png', height: 110),
+              const SizedBox(height: 50),
+              StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                  stream: db.collection("users").doc(yourEmail).snapshots(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>>
+                          snapshot) {
+                    if (snapshot.hasError) {
+                      return const Text('Something went wrong');
+                    }
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Text("Loading");
+                    }
+                    Map<String, dynamic> data =
+                        snapshot.data!.data() as Map<String, dynamic>;
+                    int dayDifference = (DateTime.now()
+                                .difference(data["first_day"].toDate())
+                                .inHours /
+                            24)
+                        .round();
+                    return Text(
+                      "Day $dayDifference",
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        fontStyle: FontStyle.italic,
+                        fontFamily: "Arial",
+                        color: Colors.teal,
+                        letterSpacing: 1.2,
+                      ),
+                    );
+                  }),
+              const SizedBox(height: 50),
               StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection("users")
@@ -72,7 +88,7 @@ class _ProgressPageState extends State<ProgressPage> {
                       return const Text("Loading...");
                     }
                   })
-        ]));
+            ]));
   }
 }
 
@@ -94,52 +110,55 @@ class _TaskCompletionWidgetState extends State<TaskCompletionWidget> {
   final TasksFirestoreService tfs = TasksFirestoreService();
   final FeedFirestoreService ffs = FeedFirestoreService();
 
-  void _taskCompletionPopUp(){
+  void _taskCompletionPopUp() {
     showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Task Completed"),
-          content: const Text("Congratulations! You've completed a task!\nWould you like to share this achievement with your friends?"),
-          actions: [
-            TextButton(
-              onPressed: () {
-                var randomInt = Random().nextInt(10) + 1;
-                ffs.addPostPrivate(FirebaseAuth.instance.currentUser!.email!, widget.taskName, randomInt);
-                Navigator.of(context).pop();
-              },
-              child: const Text("Keep Private")
-            ),
-            TextButton(
-              onPressed: () {
-                var randomInt = Random().nextInt(10) + 1;
-                ffs.addPostPrivate(FirebaseAuth.instance.currentUser!.email!, widget.taskName, randomInt);
-                ffs.addPostPublic(FirebaseAuth.instance.currentUser!.email!, widget.taskName, randomInt);
-                Navigator.of(context).pop();
-              },
-              child: const Text("Share")
-            ),
-            TextButton(
-              onPressed: () {
-                tfs.updateTask(widget.taskName, false);
-                Navigator.of(context).pop();
-              },
-              child: const Text("Cancel")
-            )
-          ]
-        );
-      }
-    );
-
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: const Text("Task Completed"),
+              content: const Text(
+                  "Congratulations! You've completed a task!\nWould you like to share this achievement with your friends?"),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      var randomInt = Random().nextInt(10) + 1;
+                      ffs.addPostPrivate(
+                          FirebaseAuth.instance.currentUser!.email!,
+                          widget.taskName,
+                          randomInt);
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("Keep Private")),
+                TextButton(
+                    onPressed: () {
+                      var randomInt = Random().nextInt(10) + 1;
+                      ffs.addPostPrivate(
+                          FirebaseAuth.instance.currentUser!.email!,
+                          widget.taskName,
+                          randomInt);
+                      ffs.addPostPublic(
+                          FirebaseAuth.instance.currentUser!.email!,
+                          widget.taskName,
+                          randomInt);
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("Share")),
+                TextButton(
+                    onPressed: () {
+                      tfs.updateTask(widget.taskName, false);
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("Cancel"))
+              ]);
+        });
   }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 350,
-      height: 50,
-      child: Row(
-        children: [
+        width: 350,
+        height: 50,
+        child: Row(children: [
           Checkbox(
             value: widget.isCompleted,
             onChanged: (value) {
@@ -155,19 +174,15 @@ class _TaskCompletionWidgetState extends State<TaskCompletionWidget> {
             },
           ),
           Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                 Text(
                   widget.taskName,
                   style: const TextStyle(color: Colors.black),
                 )
-              ]
-            )
-          )
-        ]
-      )
-    );
+              ]))
+        ]));
   }
 }
