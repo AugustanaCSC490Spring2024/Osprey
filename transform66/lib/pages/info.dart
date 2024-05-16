@@ -46,19 +46,25 @@ class _InfoState extends State<Info> {
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.white,
+                      color: Colors
+                          .teal, // Set the background color for the circle
                     ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: const Image(
-                        image: AssetImage("assets/images/Transform66.png"),
+                    child: Center(
+                      child: Text(
+                        userName
+                            .substring(0, 1)
+                            .toUpperCase(), // Get the first initial and capitalize it
+                        style: TextStyle(
+                          fontSize: 48, // Adjust the font size as needed
+                          color: Colors.white, // Set the text color to white
+                        ),
                       ),
                     ),
                   ),
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  userName, 
+                  userName,
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 20),
@@ -67,19 +73,19 @@ class _InfoState extends State<Info> {
                   builder:
                       (BuildContext context, AsyncSnapshot<DateTime> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator(); 
+                      return CircularProgressIndicator();
                     } else if (snapshot.hasData) {
                       String formattedDate =
                           '${snapshot.data!.month}-${snapshot.data!.day}-${snapshot.data!.year}';
                       return Text(
                         'Start Date: $formattedDate',
                         style: TextStyle(fontSize: 16),
-                      ); 
+                      );
                     } else {
                       return Text(
                         'No start date available',
                         style: TextStyle(fontSize: 16),
-                      ); 
+                      );
                     }
                   },
                 ),
