@@ -39,18 +39,12 @@ class _PersonalFeedWidgetState extends State<PersonalFeedWidget> {
               ])
         ],),
         const SizedBox(height: 5),
-        // SizedBox(
-        //   width:100,
-        //   height:100,
-        //   child:Image(image: AssetImage("${widget.imagePath}${widget.imageType}.jpg"))),
         Image.asset(
-          // "assets/images/Riva.jpg",
         "assets/${widget.imagePath}${widget.imageType}.jpg",
         width: 300,
         height: 300,
         fit: BoxFit.cover,
       ),
-      // Text("${widget.imagePath}${widget.imageType}.jpg"),
         const SizedBox(height: 5),
       ]),
     ));

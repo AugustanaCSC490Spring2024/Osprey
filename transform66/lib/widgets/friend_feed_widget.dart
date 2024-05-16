@@ -30,6 +30,7 @@ class _FriendFeedWidgetState extends State<FriendFeedWidget> {
   final FeedFirestoreService ffs2 = FeedFirestoreService();
 
   @override
+  @override
   Widget build(BuildContext context) {
     return Card(child: Padding(padding: const EdgeInsets.all(10),child: 
       Column(children: [
@@ -42,12 +43,12 @@ class _FriendFeedWidgetState extends State<FriendFeedWidget> {
               ])
         ],),
         const SizedBox(height: 5),
-        // SizedBox(
-        //   width:100,
-        //   height:100,
-        //   child: SingleChildScrollView(
-        //     child: Image(image: AssetImage("${widget.imagePath}${widget.imageType}.jpg"))
-        //     )),
+        Image.asset(
+        "assets/${widget.imagePath}${widget.imageType}.jpg",
+        width: 300,
+        height: 300,
+        fit: BoxFit.cover,
+      ),
         const SizedBox(height: 5),
       ]),
     ));
