@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:transform66/auth.dart';
 import 'package:transform66/firestore_actions/info_firestore.dart';
 import 'package:transform66/pages/login_register_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Info extends StatefulWidget {
   const Info({Key? key}) : super(key: key);
 
@@ -13,6 +15,18 @@ class Info extends StatefulWidget {
 class _InfoState extends State<Info> {
   final String yourEmail = FirebaseAuth.instance.currentUser!.email!;
   final InfoFirestoreService ifs = InfoFirestoreService();
+
+  Future<DateTime> fetchStartDate() async {
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(yourEmail)
+        .get();
+    if (snapshot.exists) {
+      return (snapshot.data() as Map<String, dynamic>)['first_day'].toDate();
+    } else {
+      return DateTime.now();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,16 +58,30 @@ class _InfoState extends State<Info> {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  userName, // Display user's name extracted from email
-                  style: Theme.of(context).textTheme.headline4,
+                  userName, 
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 20),
-                SizedBox(
-                  width: 200,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text("Edit Profile"),
-                  ),
+                FutureBuilder(
+                  future: fetchStartDate(),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<DateTime> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator(); 
+                    } else if (snapshot.hasData) {
+                      String formattedDate =
+                          '${snapshot.data!.month}-${snapshot.data!.day}-${snapshot.data!.year}';
+                      return Text(
+                        'Start Date: $formattedDate',
+                        style: TextStyle(fontSize: 16),
+                      ); 
+                    } else {
+                      return Text(
+                        'No start date available',
+                        style: TextStyle(fontSize: 16),
+                      ); 
+                    }
+                  },
                 ),
               ],
             ),
@@ -68,7 +96,8 @@ class _InfoState extends State<Info> {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: const Text("Confirm log out?", style: TextStyle(fontSize: 16)),
+                    title: const Text("Confirm log out?",
+                        style: TextStyle(fontSize: 16)),
                     actions: [
                       TextButton(
                         onPressed: () {
@@ -103,7 +132,8 @@ class _InfoState extends State<Info> {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: const Text("Confirm delete?", style: TextStyle(fontSize: 16)),
+                    title: const Text("Confirm delete?",
+                        style: TextStyle(fontSize: 16)),
                     actions: [
                       TextButton(
                         onPressed: () {
@@ -157,4 +187,3 @@ class ProfileMenuWidget extends StatelessWidget {
     );
   }
 }
-
