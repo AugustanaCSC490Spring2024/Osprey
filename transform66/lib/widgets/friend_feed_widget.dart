@@ -38,14 +38,16 @@ class _FriendFeedWidgetState extends State<FriendFeedWidget> {
           const SizedBox(width: 10),
           Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text(widget.userName, style: const TextStyle(fontSize: 16, color: Colors.black)),
-                Text(widget.message, style: const TextStyle(fontSize: 18, color: Colors.black)),
+                Text(widget.message.substring(0,8), style: const TextStyle(fontSize: 18, color: Colors.black)),
               ])
         ],),
         const SizedBox(height: 5),
-        SizedBox(
-          width:300,
-          height:300,
-          child: Image(image: AssetImage("${widget.imagePath}${widget.imageType}.jpg"))),
+        // SizedBox(
+        //   width:100,
+        //   height:100,
+        //   child: SingleChildScrollView(
+        //     child: Image(image: AssetImage("${widget.imagePath}${widget.imageType}.jpg"))
+        //     )),
         const SizedBox(height: 5),
       ]),
     ));

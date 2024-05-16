@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/firestore_actions/feed_firestore.dart';
 
@@ -34,14 +35,22 @@ class _PersonalFeedWidgetState extends State<PersonalFeedWidget> {
           const SizedBox(width: 10),
           Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text(widget.userName, style: const TextStyle(fontSize: 16, color: Colors.black)),
-                Text(widget.message, style: const TextStyle(fontSize: 18, color: Colors.black)),
+                Text(widget.message.substring(0,8), style: const TextStyle(fontSize: 18, color: Colors.black)),
               ])
         ],),
         const SizedBox(height: 5),
-        SizedBox(
-          width:300,
-          height:300,
-          child: Image(image: AssetImage("${widget.imagePath}${widget.imageType}.jpg"))),
+        // SizedBox(
+        //   width:100,
+        //   height:100,
+        //   child:Image(image: AssetImage("${widget.imagePath}${widget.imageType}.jpg"))),
+        Image.asset(
+          // "assets/images/Riva.jpg",
+        "assets/${widget.imagePath}${widget.imageType}.jpg",
+        width: 300,
+        height: 300,
+        fit: BoxFit.cover,
+      ),
+      // Text("${widget.imagePath}${widget.imageType}.jpg"),
         const SizedBox(height: 5),
       ]),
     ));
