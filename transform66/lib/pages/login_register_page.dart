@@ -156,6 +156,7 @@ Widget _errorMessage() {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: null,
       body: Stack(
         children: [
