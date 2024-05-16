@@ -28,7 +28,7 @@ class StartedPage extends StatelessWidget {
                 ),
               ),
             
-            const Text("Click the button below to choose your tasks. Choose a couple of tasks that you want to commit to for 66 days. You can also add custom tasks.\n\nRemember that if you miss a day you will be taken back to day 1, so don't forget to do your tasks and mark them done by 11:59 pm each day.",
+            const Text("Click the button below to choose your tasks. Choose a couple of tasks that you want to commit to for 66 days. You can also add custom tasks.\n\nRemember that if you miss a day you will be taken back to day 1, so don't forget to do your tasks and mark them done by 11:59 pm.",
                 style: TextStyle(fontSize: 16),
                 textAlign: TextAlign.center,
                 ),
