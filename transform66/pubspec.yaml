@@ -69,6 +69,28 @@ flutter:
     - assets/images/Stuti.jpg
     - assets/images/Jack.jpg
     - assets/images/Leandra.jpg
+    - assets/images/feedImages/c1.jpg
+    - assets/images/feedImages/c2.jpg
+    - assets/images/feedImages/c3.jpg
+    - assets/images/feedImages/c4.jpg
+    - assets/images/feedImages/c5.jpg
+    - assets/images/feedImages/c6.jpg
+    - assets/images/feedImages/c7.jpg
+    - assets/images/feedImages/c8.jpg
+    - assets/images/feedImages/c9.jpg
+    - assets/images/feedImages/c10.jpg
+    - assets/images/feedImages/m1.jpg
+    - assets/images/feedImages/m2.jpg
+    - assets/images/feedImages/m3.jpg
+    - assets/images/feedImages/m4.jpg
+    - assets/images/feedImages/m5.jpg
+    - assets/images/feedImages/m6.jpg
+    - assets/images/feedImages/m7.jpg
+    - assets/images/feedImages/m8.jpg
+    - assets/images/feedImages/m9.jpg
+    - assets/images/feedImages/m10.jpg
+    - assets/images/feedImages/m11.jpg
+    - assets/images/feedImages/m12.jpg
 
   # To add assets to your application, add an assets section, like this:
   # assets:
