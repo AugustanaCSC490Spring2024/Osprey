@@ -20,35 +20,41 @@ class _LoginPageState extends State<LoginPage> {
   bool isLogin = true;
 
   Future<void> signInWithEmailAndPassword() async {
-    try {
-      UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _controllerEmail.text,
-        password: _controllerPassword.text,
-      );
+  try {
+    UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: _controllerEmail.text,
+      password: _controllerPassword.text,
+    );
 
-      User? user = userCredential.user;
-      if (user != null && user.emailVerified) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => PageViewHelper(),
-          ),
-        );
-      } else {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => VerifyEmailPage(),
-          ),
-        );
-      }
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        errorMessage = e.message;
-      });
+    User? user = userCredential.user;
+    if (user != null && user.emailVerified) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PageViewHelper(),
+        ),
+      );
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => VerifyEmailPage(),
+        ),
+      );
     }
+  } on FirebaseAuthException catch (e) {
+    setState(() {
+      print(e.code);
+      if (e.code == 'invalid-credential') {
+        
+        errorMessage = 'Password/email incorrect';
+      } else {
+        errorMessage = e.message;
+      }
+    });
   }
+}
 
   Future<void> createUserWithEmailAndPassword() async {
     try {
