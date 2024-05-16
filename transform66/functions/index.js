@@ -23,30 +23,48 @@ const admin = require('firebase-admin');
 
 admin.initializeApp(functions.config().firebase);
 
-// Every day just after midnight, update day
+const db = admin.firestore();
+
 exports.newDay = functions.pubsub.schedule('* * * * *').timeZone('America/Chicago').onRun(async (context) => {
-    admin.firestore().collection("users").get().then(snapshot => {
+    db.collection("users").get().then(async snapshot => {
         snapshot.forEach(doc => {
+            var email = doc.id;
             var userCompletedToday = doc.data().completed_today;
-            const userRef = firestore.ref("users/"+doc.id);
-            userRef.update({"completed_yesterday":userCompletedToday});
-            userRef.update({"completed_today":0});
+            var userCompletedYesterday = doc.data().completed_yesterday;
+            var userDay = doc.data().day;
+            var userTarget = doc.data().target;
+            if (userCompletedYesterday!=userTarget) {
+                db.collection("users").doc(email).update({"status":"fail"});
+            }
+            else if (userDay==2) {
+                db.collection("users").doc(email).update({"status":"success"});
+            }
+            db.collection("users").doc(email).collection("tasks").get().then(snapshot => {
+                snapshot.forEach(doc => {
+                    var task = doc.id;
+                    db.collection("users").doc(email).collection("tasks").doc(task).update({"isCompleted":false});
+                })
+            });
+            db.collection("users").doc(email).update({"completed_yesterday":userCompletedToday,"completed_today":0,"day":admin.firestore.FieldValue.increment(1)});
         })
     });
-    return null;
 });
 
-// Every day at 11 pm, send an email
-exports.sendReminder = functions.pubsub.schedule('0 23 * * *').timeZone('America/Chicago').onRun(async (context) => {
-    admin.firestore().collection("users").get().then(snapshot => {
+exports.sendReminder = functions.pubsub.schedule('* * * * *').timeZone('America/Chicago').onRun(async (context) => {
+    db.collection("mail").listDocuments().then(val => {
+        val.map((val) => {
+            val.delete();
+        })
+    });
+    db.collection("users").get().then(snapshot => {
         snapshot.forEach(doc => {
             var email = doc.id;
             var userCompletedToday = doc.data().completed_today;
             var userTarget = doc.data().target;
-            if (userCompletedToday!=userTarget) {
-                admin.firestore().collection("mail").add({"to":[email],"message":{"subject":"Reminder","text":"Don't forget to do your tasks!"}});
+            var userEmailMe = doc.data().emailMe;
+            if (userCompletedToday!=userTarget&&userEmailMe) {
+                db.collection("mail").add({"to":[email],"message":{"subject":"Reminder","text":"Don't forget to do your tasks!"}});
             }
         })
     });
-    return null;
 });

@@ -43,14 +43,10 @@ class _ProgressPageState extends State<ProgressPage> {
                     }
                     Map<String, dynamic> data =
                         snapshot.data!.data() as Map<String, dynamic>;
-                    int dayDifference = (DateTime.now()
-                                .difference(data["first_day"].toDate())
-                                .inHours /
-                            24)
-                        .round()+1;
+                    int dayDifference = data["day"]!;
                     return Text(
                       "Day $dayDifference",
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                         fontStyle: FontStyle.italic,
