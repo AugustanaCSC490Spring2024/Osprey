@@ -189,7 +189,7 @@ Widget _errorMessage() {
                     const Text("|"),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushReplacement(
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => ForgotPasswordPage(),
