@@ -28,6 +28,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       );
     }
   }
+
   @override
   void dispose() {
     timer?.cancel();
@@ -50,59 +51,50 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
   Future<void> checkEmailVerified() async {
     await FirebaseAuth.instance.currentUser!.reload();
-    setState((){
-      _isEmailVerified=FirebaseAuth.instance.currentUser!.emailVerified;
-    }
-    );
+    setState(() {
+      _isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+    });
     if (_isEmailVerified) timer?.cancel();
   }
 
-    void startEmailVerificationCheck() {
+  void startEmailVerificationCheck() {
     timer = Timer.periodic(
       Duration(seconds: 3), // You can adjust the interval as needed
       (_) => checkEmailVerified(),
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
-  return _isEmailVerified
-      ? StartedPage()
-      : Scaffold(
-          appBar: AppBar(
-            backgroundColor: Color.fromRGBO(144, 195, 200, 1)
-            // leading: IconButton(
-            //   icon: Icon(Icons.arrow_back),
-            //   onPressed: () {
-            //     Navigator.of(context).pushReplacement(
-            //       MaterialPageRoute(
-            //         builder: (context) => LoginPage(),
-            //       ),
-            //     );
-            //   },
-            // ),
-          ),
-          body: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "A verification email has been sent to ${FirebaseAuth.instance.currentUser!.email}",
-                    style: TextStyle(fontSize: 20),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 16),
-                  ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: Size.fromHeight(50),
+    return _isEmailVerified
+        ? StartedPage()
+        : Scaffold(
+            appBar: AppBar(
+                title: const Center(child:Text(
+                  'Transform66',
+                  style: TextStyle(color: Colors.black, fontSize: 24),
+                )),
+                backgroundColor: Colors.teal),
+            body: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "A verification email has been sent to ${FirebaseAuth.instance.currentUser!.email}",
+                      style: TextStyle(fontSize: 20),
+                      textAlign: TextAlign.center,
                     ),
-                    icon: Icon(Icons.email, size: 32),
-                    label: Text('Resend Email'),
-                    onPressed: canResendEmail ? sendVerificationEmail : null,
-                  ),
-                ],
-              )));
+                    const SizedBox(height: 16),
+                    ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size.fromHeight(50),
+                      ),
+                      icon: Icon(Icons.email, size: 32),
+                      label: Text('Resend Email'),
+                      onPressed: canResendEmail ? sendVerificationEmail : null,
+                    ),
+                  ],
+                )));
   }
 }

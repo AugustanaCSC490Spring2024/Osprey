@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/widget_tree.dart';
-import 'firebase_options.dart';
 
+import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,11 +19,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Color.fromRGBO(144, 195, 200, 1),
+        scaffoldBackgroundColor: Color.fromRGBO(144, 195, 200, 1)
       ),
-      home: const WidgetTree(),
+      home: const WidgetTree()
     );
   }
 }
-

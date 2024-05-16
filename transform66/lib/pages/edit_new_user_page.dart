@@ -2,10 +2,26 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/firestore_actions/tasks_firestore.dart';
-import 'package:transform66/page_view.dart';
+import 'package:transform66/pages/page_view.dart';
 
-class EditNewUserPage extends StatelessWidget {
-  const EditNewUserPage({Key? key}) : super(key: key);
+class EditNewUserPage extends StatefulWidget {
+  const EditNewUserPage({super.key});
+
+  @override
+  _EditNewUserPageState createState() => _EditNewUserPageState();
+}
+
+class _EditNewUserPageState extends State<EditNewUserPage> {
+  List<String> selectedTasks = [];
+  List<String> tasks = [
+    'Drink 1 gallon of Water',
+    'Read 10 pages of a book',
+    '45 min gym session',
+    '3 pages of creative writing',
+    '20 mins outdoor walk',
+    '15 mins walk your pet',
+    '10 mins self reflection',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -13,13 +29,11 @@ class EditNewUserPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Transform66',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 24
-          ),
+          style: TextStyle(color: Colors.black, fontSize: 24),
         ),
-        backgroundColor: Colors.teal
+        backgroundColor: Colors.teal,
       ),
+
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -28,42 +42,24 @@ class EditNewUserPage extends StatelessWidget {
               padding: EdgeInsets.all(8.0),
               child: Text(
                 'Choose tasks you will commit to for 66 days:',
-                style: TextStyle(
-                  fontSize: 16,
-                ),
+                style: TextStyle(fontSize: 16),
               ),
             ),
           ),
-          const Expanded(
+          Expanded(
             child: Scrollbar(
               child: SingleChildScrollView(
+                primary: true,
                 child: SizedBox(
                   width: 950,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TaskWidget(
-                        taskName: 'Drink 1 gallon of Water',
-                      ),
-                      TaskWidget(
-                        taskName: 'Read 10 pages of a non-fiction book',
-                      ),
-                      TaskWidget(
-                        taskName: '45 min outdoor exercise',
-                      ),
-                      TaskWidget(
-                        taskName: '3 pages of creative writing',
-                      ),
-                      TaskWidget(
-                        taskName: '10 mins outdoor walk',
-                      ),
-                      TaskWidget(
-                        taskName: '15 mins walk your pet',
-                      ),
-                      TaskWidget(
-                        taskName: '20 mins self reflection',
-                      ),
-                    ],
+                    children: tasks
+                        .map((taskName) => TaskWidget(
+                              taskName: taskName,
+                              onSelectionChanged: _onSelectionChanged,
+                            ))
+                        .toList(),
                   ),
                 ),
               ),
@@ -72,12 +68,10 @@ class EditNewUserPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextButton(
-              onPressed: () {},
+              onPressed: () => _showAddTaskDialog(context),
               style: ButtonStyle(
                 textStyle: MaterialStateProperty.all(
-                  const TextStyle(
-                    fontSize: 10,
-                  ),
+                  const TextStyle(fontSize: 10),
                 ),
               ),
               child: const Text(
@@ -93,7 +87,7 @@ class EditNewUserPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          if (TaskWidget.selectedTasks.isEmpty) {
+          if (selectedTasks.isEmpty) {
             // Show error message
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
@@ -105,7 +99,7 @@ class EditNewUserPage extends StatelessWidget {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => PageViewHelper(),
+                builder: (context) => const PageViewHelper(),
               ),
             );
           }
@@ -116,29 +110,76 @@ class EditNewUserPage extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
-}
 
-Future<void> addUserDetails() async {
-  List<String> selectedTasks = TaskWidget.selectedTasks;
+  void _showAddTaskDialog(BuildContext context) {
+    String newTaskName = '';
 
-  final TasksFirestoreService tfs = TasksFirestoreService();
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Add new task'),
+          content: TextFormField(
+            onChanged: (value) {
+              newTaskName = value;
+            },
+            decoration: const InputDecoration(
+              hintText: 'Enter task name',
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                if (newTaskName.isNotEmpty) {
+                  setState(() {
+                    tasks.add(newTaskName);
+                  });
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Task added: $newTaskName'),
+                    ),
+                  );
+                }
+              },
+              child: const Text('Add'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
-  tfs.addTasks(selectedTasks);
-  
-  // Add user details to Firestore
-  await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.email).set({
-    'first_day':DateTime.now(),
-    'last_day':DateTime.now().add(const Duration(days: 66)),
-  });
+  void _onSelectionChanged(String taskName, bool isSelected) {
+    setState(() {
+      if (isSelected) {
+        selectedTasks.add(taskName);
+      } else {
+        selectedTasks.remove(taskName);
+      }
+    });
+  }
+
+  Future<void> addUserDetails() async {
+    final TasksFirestoreService tfs = TasksFirestoreService();
+    tfs.addTasks(selectedTasks);
+    await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.email).set({'first_day': DateUtils.dateOnly(DateTime.now()),});
+  }
 }
 
 class TaskWidget extends StatefulWidget {
   final String taskName;
-
-  static List<String> selectedTasks = [];
+  final Function(String, bool) onSelectionChanged;
 
   const TaskWidget({
     required this.taskName,
+    required this.onSelectionChanged,
     Key? key,
   }) : super(key: key);
 
@@ -160,11 +201,7 @@ class _TaskWidgetState extends State<TaskWidget> {
             onTap: () {
               setState(() {
                 _isSelected = !_isSelected;
-                if (_isSelected) {
-                  TaskWidget.selectedTasks.add(widget.taskName);
-                } else {
-                  TaskWidget.selectedTasks.remove(widget.taskName);
-                }
+                widget.onSelectionChanged(widget.taskName, _isSelected);
               });
             },
             tileColor: _isSelected ? Colors.grey[300] : Colors.transparent,
