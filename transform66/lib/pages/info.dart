@@ -23,7 +23,8 @@ class _InfoState extends State<Info> {
         children: [
           Center(
             child:Text(
-              "Logged in as $yourEmail"
+              "Logged in as $yourEmail",
+              style: const TextStyle(fontSize: 16)
             )
           ),
           Row(
@@ -35,74 +36,68 @@ class _InfoState extends State<Info> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        content: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children:[
-                            const Text("Confirm log out?"),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text("No")
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Auth().signOut();
-                                Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const LoginPage()
-                                  ),
-                                  (route) => false
-                                );
-                              },
-                              child: const Text("Yes")
-                            )
-                          ]
-                        )
+                        title: const Text("Confirm log out?", style: TextStyle(fontSize: 16)),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text("No")
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Auth().signOut();
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const LoginPage()
+                                ),
+                                (route) => false
+                              );
+                            },
+                            child: const Text("Yes")
+                          )
+                        ]
                       );
                     }
                   );
                 },
-                child: const Text("Log out")
+                child: const Text("Log out", style: TextStyle(fontSize: 16))
               ),
-              const Text("|"),
+              const Text("|", style: TextStyle(fontSize: 16)),
               TextButton(
                 onPressed: () {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        content: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children:[
-                            const Text("Confirm delete?"),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text("No")
-                            ),
-                            TextButton(
-                              onPressed: () async {
-                                await ifs.deleteUser();
-                                Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const LoginPage()
-                                  ),
-                                  (route) => false
-                                );
-                              },
-                              child: const Text("Yes")
-                            )
-                          ]
-                        )
+                        title: const Text("Confirm delete?", style: TextStyle(fontSize: 16)),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text("No")
+                          ),
+                          TextButton(
+                            onPressed: () async {
+                              await ifs.deleteUser();
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const LoginPage()
+                                ),
+                                (route) => false
+                              );
+                            },
+                            child: const Text("Yes")
+                          )
+                        ]
                       );
                     }
                   );
                 },
-                child: const Text("Delete my account")
+                child: const Text("Delete my account", style: TextStyle(fontSize: 16))
               )
             ]
           )

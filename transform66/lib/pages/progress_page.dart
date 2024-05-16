@@ -47,7 +47,7 @@ class _ProgressPageState extends State<ProgressPage> {
                                 .difference(data["first_day"].toDate())
                                 .inHours /
                             24)
-                        .round();
+                        .round()+1;
                     return Text(
                       "Day $dayDifference",
                       style: TextStyle(

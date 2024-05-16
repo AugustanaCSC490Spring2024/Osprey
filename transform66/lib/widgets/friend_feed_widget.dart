@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:transform66/firestore_actions/feed_firestore.dart';
 
@@ -45,7 +46,7 @@ class _FriendFeedWidgetState extends State<FriendFeedWidget> {
         SizedBox(
           width:300,
           height:300,
-          child: Image(image: AssetImage("${widget.imagePath}${widget.imageType}.jpg"))),
+          child: kIsWeb ? Image(image: AssetImage("${widget.imagePath}${widget.imageType}.jpg")) : null),
         const SizedBox(height: 5),
       ]),
     ));

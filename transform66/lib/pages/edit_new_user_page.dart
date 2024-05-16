@@ -12,9 +12,13 @@ class EditNewUserPage extends StatefulWidget {
 }
 
 class _EditNewUserPageState extends State<EditNewUserPage> {
+  
+  final String yourEmail = FirebaseAuth.instance.currentUser!.email!;
+  final db = FirebaseFirestore.instance;
+  
   List<String> selectedTasks = [];
   List<String> tasks = [
-    'Drink 1 gallon of Water',
+    'Drink 1 gallon of water',
     'Read 10 pages of a book',
     '45 min gym session',
     '3 pages of creative writing',
@@ -27,25 +31,23 @@ class _EditNewUserPageState extends State<EditNewUserPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Transform66',
-          style: TextStyle(color: Colors.black, fontSize: 24),
-        ),
+        title: const Center(
+          child:Text(
+            "Transform66",
+            style: TextStyle(fontSize: 24)),
+          ),
         backgroundColor: Colors.teal,
       ),
-
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(height:10),
           const Center(
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                'Choose tasks you will commit to for 66 days:',
-                style: TextStyle(fontSize: 16),
-              ),
-            ),
+            child: Text(
+              "Choose tasks you will commit to for 66 days",
+              style: TextStyle(fontSize: 16),
+            )
           ),
+          const SizedBox(height:5),
           Expanded(
             child: Scrollbar(
               child: SingleChildScrollView(
@@ -66,25 +68,20 @@ class _EditNewUserPageState extends State<EditNewUserPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextButton(
+            padding: const EdgeInsets.all(8),
+            child: Row(children:[TextButton(
               onPressed: () => _showAddTaskDialog(context),
               style: ButtonStyle(
                 textStyle: MaterialStateProperty.all(
-                  const TextStyle(fontSize: 10),
-                ),
+                  const TextStyle(fontSize: 16),
+                )
               ),
-              child: const Text(
-                'Edit',
-                style: TextStyle(
-                  color: Colors.black,
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-            ),
-          ),
-        ],
+              child: const Text("Edit")
+            )])
+          )
+        ]
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           if (selectedTasks.isEmpty) {
@@ -106,8 +103,7 @@ class _EditNewUserPageState extends State<EditNewUserPage> {
         },
         backgroundColor: Colors.red,
         child: const Text("Start"),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      )
     );
   }
 
@@ -124,7 +120,7 @@ class _EditNewUserPageState extends State<EditNewUserPage> {
               newTaskName = value;
             },
             decoration: const InputDecoration(
-              hintText: 'Enter task name',
+              labelText: 'Enter task name',
             ),
           ),
           actions: <Widget>[
@@ -169,7 +165,13 @@ class _EditNewUserPageState extends State<EditNewUserPage> {
   Future<void> addUserDetails() async {
     final TasksFirestoreService tfs = TasksFirestoreService();
     tfs.addTasks(selectedTasks);
-    await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.email).set({'first_day': DateUtils.dateOnly(DateTime.now()),});
+    //var progressList = List<List>.generate(66, (i) => List<bool>.generate(selectedTasks.length, (index) => false, growable: false), growable: false);
+    await db.collection('users').doc(yourEmail).set({
+      "first_day": DateUtils.dateOnly(DateTime.now()),
+      "target":selectedTasks.length,
+      "completed_yesterday":selectedTasks.length,
+      "completed_today":0
+      });
   }
 }
 
@@ -194,9 +196,10 @@ class _TaskWidgetState extends State<TaskWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const Divider(),
         SizedBox(
           width: double.infinity,
-          height: 85,
+          height: 70,
           child: ListTile(
             onTap: () {
               setState(() {
@@ -205,19 +208,16 @@ class _TaskWidgetState extends State<TaskWidget> {
               });
             },
             tileColor: _isSelected ? Colors.grey[300] : Colors.transparent,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
             title: Text(
               widget.taskName,
+              textAlign: TextAlign.start,
               style: TextStyle(
-                color: _isSelected ? Colors.black : Colors.black,
-              ),
-            ),
-          ),
-        ),
-        const Divider(), // Horizontal line
-      ],
+                color: _isSelected ? Colors.green : Colors.black,
+              )
+            )
+          )
+        )
+      ]
     );
   }
 }

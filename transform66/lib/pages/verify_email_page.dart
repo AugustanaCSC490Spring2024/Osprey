@@ -69,12 +69,12 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
     return _isEmailVerified
         ? StartedPage()
         : Scaffold(
-            appBar: AppBar(
-                title: const Center(child:Text(
-                  'Transform66',
-                  style: TextStyle(color: Colors.black, fontSize: 24),
-                )),
-                backgroundColor: Colors.teal),
+            // appBar: AppBar(
+            //     title: const Center(child:Text(
+            //       'Transform66',
+            //       style: TextStyle(fontSize: 24)
+            //     )),
+            //     backgroundColor: Colors.teal),
             body: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(

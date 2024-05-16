@@ -7,30 +7,25 @@ class StartedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Center(child: Text('Transform66')),
-        backgroundColor: Colors.teal,
-      ),
-      body: Center(child:SingleChildScrollView(
+      // appBar: AppBar(
+      //   title: const Center(child: Text('Transform66',style: TextStyle(fontSize: 24))),
+      //   backgroundColor: Colors.teal,
+      // ),
+      body: Center(child:Container(height:450,width:375,      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+      ),padding: const EdgeInsets.all(20),child:Center(child:SingleChildScrollView(
         child: Column(
           children: [
             const Padding(
-              padding: EdgeInsets.all(20.0),
+              padding: EdgeInsets.only(left:20,right:20),
               child: Text(
-                "When you click the start Transform66 button, you are directed to customizing your tasks.\n\n"
-                "Choose a couple of tasks that you want to commit to for 66 days.\n\n"
-                "Remember that if you miss a day you will be taken back to day 1, so don't forget to do your tasks and mark them down by 11:59 pm.\n"
-                //"4. Swipe right and you will see Feed to keep yourself updated on what tasks your friends are commiting.\n\n"
-                //"5. Swipe right and you will see Calendar to view your progress. You can see what day you are on and how many days are remaining.\n\n"
-                //"6. Click three dots in the top right corner to sign out, it'll take you back to the login page.\n\n"
-                //"7. If you click Friends icon, you will be directed to a page where you can request your friend. \n\n"
-                //"8. After requesting, your friend will have a notification if they want to accept or reject the invitation.\n\n"
-                //"9. If they accept the friend request, you will be able to message your friend and see them in your feed.\n\n",
-                ,
+                "Click the button below to choose your tasks. Choose a couple of tasks that you want to commit to for 66 days. You can also add custom tasks.\n\nRemember that if you miss a day you will be taken back to day 1, so don't forget to do your tasks and mark them done by 11:59 pm each day.",
                 style: TextStyle(fontSize: 16),
                 textAlign: TextAlign.center,
                 ),
               ),
+            const SizedBox(height:35),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushReplacement(
@@ -41,27 +36,26 @@ class StartedPage extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
-              child: const Padding(
-                padding: EdgeInsets.symmetric(vertical: 15.0),
+               child: const Padding(
+                 padding: EdgeInsets.only(top:15,bottom:15),
                 child: Text(
                   'Start Transform66',
-                  style: TextStyle(color: Colors.black, fontSize: 16),
+                  style: TextStyle(color: Colors.black, fontSize: 16)
                 )
               )
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 25),
             TextButton(
               onPressed: () => _showAboutDialog(context),
-              child: const Text("About Us")
-            ),
-            const SizedBox(height: 20)
+              child: const Text("About Us",style:TextStyle(color:Colors.black))
+            )
           ]
         )
       )
-    ));
+    ))));
   }
 
  void _showAboutDialog(BuildContext context) {
@@ -140,12 +134,12 @@ class StartedPage extends StatelessWidget {
             ),
           ),
         ),
-        actions: <Widget>[
+        actions: [
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: const Text("Close"),
+            child: const Text("Close",style:TextStyle(color:Colors.black)),
           ),
         ],
       );
