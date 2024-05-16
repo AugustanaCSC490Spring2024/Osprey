@@ -56,7 +56,7 @@ class _MyFeedTabState extends State<MyFeedTab> {
   Widget build(BuildContext context){
     return Scaffold(
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection("users").doc(yourEmail).collection("personalFeed").orderBy("date").snapshots(),
+        stream: FirebaseFirestore.instance.collection("users").doc(yourEmail).collection("personalFeed").orderBy("date", descending: true).snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List friendList = snapshot.data!.docs;
@@ -92,7 +92,7 @@ class _FriendFeedTabState extends State<FriendFeedTab> {
   Widget build(BuildContext context){
     return Scaffold(
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection("users").doc(yourEmail).collection("friendsFeed").orderBy("date").snapshots(),
+        stream: FirebaseFirestore.instance.collection("users").doc(yourEmail).collection("friendsFeed").orderBy("date", descending: true).snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List friendList = snapshot.data!.docs;
