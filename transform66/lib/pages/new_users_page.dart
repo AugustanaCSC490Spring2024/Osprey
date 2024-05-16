@@ -19,13 +19,20 @@ class StartedPage extends StatelessWidget {
           children: [
             const Padding(
               padding: EdgeInsets.only(left:20,right:20),
-              child: Text(
-                "Click the button below to choose your tasks. Choose a couple of tasks that you want to commit to for 66 days. You can also add custom tasks.\n\nRemember that if you miss a day you will be taken back to day 1, so don't forget to do your tasks and mark them done by 11:59 pm each day.",
-                style: TextStyle(fontSize: 16),
+              child: 
+              
+              const Text(
+                "Instructions",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
                 ),
               ),
-            const SizedBox(height:35),
+            
+            const Text("Click the button below to choose your tasks. Choose a couple of tasks that you want to commit to for 66 days. You can also add custom tasks.\n\nRemember that if you miss a day you will be taken back to day 1, so don't forget to do your tasks and mark them done by 11:59 pm each day.",
+                style: TextStyle(fontSize: 16),
+                textAlign: TextAlign.center,
+                ),
+                const SizedBox(height:35),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushReplacement(
@@ -118,7 +125,10 @@ class StartedPage extends StatelessWidget {
                   ],
                 ),
                 const Text(
-                  "\n\nImage credits\n"
+                  "\n\nImage credits", style: TextStyle(fontSize: 12)),
+
+                const Text(
+                  
                   "The images used in this application are from the following sources:\n"
                   "Photo by Nik on Unsplash, Photo by Cristofer Maximilian on Unsplash, Photo by Fab Lentz on Unsplash, " 
                   "Photo by Mika Baumeister on Unsplash, Photo by Randy Tarampi on Unsplash, Photo by Drew Beamer on Unsplash, "
@@ -128,6 +138,7 @@ class StartedPage extends StatelessWidget {
                   "Photo by Kier in Sight Archives on Unsplash, Photo by Georgia de Lotz on Unsplash, Photo by Ethan Hoover on Unsplash, "
                   "Photo by Luca Upper on Unsplash, Photo by Austin Park on Unsplash, Photo by Let's go Together on Unsplash, "
                   "Photo by Jason Leung on Unsplash",
+                  style: TextStyle(fontSize: 10),
                 ),
                 const SizedBox(height: 10),
               ],
