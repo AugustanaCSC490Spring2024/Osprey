@@ -64,13 +64,8 @@ class _InfoState extends State<Info> {
                 ),
                 const SizedBox(height: 10),
                 Text(
-<<<<<<< HEAD
-                  userName,
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-=======
                   userName, 
                   style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
->>>>>>> 87b2c117964c520205ecf13e306a62794a633107
                 ),
                 const SizedBox(height: 20),
                 FutureBuilder(
@@ -78,23 +73,14 @@ class _InfoState extends State<Info> {
                   builder:
                       (BuildContext context, AsyncSnapshot<DateTime> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-<<<<<<< HEAD
-                      return CircularProgressIndicator();
-=======
                       return const CircularProgressIndicator(); 
->>>>>>> 87b2c117964c520205ecf13e306a62794a633107
                     } else if (snapshot.hasData) {
                       String formattedDate =
                           '${snapshot.data!.month}-${snapshot.data!.day}-${snapshot.data!.year}';
                       return Text(
                         'Start Date: $formattedDate',
-<<<<<<< HEAD
-                        style: TextStyle(fontSize: 16),
-                      );
-=======
                         style: const TextStyle(fontSize: 16),
                       ); 
->>>>>>> 87b2c117964c520205ecf13e306a62794a633107
                     } else {
                       return const Text(
                         'No start date available',
