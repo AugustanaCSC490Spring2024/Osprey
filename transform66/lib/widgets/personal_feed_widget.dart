@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
+//import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/firestore_actions/feed_firestore.dart';
 
@@ -34,8 +34,8 @@ class _PersonalFeedWidgetState extends State<PersonalFeedWidget> {
           const CircleAvatar(radius: 20, backgroundImage: AssetImage("assets/images/Transform66.png"), backgroundColor: Colors.transparent),
           const SizedBox(width: 10),
           Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(widget.userName, style: const TextStyle(fontSize: 16, color: Colors.black)),
-                Text(widget.message.substring(0,8), style: const TextStyle(fontSize: 18, color: Colors.black)),
+                Text(widget.userName, style: const TextStyle(fontSize: 14, color: Colors.black)),
+                Text(widget.message, style: const TextStyle(fontSize: 16, color: Colors.black)),
               ])
         ],),
         const SizedBox(height: 5),

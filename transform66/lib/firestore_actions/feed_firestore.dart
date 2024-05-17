@@ -35,7 +35,7 @@ class FeedFirestoreService {
     FirebaseFirestore.instance.collection("users").doc(friend).collection("friendsFeed").doc().set({
       "date": Timestamp.now(),
       "userName": userName,
-      "message": "Congratulations on completing the task: $taskName",
+      "message": "Congratulations on completing the task: \n$taskName",
       "isLiked": false,
       //"imageNum": imageNum,
       "imageType": "c$imageNum"
@@ -47,7 +47,7 @@ class FeedFirestoreService {
     FirebaseFirestore.instance.collection("users").doc(currentUser).collection("personalFeed").doc().set({
       "date": Timestamp.now(),
       "userName": userName,
-      "message": "You completed the task: $taskName",
+      "message": "You completed the task: \n$taskName",
       //"imageNum": imageNum,
       "imageType": "c$imageNum"
     });
@@ -60,7 +60,7 @@ class FeedFirestoreService {
       FirebaseFirestore.instance.collection("users").doc(friend).collection("friendsFeed").doc().set({
         "date": Timestamp.now(),
         "userName": userName,
-        "message": "I completed my task: $taskName",
+        "message": "I completed my task: \n$taskName",
         "isLiked": false,
         //"imageNum": imageNum,
         "imageType": "c$imageNum"
