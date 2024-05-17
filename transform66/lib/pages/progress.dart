@@ -16,41 +16,40 @@ class ProgressPage extends StatefulWidget {
 }
 
 class _ProgressPageState extends State<ProgressPage> {
-  //final TasksFirestoreService tfs = TasksFirestoreService();
   final String yourEmail = FirebaseAuth.instance.currentUser!.email!;
   final db = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: true,
-        body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.asset('assets/images/Transform66.png', height: 110),
-              const SizedBox(height: 50),
-              StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.only(left:20,right:20),
+          child: Container(
+            decoration: BoxDecoration(
+              color:const Color.fromARGB(95, 143, 239, 229),
+                borderRadius: BorderRadius.circular(10),
+              ),
+            child: Column(
+              mainAxisSize:MainAxisSize.min,
+              children: [
+                const SizedBox(height: 25),
+                Image.asset('assets/images/Transform66.png', height: 110),
+                const SizedBox(height: 50),
+                StreamBuilder<DocumentSnapshot<Map<String, dynamic>>> (
                   stream: db.collection("users").doc(yourEmail).snapshots(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>>
-                          snapshot) {
+                  builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
                     if (snapshot.hasError) {
                       return const Text('Something went wrong');
                     }
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Text("Loading");
                     }
-                    Map<String, dynamic> data =
-                        snapshot.data!.data() as Map<String, dynamic>;
-                    int dayDifference = (DateTime.now()
-                                .difference(data["first_day"].toDate())
-                                .inHours /
-                            24)
-                        .round()+1;
+                    Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+                    int dayDifference = data["day"]!;
                     return Text(
                       "Day $dayDifference",
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                         fontStyle: FontStyle.italic,
@@ -61,34 +60,42 @@ class _ProgressPageState extends State<ProgressPage> {
                     );
                   }),
               const SizedBox(height: 50),
-              StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection("users")
-                      .doc(FirebaseAuth.instance.currentUser!.email!)
-                      .collection("tasks")
-                      .orderBy("taskName")
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      List<QueryDocumentSnapshot> taskDocs =
-                          snapshot.data!.docs;
-                      return ListView.builder(
-                        shrinkWrap:
-                            true, // Make the ListView scrollable within SingleChildScrollView
-                        physics:
-                            const NeverScrollableScrollPhysics(), // Disable scrolling of the ListView
-                        itemCount: taskDocs.length,
-                        itemBuilder: (context, index) {
-                          return TaskCompletionWidget(
+              StreamBuilder<QuerySnapshot> (
+                stream: FirebaseFirestore.instance
+                    .collection("users")
+                    .doc(FirebaseAuth.instance.currentUser!.email!)
+                    .collection("tasks")
+                    .orderBy("taskName")
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    List<QueryDocumentSnapshot> taskDocs = snapshot.data!.docs;
+                    return Flexible(
+                      child: SizedBox(
+                        height: 300,
+                        child: ListView.builder(
+                          itemCount: taskDocs.length,
+                          itemBuilder: (context, index) {
+                            return TaskCompletionWidget(
                               taskName: taskDocs[index].get("taskName"),
-                              isCompleted: taskDocs[index].get("isCompleted"));
-                        },
-                      );
-                    } else {
-                      return const Text("Loading...");
+                              isCompleted: taskDocs[index].get("isCompleted")
+                            );
+                          }
+                        )
+                      )
+                    );
+                  }
+                  else {
+                    return const Text("Loading...");
                     }
-                  })
-            ]));
+                  }
+                )
+              ]
+            )
+          )
+        )
+      )
+    );
   }
 }
 

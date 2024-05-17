@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/firestore_actions/friends_firestore.dart';
-import 'package:transform66/pages/calendar_page.dart';
-import 'package:transform66/pages/feed_page.dart';
+import 'package:transform66/pages/calendar.dart';
+import 'package:transform66/pages/feed.dart';
 import 'package:transform66/pages/friends.dart';
 import 'package:transform66/pages/info.dart';
-import 'package:transform66/pages/progress_page.dart';
+import 'package:transform66/pages/progress.dart';
 
 class PageViewHelper extends StatefulWidget {
   const PageViewHelper({super.key});
@@ -15,8 +15,8 @@ class PageViewHelper extends StatefulWidget {
   State<PageViewHelper> createState() => _PageViewHelperState();
 }
 
-class _PageViewHelperState extends State<PageViewHelper>
-    with TickerProviderStateMixin {
+class _PageViewHelperState extends State<PageViewHelper> with TickerProviderStateMixin {
+  
   late PageController _pageViewController;
   late TabController _tabController;
   int _selectedIndex = 2;
@@ -25,11 +25,11 @@ class _PageViewHelperState extends State<PageViewHelper>
   final String yourEmail = FirebaseAuth.instance.currentUser!.email!;
   final db = FirebaseFirestore.instance;
   final Map<int,String> infoMap = {
-    0:"This is the friends page. Add, accept, and remove friends here. Tap on their name to also be able to send them a message.",
-    1:"This is the feed page. Keep up with your history and with that of your friends.",
-    2:"This is the progress page. Here you can mark your tasks finished. You will have the option to share with others or not.",
+    0:"This is the friends page. Add, accept, and remove friends here. Tap on their email for options. You can also send your friends a motivation tile.",
+    1:"This is the feed page. When you complete a task, a tile shows up here. Good job. When your friends complete a task, a tile shows up here too, under friends updates. Motivation you send back and forth show up here as well.",
+    2:"This is the progress page. Mark your tasks complete before 11:59 pm! You decide if your friends can see your updates.",
     3:"This is the calendar page. Plan your weeks ahead here.",
-    4:"This is the profile page. Log out or delete your account as needed."
+    4:"This is the profile page. Log out, update notification settings, or delete your account as needed."
   };
   
   @override
@@ -84,30 +84,16 @@ class _PageViewHelperState extends State<PageViewHelper>
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      content: Text(infoMap[_selectedIndex]!,textAlign: TextAlign.center)
+                      content: Text(
+                        infoMap[_selectedIndex]!,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(fontSize: 16))
                     );
                   }
                 );
               },
               icon: const Icon(Icons.info_outlined)
             )
-          //   PopupMenuButton<String>(
-          //     onSelected: (String result) {
-          //       if (result == 'Sign Out') {
-          //         Auth().signOut();
-          //         Navigator.pushReplacement(
-          //             context,
-          //             MaterialPageRoute(
-          //                 builder: (context) => const LoginPage()));
-          //       }
-          //     },
-          //     itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-          //       const PopupMenuItem<String>(
-          //         value: 'Sign Out',
-          //         child: Text('Sign Out'),
-          //       ),
-          //     ],
-          //   ),
           ]
         ),
         bottomNavigationBar: BottomNavigationBar(

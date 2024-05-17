@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:transform66/pages/edit_new_user_page.dart';
+import 'package:transform66/pages/edit_new_users.dart';
 
 class StartedPage extends StatelessWidget {
   const StartedPage({super.key});
@@ -7,10 +7,6 @@ class StartedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // appBar: AppBar(
-        //   title: const Center(child: Text('Transform66',style: TextStyle(fontSize: 24))),
-        //   backgroundColor: Colors.teal,
-        // ),
         body: Center(
             child: Container(
                 height: 450,
@@ -27,15 +23,15 @@ class StartedPage extends StatelessWidget {
                     padding: EdgeInsets.only(left: 20, right: 20),
                     child: Text(
                       "Instructions",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    ),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center
+                    )
                   ),
+                  const SizedBox(height:0),
                   const Text(
                     "Click the Start Transform66 button to choose your tasks that you want to commit for 66 days. You can also custom tasks and add it to your list.\n\nRemember that if you miss a day you will be taken back to day 1, so don't forget to do your tasks and mark them done by 11:59 pm.",
                     style: TextStyle(fontSize: 16),
-                    textAlign: TextAlign.center,
+                    textAlign: TextAlign.center
                   ),
                   const SizedBox(height: 35),
                   ElevatedButton(
@@ -50,7 +46,7 @@ class StartedPage extends StatelessWidget {
                         backgroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
-                        ),
+                        )
                       ),
                       child: const Padding(
                           padding: EdgeInsets.only(top: 15, bottom: 15),

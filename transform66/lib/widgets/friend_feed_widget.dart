@@ -30,6 +30,7 @@ class _FriendFeedWidgetState extends State<FriendFeedWidget> {
   final FeedFirestoreService ffs2 = FeedFirestoreService();
 
   @override
+  @override
   Widget build(BuildContext context) {
     return Card(child: Padding(padding: const EdgeInsets.all(10),child: 
       Column(children: [
@@ -37,17 +38,17 @@ class _FriendFeedWidgetState extends State<FriendFeedWidget> {
           const CircleAvatar(radius: 20, backgroundImage: AssetImage("assets/images/Transform66.png"), backgroundColor: Colors.transparent),
           const SizedBox(width: 10),
           Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(widget.userName, style: const TextStyle(fontSize: 16, color: Colors.black)),
-                Text(widget.message.substring(0,8), style: const TextStyle(fontSize: 18, color: Colors.black)),
+                Text(widget.userName, style: const TextStyle(fontSize: 14, color: Colors.black)),
+                Text(widget.message, style: const TextStyle(fontSize: 16, color: Colors.black)),
               ])
         ],),
         const SizedBox(height: 5),
-        // SizedBox(
-        //   width:100,
-        //   height:100,
-        //   child: SingleChildScrollView(
-        //     child: Image(image: AssetImage("${widget.imagePath}${widget.imageType}.jpg"))
-        //     )),
+        Image.asset(
+        "assets/${widget.imagePath}${widget.imageType}.jpg",
+        width: 300,
+        height: 300,
+        fit: BoxFit.cover,
+      ),
         const SizedBox(height: 5),
       ]),
     ));

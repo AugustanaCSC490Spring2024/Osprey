@@ -22,7 +22,7 @@ class TasksFirestoreService {
       "isCompleted":isCompleted
     });
     users.doc(yourEmail).update({
-      "completed_today":isCompleted?FieldValue.increment(1):FieldValue.increment(-1)
+      "completedToday":isCompleted?FieldValue.increment(1):FieldValue.increment(-1)
     });
   }
   
