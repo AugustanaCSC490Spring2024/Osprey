@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:transform66/auth.dart';
 import 'package:transform66/firestore_actions/info_firestore.dart';
-import 'package:transform66/pages/login_register_page.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:transform66/pages/login_register.dart';
 
 class Info extends StatefulWidget {
   const Info({Key? key}) : super(key: key);
@@ -22,7 +22,7 @@ class _InfoState extends State<Info> {
         .doc(yourEmail)
         .get();
     if (snapshot.exists) {
-      return (snapshot.data() as Map<String, dynamic>)['first_day'].toDate();
+      return (snapshot.data() as Map<String, dynamic>)['firstDay'].toDate();
     } else {
       return DateTime.now();
     }
@@ -44,7 +44,7 @@ class _InfoState extends State<Info> {
                   width: 120,
                   height: 120,
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.white,
                     ),
@@ -59,7 +59,7 @@ class _InfoState extends State<Info> {
                 const SizedBox(height: 10),
                 Text(
                   userName, 
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 20),
                 FutureBuilder(
@@ -67,16 +67,16 @@ class _InfoState extends State<Info> {
                   builder:
                       (BuildContext context, AsyncSnapshot<DateTime> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator(); 
+                      return const CircularProgressIndicator(); 
                     } else if (snapshot.hasData) {
                       String formattedDate =
                           '${snapshot.data!.month}-${snapshot.data!.day}-${snapshot.data!.year}';
                       return Text(
                         'Start Date: $formattedDate',
-                        style: TextStyle(fontSize: 16),
+                        style: const TextStyle(fontSize: 16),
                       ); 
                     } else {
-                      return Text(
+                      return const Text(
                         'No start date available',
                         style: TextStyle(fontSize: 16),
                       ); 
@@ -125,6 +125,33 @@ class _InfoState extends State<Info> {
             },
           ),
           ProfileMenuWidget(
+            title: "Notification settings",
+            icon: Icons.circle_notifications_outlined,
+            onPress: () async {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text("Receive emails?",
+                        style: TextStyle(fontSize: 16)),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text("No"),
+                      ),
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text("Yes"),
+                      )
+                    ]
+                  );
+                }
+              );
+            }
+          ),
+          ProfileMenuWidget(
             title: "Delete my account",
             icon: Icons.delete,
             onPress: () {
@@ -143,6 +170,7 @@ class _InfoState extends State<Info> {
                       ),
                       TextButton(
                         onPressed: () async {
+                          try {
                           await ifs.deleteUser();
                           Navigator.pushAndRemoveUntil(
                             context,
@@ -151,18 +179,34 @@ class _InfoState extends State<Info> {
                             ),
                             (route) => false,
                           );
+                          }
+                          on Exception catch (_) {
+                            Navigator.pop(context);
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return const AlertDialog(
+                                  content: Text(
+                                    "Recent sign in required. Please sign out and sign back in to delete your account.",
+                                    textAlign:TextAlign.center,
+                                    style: TextStyle(fontSize: 16)
+                                  )
+                                );
+                              }
+                            );
+                          }
                         },
-                        child: const Text("Yes"),
-                      ),
-                    ],
+                        child: const Text("Yes")
+                      )
+                    ]
                   );
-                },
+                }
               );
-            },
+            }
           ),
-          const SizedBox(height: 20),
-        ],
-      ),
+          const SizedBox(height: 20)
+        ]
+      )
     );
   }
 }

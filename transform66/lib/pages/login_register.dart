@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/pages/forgot_password.dart';
 import 'package:transform66/pages/page_view.dart';
-import 'package:transform66/pages/verify_email_page.dart';
+import 'package:transform66/pages/verify_email.dart';
 
 bool _isPasswordVisible = false;
 

@@ -1,10 +1,8 @@
-//import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FeedFirestoreService {
-  // tasks collection reference
+
   final CollectionReference personalFeed = FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.email).collection("personalFeed");
   final CollectionReference friendsFeed = FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.email).collection("friendsFeed");
   final CollectionReference friends = FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.email).collection("friends");
@@ -25,7 +23,6 @@ class FeedFirestoreService {
       "userName": userName,
       "message": "You've got this!",
       "isLiked": false,
-      //"imageNum": imageNum,
       "imageType": "m$imageNum"
     });
   }
@@ -37,7 +34,6 @@ class FeedFirestoreService {
       "userName": userName,
       "message": "Congratulations on completing the task: \n$taskName",
       "isLiked": false,
-      //"imageNum": imageNum,
       "imageType": "c$imageNum"
     });
   }
@@ -48,7 +44,6 @@ class FeedFirestoreService {
       "date": Timestamp.now(),
       "userName": userName,
       "message": "You completed the task: \n$taskName",
-      //"imageNum": imageNum,
       "imageType": "c$imageNum"
     });
   }
@@ -62,7 +57,6 @@ class FeedFirestoreService {
         "userName": userName,
         "message": "I completed my task: \n$taskName",
         "isLiked": false,
-        //"imageNum": imageNum,
         "imageType": "c$imageNum"
       });
     }

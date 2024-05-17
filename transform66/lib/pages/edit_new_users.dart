@@ -166,12 +166,12 @@ class _EditNewUserPageState extends State<EditNewUserPage> {
     final TasksFirestoreService tfs = TasksFirestoreService();
     await db.collection('users').doc(yourEmail).set({
       "day":1,
-      "emailMe?":false,
+      "emailMe":false,
       "status":"working",
-      "first_day": DateUtils.dateOnly(DateTime.now()),
+      "firstDay": DateUtils.dateOnly(DateTime.now()),
       "target":selectedTasks.length,
-      "completed_yesterday":selectedTasks.length,
-      "completed_today":0
+      "completedYesterday":selectedTasks.length,
+      "completedToday":0
       });
       tfs.addTasks(selectedTasks);
   }

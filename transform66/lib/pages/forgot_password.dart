@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
+  const ForgotPasswordPage({super.key});
+
   @override
   _ForgotPasswordPageState createState() => _ForgotPasswordPageState();
 }
@@ -28,17 +30,17 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 'Recieve an email to reset your password',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 24),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormField(
                 controller: emailController,
                 cursorColor: Colors.white,
                 textInputAction: TextInputAction.done,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     labelText: 'Email', hintText: 'Enter your email'),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (email) {
@@ -48,13 +50,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
-                  minimumSize: Size.fromHeight(50),
+                  minimumSize: const Size.fromHeight(50),
                 ),
-                icon: Icon(Icons.email_outlined, size: 32),
-                label: Text(
+                icon: const Icon(Icons.email_outlined, size: 32),
+                label: const Text(
                   'Reset Password',
                   style: TextStyle(fontSize: 20),
                 ),
@@ -70,7 +72,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Future resetPassword()async{
     showDialog(context: context,
     barrierDismissible: false,
-    builder: (context) => Center(
+    builder: (context) => const Center(
       child: CircularProgressIndicator(),
     )
     );
@@ -79,19 +81,18 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     Utils.snackBar(context, 'Password reset email sent');
     Navigator.of(context).popUntil((route) => route.isFirst);
     } on FirebaseAuthException catch(e){
-      print(e);    
+      print(e);
       Navigator.of(context).pop();
       }
-
-
   }
 }
+
 class Utils {
   static void snackBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        duration: Duration(seconds: 3),
+        duration: const Duration(seconds: 3),
       ),
     );
   }

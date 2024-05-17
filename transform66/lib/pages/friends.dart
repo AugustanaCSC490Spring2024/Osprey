@@ -19,6 +19,7 @@ class _FriendsState extends State<Friends> {
   final FeedFirestoreService ffs2 = FeedFirestoreService();
   final TextEditingController textController = TextEditingController();
   final Map<String, String> statusMap = {"requested":"REQUEST SENT","pending":"NEW","accepted":""};
+  final Map<String, Color> colorMap = {"requested":Colors.yellow,"pending":Colors.green,"accepted":Colors.white};
   final String yourEmail = FirebaseAuth.instance.currentUser!.email!;
 
   void askForName() {
@@ -66,17 +67,25 @@ class _FriendsState extends State<Friends> {
                 DocumentSnapshot document = friendList[index];
                 String friendEmail = document.id;
                 
-                return ListTile(
+                return Container(color:const Color.fromARGB(95, 143, 239, 229),child:ListTile(
                   title: Text(
-                    friendEmail
+                    friendEmail,
+                    style: const TextStyle(fontSize: 16)
                   ),
-                  trailing: Text(statusMap[document.get("status")]!),
+                  trailing: Text(
+                    statusMap[document.get("status")]!,
+                    style: TextStyle(color: colorMap[document.get("status")])
+                  ),
                   onTap: () {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          content: Column(mainAxisSize: MainAxisSize.min,children: <Widget>[
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                            const Text("What would you like to do?",style: TextStyle(fontSize: 16)),
+                            const SizedBox(height:15),
                             Visibility(
                               visible: document.get("status")=="pending",
                               child: TextButton(
@@ -101,13 +110,10 @@ class _FriendsState extends State<Friends> {
                             ),
                             TextButton(child:const Text("Remove"),onPressed: () {ffs.removeFriend(yourEmail,friendEmail);Navigator.of(context).pop();})])
                         );
-                      }
-                    );
                   }
                 );
               }
-      );
-          }
+                ));});}
           else {
             return const Text("");
           }

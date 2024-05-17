@@ -3,24 +3,26 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-void main() {
-  runApp(MyApp());
-}
+// void main() {
+//   runApp(MyApp());
+// }
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Calendar',
-      theme: ThemeData(
-        primarySwatch: Colors.teal,
-      ),
-      home: CalendarScreen(),
-    );
-  }
-}
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Calendar',
+//       theme: ThemeData(
+//         primarySwatch: Colors.teal,
+//       ),
+//       home: CalendarScreen(),
+//     );
+//   }
+// }
 
 class CalendarScreen extends StatefulWidget {
+  const CalendarScreen({super.key});
+
   @override
   _CalendarScreenState createState() => _CalendarScreenState();
 }
@@ -46,7 +48,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         .doc(yourEmail)
         .get();
     if (snapshot.exists) {
-      return (snapshot.data() as Map<String, dynamic>)['first_day'].toDate();
+      return (snapshot.data() as Map<String, dynamic>)['firstDay'].toDate();
     } else {
       return DateTime.now();
     }
@@ -82,9 +84,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
         future: fetchStartDate(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error fetching data'));
+            return const Center(child: Text('Error fetching data'));
           } else {
             _startDate = snapshot.data!;
             return Container(
@@ -122,7 +124,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 right: 0,
                                 child: Text(
                                   getDayText(date).split('\n')[0],
-                                  style: TextStyle(color:Color(0xFF636466)),
+                                  style: const TextStyle(color:Color(0xFF636466)),
                                   textAlign: TextAlign.center,
                                 ),
                               ),
@@ -132,7 +134,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 right: 0,
                                 child: Text(
                                   getDayText(date).split('\n')[1],
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Color(0xFF636466),
                                     fontWeight: FontWeight.bold,
                                     fontSize: 15,
