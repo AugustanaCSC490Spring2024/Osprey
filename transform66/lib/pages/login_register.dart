@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
     } else {
-      Navigator.pushReplacement(
+      Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => VerifyEmailPage(),
