@@ -32,6 +32,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   late CalendarFormat _calendarFormat;
   late Map<DateTime, List<dynamic>> _events;
   late DateTime _startDate = DateTime(2022, 1, 1);
+  var _endDate;
   final String yourEmail = FirebaseAuth.instance.currentUser!.email!;
 
   @override
@@ -89,6 +90,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             return const Center(child: Text('Error fetching data'));
           } else {
             _startDate = snapshot.data!;
+            _endDate = _startDate.add(const Duration(days: 65));
             return Container(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -96,8 +98,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 children: [
                   TableCalendar(
                     focusedDay: _selectedDay,
-                    firstDay: DateTime(1990),
-                    lastDay: DateTime(2050),
+                    firstDay: DateTime(_startDate.year,_startDate.month,1),
+                    // Using zero here, below, refers to the last day of the previous month
+                    lastDay: DateTime(_endDate.year,_endDate.month+1,0),
                     calendarFormat: _calendarFormat,
                     onFormatChanged: (format) {
                       setState(() {
@@ -113,8 +116,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           margin: const EdgeInsets.all(4),
                           decoration: BoxDecoration(
                             color: Colors.teal.withOpacity(0.3),
-                            borderRadius: BorderRadius.circular(4.0),
-                            
+                            borderRadius: BorderRadius.circular(4.0)
                           ),
                           child: Stack(
                             children: [
@@ -125,8 +127,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 child: Text(
                                   getDayText(date).split('\n')[0],
                                   style: const TextStyle(color:Color(0xFF636466)),
-                                  textAlign: TextAlign.center,
-                                ),
+                                  textAlign: TextAlign.center
+                                )
                               ),
                               Positioned(
                                 top: 24,
@@ -137,23 +139,23 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                   style: const TextStyle(
                                     color: Color(0xFF636466),
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 15,
+                                    fontSize: 15
                                   ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ],
-                          ),
+                                  textAlign: TextAlign.center
+                                )
+                              )
+                            ]
+                          )
                         );
-                      },
-                    ),
-                  ),
-                ],
-              ),
+                      }
+                    )
+                  )
+                ]
+              )
             );
           }
-        },
-      ),
+        }
+      )
     );
   }
 }

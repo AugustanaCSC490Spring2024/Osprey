@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-//import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/firestore_actions/feed_firestore.dart';
 
@@ -10,7 +9,7 @@ class PersonalFeedWidget extends StatefulWidget {
   final String imageType;
   final String imagePath = "images/feedImages/";
 
-  PersonalFeedWidget({
+  const PersonalFeedWidget({
     required this.userName,
     required this.date,
     required this.message,
@@ -35,18 +34,18 @@ class _PersonalFeedWidgetState extends State<PersonalFeedWidget> {
           const SizedBox(width: 10),
           Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text(widget.userName, style: const TextStyle(fontSize: 14, color: Colors.black)),
-                Text(widget.message, style: const TextStyle(fontSize: 16, color: Colors.black)),
+                Text(widget.message, style: const TextStyle(fontSize: 16, color: Colors.black))
               ])
-        ],),
+        ]),
         const SizedBox(height: 5),
         Image.asset(
         "assets/${widget.imagePath}${widget.imageType}.jpg",
         width: 300,
         height: 300,
-        fit: BoxFit.cover,
+        fit: BoxFit.cover
       ),
-        const SizedBox(height: 5),
-      ]),
+        const SizedBox(height: 5)
+      ])
     ));
   }
 }

@@ -226,6 +226,7 @@ class ProfileMenuWidget extends StatelessWidget {
     required this.title,
     required this.icon,
     required this.onPress,
+    super.key
   });
 
   @override
@@ -233,7 +234,7 @@ class ProfileMenuWidget extends StatelessWidget {
     return ListTile(
       leading: Icon(icon),
       title: Text(title),
-      onTap: onPress,
+      onTap: onPress
     );
   }
 }

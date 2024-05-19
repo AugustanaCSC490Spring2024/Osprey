@@ -80,30 +80,30 @@ class _LoginPageState extends State<LoginPage> {
 
 
 
-Widget _entryFieldPassword(){
-        return TextField(
-        controller: _controllerPassword,
-        decoration: InputDecoration(
-          labelText: "Password",
-          suffixIcon: IconButton(
-            icon: Icon(
-                _isPasswordVisible ? Icons.visibility : Icons.visibility_off),
-            onPressed: () {
-              setState(() {
-                _isPasswordVisible = !_isPasswordVisible;
-              });
-            },
-          ),
-        ),
-        obscureText: !_isPasswordVisible,
-      );
+Widget _entryFieldPassword() {
+  return TextField(
+  controller: _controllerPassword,
+  decoration: InputDecoration(
+    labelText: "Password",
+    suffixIcon: IconButton(
+      icon: Icon(
+        _isPasswordVisible ? Icons.visibility : Icons.visibility_off),
+        onPressed: () {
+          setState(() {
+            _isPasswordVisible = !_isPasswordVisible;
+          });
+        }
+      )
+    ),
+    obscureText: !_isPasswordVisible
+  );
 }
 
   Widget _entryFieldEmail() {
 
       return TextField(
         controller: _controllerEmail,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           labelText: "Email",
         ),
       );
@@ -113,7 +113,7 @@ Widget _entryFieldPassword(){
 Widget _errorMessage() {
   return Text(
     errorMessage == '' ? '' : errorMessage!,
-    style: TextStyle(color: Colors.red), 
+    style: const TextStyle(color: Colors.red), 
   );
 }
 

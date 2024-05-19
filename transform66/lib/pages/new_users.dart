@@ -23,11 +23,10 @@ class StartedPage extends StatelessWidget {
                     padding: EdgeInsets.only(left: 20, right: 20),
                     child: Text(
                       "Instructions",
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)
                     )
                   ),
-                  const SizedBox(height:0),
+                  const SizedBox(height:20),
                   const Text(
                     "Click the Start Transform66 button to choose your tasks that you want to commit for 66 days. You can also custom tasks and add it to your list.\n\nRemember that if you miss a day you will be taken back to day 1, so don't forget to do your tasks and mark them done by 11:59 pm.",
                     style: TextStyle(fontSize: 16),
