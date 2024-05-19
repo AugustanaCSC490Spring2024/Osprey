@@ -61,4 +61,24 @@ class FeedFirestoreService {
       });
     }
   }
+
+  Future<void> completedChallengedPost(String currentUser, int imageNum) async {
+    var userName = currentUser.split('@')[0];
+    var friendsList = await getFriendsList();
+    FirebaseFirestore.instance.collection("users").doc(currentUser).collection("personalFeed").doc().set({
+      "date": Timestamp.now(),
+      "userName": userName,
+      "message": "You completed the challenge!",
+      "imageType": "c$imageNum"
+    });
+    for (String friend in friendsList) {
+      FirebaseFirestore.instance.collection("users").doc(friend).collection("friendsFeed").doc().set({
+        "date": Timestamp.now(),
+        "userName": userName,
+        "message": "I completed the challenge!",
+        "isLiked": false,
+        "imageType": "c$imageNum"
+      });
+    }
+  }
 }

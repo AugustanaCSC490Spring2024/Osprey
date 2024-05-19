@@ -55,8 +55,7 @@ class _ProgressPageState extends State<ProgressPage> {
                           // Since the user might not be logged in at midnight when it changes
                           // Automatically post to both feeds, might as well
                           var randomInt = Random().nextInt(10) + 1;
-                          ffs.addPostPrivate(yourEmail,"Finish the challenge!",randomInt);
-                          ffs.addPostPublic(yourEmail,"Finish the challenge!",randomInt);
+                          ffs.completedChallengedPost(yourEmail, randomInt);
                           finished = true;
                         }
                         return Flexible(
