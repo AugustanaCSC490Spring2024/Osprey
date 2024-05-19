@@ -60,7 +60,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       if (dayDifference >= 0 && dayDifference <= 65) {
         return 'Day ${dayDifference+1}\n${date.day}';
       } else {
-        return '${date.day}\n';
+        return '\n${date.day}';
       }
   }
 
@@ -126,7 +126,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 right: 0,
                                 child: Text(
                                   getDayText(date).split('\n')[0],
-                                  style: const TextStyle(color:Color(0xFF636466)),
+                                  style: const TextStyle(color:Color(0xFF636466), fontSize: 8),
                                   textAlign: TextAlign.center
                                 )
                               ),

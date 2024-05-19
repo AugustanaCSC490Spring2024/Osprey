@@ -158,53 +158,55 @@ Widget _errorMessage() {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: null,
-      body: Stack(
-        children: [
-          Container(
-            height: double.infinity,
-            width: double.infinity,
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Center(
-                  child: Image.asset(
-                    'assets/images/Transform66.png',
-                    height: 150,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Container(
+              height: double.infinity,
+              width: double.infinity,
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Center(
+                    child: Image.asset(
+                      'assets/images/Transform66.png',
+                      height: 150,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 50),
-                _loginOrRegisterButton(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          isLogin = !isLogin;
-                        });
-                      },
-                      child: Text(isLogin ? 'Register instead' : 'Login instead'),
-                    ),
-                    const Text("|"),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ForgotPasswordPage(),
-                          ),
-                        );
-                      },
-                      child: const Text('Forgot Password?'),
-                    ),
-                  ],
-                ),
-              ],
+                  const SizedBox(height: 50),
+                  _loginOrRegisterButton(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            isLogin = !isLogin;
+                          });
+                        },
+                        child: Text(isLogin ? 'Register instead' : 'Login instead'),
+                      ),
+                      const Text("|"),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ForgotPasswordPage(),
+                            ),
+                          );
+                        },
+                        child: const Text('Forgot Password?'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
