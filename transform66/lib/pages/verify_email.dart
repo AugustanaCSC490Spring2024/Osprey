@@ -69,7 +69,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   @override
   Widget build(BuildContext context) {
     return _isEmailVerified
-        ? StartedPage()
+        ? NewUsersPage()
         : Scaffold(
             body: Padding(
                 padding: const EdgeInsets.all(16),

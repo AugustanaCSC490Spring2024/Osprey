@@ -7,14 +7,14 @@ import 'package:transform66/auth.dart';
 import 'package:transform66/firestore_actions/profile_firestore.dart';
 import 'package:transform66/pages/login_register.dart';
 
-class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({Key? key}) : super(key: key);
 
   @override
-  State<Profile> createState() => _ProfileState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _ProfileState extends State<Profile> {
+class _ProfilePageState extends State<ProfilePage> {
   final String yourEmail = FirebaseAuth.instance.currentUser!.email!;
   final ProfileFirestoreService ifs = ProfileFirestoreService();
 

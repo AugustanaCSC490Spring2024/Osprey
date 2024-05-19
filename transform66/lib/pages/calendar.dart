@@ -3,14 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class CalendarScreen extends StatefulWidget {
-  const CalendarScreen({super.key});
+class CalendarPage extends StatefulWidget {
+  const CalendarPage({super.key});
 
   @override
-  _CalendarScreenState createState() => _CalendarScreenState();
+  _CalendarPageState createState() => _CalendarPageState();
 }
 
-class _CalendarScreenState extends State<CalendarScreen> {
+class _CalendarPageState extends State<CalendarPage> {
   late DateTime _selectedDay;
   late CalendarFormat _calendarFormat;
   late Map<DateTime, List<dynamic>> _events;

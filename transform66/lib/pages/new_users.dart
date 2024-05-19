@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:transform66/pages/edit_new_users.dart';
 
-class StartedPage extends StatelessWidget {
-  const StartedPage({super.key});
+class NewUsersPage extends StatelessWidget {
+  const NewUsersPage({super.key});
 
   @override
   Widget build(BuildContext context) {

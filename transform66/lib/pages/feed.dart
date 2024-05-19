@@ -2,8 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transform66/auth.dart';
-import 'package:transform66/widgets/friend_feed_widget.dart';
-import 'package:transform66/widgets/personal_feed_widget.dart';
+import 'package:transform66/widgets/feed_widget.dart';
 
 class FeedPage extends StatefulWidget {
   const FeedPage({super.key});
@@ -69,7 +68,7 @@ class _MyFeedTabState extends State<MyFeedTab> {
                     itemCount: friendList.length,
                     itemBuilder: (context, index) {
                       DocumentSnapshot document = friendList[index];
-                      return PersonalFeedWidget(
+                      return FeedWidget(
                           date: document.get("date"),
                           userName: document.get("userName"),
                           message: document.get("message"),
@@ -110,11 +109,10 @@ class _FriendFeedTabState extends State<FriendFeedTab> {
                     itemCount: friendList.length,
                     itemBuilder: (context, index) {
                       DocumentSnapshot document = friendList[index];
-                      return FriendFeedWidget(
+                      return FeedWidget(
                           date: document.get("date"),
                           userName: document.get("userName"),
                           message: document.get("message"),
-                          isLiked: document.get("isLiked"),
                           imageType: document.get("imageType"));
                     });
               } else {

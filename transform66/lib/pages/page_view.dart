@@ -63,11 +63,11 @@ class _PageViewHelperState extends State<PageViewHelper>
         body: PageView(
           controller: _pageViewController,
           children: [
-            Friends(),
+            FriendsPage(),
             FeedPage(),
             ProgressPage(),
-            CalendarScreen(),
-            Profile()
+            CalendarPage(),
+            ProfilePage()
           ],
           onPageChanged: (index) {
             setState(() {

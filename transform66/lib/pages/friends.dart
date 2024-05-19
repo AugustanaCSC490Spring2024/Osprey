@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:transform66/firestore_actions/feed_firestore.dart';
 import 'package:transform66/firestore_actions/friends_firestore.dart';
 
-class Friends extends StatefulWidget {
-  const Friends({super.key});
+class FriendsPage extends StatefulWidget {
+  const FriendsPage({super.key});
 
   @override
-  State<Friends> createState() => _FriendsState();
+  State<FriendsPage> createState() => _FriendsPageState();
 }
 
-class _FriendsState extends State<Friends> {
+class _FriendsPageState extends State<FriendsPage> {
   final FriendsFirestoreService ffs = FriendsFirestoreService();
   final FeedFirestoreService ffs2 = FeedFirestoreService();
   final TextEditingController textController = TextEditingController();
