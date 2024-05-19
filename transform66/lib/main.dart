@@ -17,18 +17,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        scaffoldBackgroundColor: const Color.fromRGBO(144, 195, 200, 1)
-      ),
-      home: Scaffold(
-        body: StreamBuilder(
-          stream: Auth().authStateChanges(),
-          builder: (context, snapshot) {
-            return const LoginPage();
-          },
-        ),
-      )
-    );
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            scaffoldBackgroundColor: const Color.fromRGBO(144, 195, 200, 1)),
+        home: Scaffold(
+          body: StreamBuilder(
+            stream: Auth().authStateChanges(),
+            builder: (context, snapshot) {
+              return const LoginPage();
+            },
+          ),
+        ));
   }
 }

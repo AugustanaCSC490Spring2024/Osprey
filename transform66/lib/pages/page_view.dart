@@ -5,7 +5,7 @@ import 'package:transform66/firestore_actions/friends_firestore.dart';
 import 'package:transform66/pages/calendar.dart';
 import 'package:transform66/pages/feed.dart';
 import 'package:transform66/pages/friends.dart';
-import 'package:transform66/pages/info.dart';
+import 'package:transform66/pages/profile.dart';
 import 'package:transform66/pages/progress.dart';
 
 class PageViewHelper extends StatefulWidget {
@@ -15,8 +15,8 @@ class PageViewHelper extends StatefulWidget {
   State<PageViewHelper> createState() => _PageViewHelperState();
 }
 
-class _PageViewHelperState extends State<PageViewHelper> with TickerProviderStateMixin {
-  
+class _PageViewHelperState extends State<PageViewHelper>
+    with TickerProviderStateMixin {
   late PageController _pageViewController;
   late TabController _tabController;
   int _selectedIndex = 2;
@@ -24,14 +24,14 @@ class _PageViewHelperState extends State<PageViewHelper> with TickerProviderStat
   final FriendsFirestoreService ffs = FriendsFirestoreService();
   final String yourEmail = FirebaseAuth.instance.currentUser!.email!;
   final db = FirebaseFirestore.instance;
-  final Map<int,String> infoMap = {
-    0:"This is the friends page. Add, accept, and remove friends here. Tap on their email for options. You can also send your friends a motivation tile.",
-    1:"This is the feed page. When you complete a task, a tile shows up here. Good job. When your friends complete a task, a tile shows up here too, under friends updates. Motivation you send back and forth show up here as well.",
-    2:"This is the progress page. Mark your tasks complete before 11:59 pm! You decide if your friends can see your updates.",
-    3:"This is the calendar page. Plan your weeks ahead here.",
-    4:"This is the profile page. Log out, update notification settings, or delete your account as needed."
+  final Map<int, String> infoMap = {
+    0: "This is the friends page. Add, accept, and remove friends here. Tap on their email for options. You can also send your friends a motivation tile.",
+    1: "This is the feed page. When you complete a task, a tile shows up here. Good job. When your friends complete a task, a tile shows up here too, under friends updates. Motivation you send back and forth show up here as well.",
+    2: "This is the progress page. Mark your tasks complete before 11:59 pm! You decide if your friends can see your updates.",
+    3: "This is the calendar page. Plan your weeks ahead here.",
+    4: "This is the profile page. Log out, update notification settings, or delete your account as needed."
   };
-  
+
   @override
   void initState() {
     super.initState();
@@ -67,7 +67,7 @@ class _PageViewHelperState extends State<PageViewHelper> with TickerProviderStat
             FeedPage(),
             ProgressPage(),
             CalendarScreen(),
-            Info()
+            Profile()
           ],
           onPageChanged: (index) {
             setState(() {
@@ -75,27 +75,20 @@ class _PageViewHelperState extends State<PageViewHelper> with TickerProviderStat
             });
           },
         ),
-        appBar: AppBar(
-          backgroundColor: Colors.teal,
-          actions: [
-            IconButton(
-              onPressed:() {
+        appBar: AppBar(backgroundColor: Colors.teal, actions: [
+          IconButton(
+              onPressed: () {
                 showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      content: Text(
-                        infoMap[_selectedIndex]!,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 16))
-                    );
-                  }
-                );
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                          content: Text(infoMap[_selectedIndex]!,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(fontSize: 16)));
+                    });
               },
-              icon: const Icon(Icons.info_outlined)
-            )
-          ]
-        ),
+              icon: const Icon(Icons.info_outlined))
+        ]),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.teal,

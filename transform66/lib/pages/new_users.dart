@@ -20,18 +20,15 @@ class StartedPage extends StatelessWidget {
                     child: SingleChildScrollView(
                         child: Column(children: [
                   const Padding(
-                    padding: EdgeInsets.only(left: 20, right: 20),
-                    child: Text(
-                      "Instructions",
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)
-                    )
-                  ),
-                  const SizedBox(height:20),
+                      padding: EdgeInsets.only(left: 20, right: 20),
+                      child: Text("Instructions",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold))),
+                  const SizedBox(height: 20),
                   const Text(
-                    "Click the Start Transform66 button to choose your tasks that you want to commit for 66 days. You can also custom tasks and add it to your list.\n\nRemember that if you miss a day you will be taken back to day 1, so don't forget to do your tasks and mark them done by 11:59 pm.",
-                    style: TextStyle(fontSize: 16),
-                    textAlign: TextAlign.center
-                  ),
+                      "Click the Start Transform66 button to choose your tasks that you want to commit for 66 days. You can also custom tasks and add it to your list.\n\nRemember that if you miss a day you will be taken back to day 1, so don't forget to do your tasks and mark them done by 11:59 pm.",
+                      style: TextStyle(fontSize: 16),
+                      textAlign: TextAlign.center),
                   const SizedBox(height: 35),
                   ElevatedButton(
                       onPressed: () {
@@ -42,11 +39,10 @@ class StartedPage extends StatelessWidget {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        )
-                      ),
+                          backgroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          )),
                       child: const Padding(
                           padding: EdgeInsets.only(top: 15, bottom: 15),
                           child: Text('Start Transform66',

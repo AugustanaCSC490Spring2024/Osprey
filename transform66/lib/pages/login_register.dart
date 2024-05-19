@@ -152,9 +152,7 @@ class _LoginPageState extends State<LoginPage> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            height: MediaQuery.of(context)
-                .size
-                .height, 
+            height: MediaQuery.of(context).size.height,
             width: double.infinity,
             padding: const EdgeInsets.all(20),
             child: Column(

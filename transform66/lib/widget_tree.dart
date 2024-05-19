@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:transform66/auth.dart';
 import 'package:transform66/pages/login_register.dart';
 
-class WidgetTree extends StatefulWidget{
+class WidgetTree extends StatefulWidget {
   const WidgetTree({Key? key}) : super(key: key);
 
   @override
@@ -16,9 +16,7 @@ class _WidgetTreeState extends State<WidgetTree> {
       body: StreamBuilder(
         stream: Auth().authStateChanges(),
         builder: (context, snapshot) {
-          
-            return const LoginPage();
-          
+          return const LoginPage();
         },
       ),
     );

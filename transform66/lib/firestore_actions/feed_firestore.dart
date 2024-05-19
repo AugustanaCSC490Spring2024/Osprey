@@ -2,11 +2,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FeedFirestoreService {
+  final CollectionReference personalFeed = FirebaseFirestore.instance
+      .collection("users")
+      .doc(FirebaseAuth.instance.currentUser!.email)
+      .collection("personalFeed");
+  final CollectionReference friendsFeed = FirebaseFirestore.instance
+      .collection("users")
+      .doc(FirebaseAuth.instance.currentUser!.email)
+      .collection("friendsFeed");
+  final CollectionReference friends = FirebaseFirestore.instance
+      .collection("users")
+      .doc(FirebaseAuth.instance.currentUser!.email)
+      .collection("friends");
 
-  final CollectionReference personalFeed = FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.email).collection("personalFeed");
-  final CollectionReference friendsFeed = FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.email).collection("friendsFeed");
-  final CollectionReference friends = FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.email).collection("friends");
-  
   Future<List<String>> getFriendsList() async {
     List<String> friendList = [];
     QuerySnapshot querySnapshot = await friends.get();
@@ -16,9 +24,15 @@ class FeedFirestoreService {
     return friendList;
   }
 
-  Future<void> sendMotivation(String currentUser, String friend, int imageNum) async {
+  Future<void> sendMotivation(
+      String currentUser, String friend, int imageNum) async {
     var userName = currentUser.split('@')[0];
-    FirebaseFirestore.instance.collection("users").doc(friend).collection("friendsFeed").doc().set({
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(friend)
+        .collection("friendsFeed")
+        .doc()
+        .set({
       "date": Timestamp.now(),
       "userName": userName,
       "message": "You've got this!",
@@ -27,9 +41,15 @@ class FeedFirestoreService {
     });
   }
 
-  Future<void> celebrationPost(String currentUser, String friend, String taskName, int imageNum) async {
+  Future<void> celebrationPost(
+      String currentUser, String friend, String taskName, int imageNum) async {
     var userName = currentUser.split('@')[0];
-    FirebaseFirestore.instance.collection("users").doc(friend).collection("friendsFeed").doc().set({
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(friend)
+        .collection("friendsFeed")
+        .doc()
+        .set({
       "date": Timestamp.now(),
       "userName": userName,
       "message": "Congratulations on completing the task: \n$taskName",
@@ -38,9 +58,15 @@ class FeedFirestoreService {
     });
   }
 
-  Future<void> addPostPrivate(String currentUser, String taskName, int imageNum) async {
+  Future<void> addPostPrivate(
+      String currentUser, String taskName, int imageNum) async {
     var userName = currentUser.split('@')[0];
-    FirebaseFirestore.instance.collection("users").doc(currentUser).collection("personalFeed").doc().set({
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(currentUser)
+        .collection("personalFeed")
+        .doc()
+        .set({
       "date": Timestamp.now(),
       "userName": userName,
       "message": "You completed the task: \n$taskName",
@@ -52,7 +78,12 @@ class FeedFirestoreService {
     var friendsList = await getFriendsList();
     var userName = currentUser.split('@')[0];
     for (String friend in friendsList) {
-      FirebaseFirestore.instance.collection("users").doc(friend).collection("friendsFeed").doc().set({
+      FirebaseFirestore.instance
+          .collection("users")
+          .doc(friend)
+          .collection("friendsFeed")
+          .doc()
+          .set({
         "date": Timestamp.now(),
         "userName": userName,
         "message": "I completed my task: \n$taskName",
@@ -65,14 +96,24 @@ class FeedFirestoreService {
   Future<void> completedChallengedPost(String currentUser, int imageNum) async {
     var userName = currentUser.split('@')[0];
     var friendsList = await getFriendsList();
-    FirebaseFirestore.instance.collection("users").doc(currentUser).collection("personalFeed").doc().set({
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(currentUser)
+        .collection("personalFeed")
+        .doc()
+        .set({
       "date": Timestamp.now(),
       "userName": userName,
       "message": "You completed the challenge!",
       "imageType": "c$imageNum"
     });
     for (String friend in friendsList) {
-      FirebaseFirestore.instance.collection("users").doc(friend).collection("friendsFeed").doc().set({
+      FirebaseFirestore.instance
+          .collection("users")
+          .doc(friend)
+          .collection("friendsFeed")
+          .doc()
+          .set({
         "date": Timestamp.now(),
         "userName": userName,
         "message": "I completed the challenge!",

@@ -44,16 +44,14 @@ class _FriendFeedWidgetState extends State<FriendFeedWidget> {
               child: Container(
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.teal, 
+                  color: Colors.teal,
                 ),
                 child: Center(
                   child: Text(
-                    widget.userName
-                        .substring(0, 1)
-                        .toUpperCase(), 
+                    widget.userName.substring(0, 1).toUpperCase(),
                     style: const TextStyle(
-                      fontSize: 16, 
-                      color: Colors.white, 
+                      fontSize: 16,
+                      color: Colors.white,
                     ),
                   ),
                 ),

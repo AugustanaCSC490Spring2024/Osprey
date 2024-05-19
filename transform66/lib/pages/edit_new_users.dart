@@ -12,10 +12,9 @@ class EditNewUserPage extends StatefulWidget {
 }
 
 class _EditNewUserPageState extends State<EditNewUserPage> {
-  
   final String yourEmail = FirebaseAuth.instance.currentUser!.email!;
   final db = FirebaseFirestore.instance;
-  
+
   List<String> selectedTasks = [];
   List<String> tasks = [
     'Drink 1 gallon of water',
@@ -30,24 +29,20 @@ class _EditNewUserPageState extends State<EditNewUserPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Center(
-          child:Text(
-            "Transform66",
-            style: TextStyle(fontSize: 24)),
+        appBar: AppBar(
+          title: const Center(
+            child: Text("Transform66", style: TextStyle(fontSize: 24)),
           ),
-        backgroundColor: Colors.teal,
-      ),
-      body: Column(
-        children: [
-          const SizedBox(height:10),
+          backgroundColor: Colors.teal,
+        ),
+        body: Column(children: [
+          const SizedBox(height: 10),
           const Center(
-            child: Text(
-              "Choose tasks you will commit to for 66 days",
-              style: TextStyle(fontSize: 16),
-            )
-          ),
-          const SizedBox(height:5),
+              child: Text(
+            "Choose tasks you will commit to for 66 days",
+            style: TextStyle(fontSize: 16),
+          )),
+          const SizedBox(height: 5),
           Expanded(
             child: Scrollbar(
               child: SingleChildScrollView(
@@ -68,43 +63,40 @@ class _EditNewUserPageState extends State<EditNewUserPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8),
-            child: Row(children:[TextButton(
-              onPressed: () => _showAddTaskDialog(context),
-              style: ButtonStyle(
-                textStyle: MaterialStateProperty.all(
-                  const TextStyle(fontSize: 16),
-                )
-              ),
-              child: const Text("Edit")
-            )])
-          )
-        ]
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          if (selectedTasks.isEmpty) {
-            // Show error message
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Please select at least one task.'),
-              ),
-            );
-          } else {
-            await addUserDetails();
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const PageViewHelper(),
-              ),
-            );
-          }
-        },
-        backgroundColor: Colors.red,
-        child: const Text("Start"),
-      )
-    );
+              padding: const EdgeInsets.all(8),
+              child: Row(children: [
+                TextButton(
+                    onPressed: () => _showAddTaskDialog(context),
+                    style: ButtonStyle(
+                        textStyle: MaterialStateProperty.all(
+                      const TextStyle(fontSize: 16),
+                    )),
+                    child: const Text("Edit"))
+              ]))
+        ]),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            if (selectedTasks.isEmpty) {
+              // Show error message
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Please select at least one task.'),
+                ),
+              );
+            } else {
+              await addUserDetails();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const PageViewHelper(),
+                ),
+              );
+            }
+          },
+          backgroundColor: Colors.red,
+          child: const Text("Start"),
+        ));
   }
 
   void _showAddTaskDialog(BuildContext context) {
@@ -165,15 +157,15 @@ class _EditNewUserPageState extends State<EditNewUserPage> {
   Future<void> addUserDetails() async {
     final TasksFirestoreService tfs = TasksFirestoreService();
     await db.collection('users').doc(yourEmail).set({
-      "day":1,
-      "emailMe":false,
-      "status":"working",
+      "day": 1,
+      "emailMe": false,
+      "status": "working",
       "firstDay": DateUtils.dateOnly(DateTime.now()),
-      "target":selectedTasks.length,
-      "completedYesterday":selectedTasks.length,
-      "completedToday":0
-      });
-      tfs.addTasks(selectedTasks);
+      "target": selectedTasks.length,
+      "completedYesterday": selectedTasks.length,
+      "completedToday": 0
+    });
+    tfs.addTasks(selectedTasks);
   }
 }
 
@@ -196,30 +188,24 @@ class _TaskWidgetState extends State<TaskWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Divider(),
-        SizedBox(
+    return Column(children: [
+      const Divider(),
+      SizedBox(
           width: double.infinity,
           height: 70,
           child: ListTile(
-            onTap: () {
-              setState(() {
-                _isSelected = !_isSelected;
-                widget.onSelectionChanged(widget.taskName, _isSelected);
-              });
-            },
-            tileColor: _isSelected ? Colors.grey[300] : Colors.transparent,
-            title: Text(
-              widget.taskName,
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                color: _isSelected ? Colors.green : Colors.black,
-              )
-            )
-          )
-        )
-      ]
-    );
+              onTap: () {
+                setState(() {
+                  _isSelected = !_isSelected;
+                  widget.onSelectionChanged(widget.taskName, _isSelected);
+                });
+              },
+              tileColor: _isSelected ? Colors.grey[300] : Colors.transparent,
+              title: Text(widget.taskName,
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    color: _isSelected ? Colors.green : Colors.black,
+                  ))))
+    ]);
   }
 }

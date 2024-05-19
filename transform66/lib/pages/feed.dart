@@ -17,7 +17,7 @@ class _FeedPageState extends State<FeedPage> {
   final String yourEmail = FirebaseAuth.instance.currentUser!.email!;
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -30,7 +30,7 @@ class _FeedPageState extends State<FeedPage> {
             ],
           ),
         ),
-        body:  TabBarView(
+        body: TabBarView(
           children: [
             MyFeedTab(),
             FriendFeedTab(),
@@ -53,27 +53,32 @@ class _MyFeedTabState extends State<MyFeedTab> {
   final String yourEmail = FirebaseAuth.instance.currentUser!.email!;
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection("users").doc(yourEmail).collection("personalFeed").orderBy("date", descending: true).snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            List friendList = snapshot.data!.docs;
-            return ListView.builder(
-              itemCount: friendList.length,
-              itemBuilder: (context, index) {
-                DocumentSnapshot document = friendList[index];
-                return PersonalFeedWidget(date: document.get("date"), userName: document.get("userName"), message: document.get("message"), imageType: document.get("imageType"));
+        body: StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection("users")
+                .doc(yourEmail)
+                .collection("personalFeed")
+                .orderBy("date", descending: true)
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                List friendList = snapshot.data!.docs;
+                return ListView.builder(
+                    itemCount: friendList.length,
+                    itemBuilder: (context, index) {
+                      DocumentSnapshot document = friendList[index];
+                      return PersonalFeedWidget(
+                          date: document.get("date"),
+                          userName: document.get("userName"),
+                          message: document.get("message"),
+                          imageType: document.get("imageType"));
+                    });
+              } else {
+                return const Text("");
               }
-            );
-          }
-          else {
-            return const Text("");
-          }
-        }
-      ) 
-    );
+            }));
   }
 }
 
@@ -89,26 +94,32 @@ class _FriendFeedTabState extends State<FriendFeedTab> {
   final String yourEmail = FirebaseAuth.instance.currentUser!.email!;
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection("users").doc(yourEmail).collection("friendsFeed").orderBy("date", descending: true).snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            List friendList = snapshot.data!.docs;
-            return ListView.builder(
-              itemCount: friendList.length,
-              itemBuilder: (context, index) {
-                DocumentSnapshot document = friendList[index];
-                return FriendFeedWidget(date: document.get("date"), userName: document.get("userName"), message: document.get("message"), isLiked: document.get("isLiked"), imageType: document.get("imageType"));
+        body: StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection("users")
+                .doc(yourEmail)
+                .collection("friendsFeed")
+                .orderBy("date", descending: true)
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                List friendList = snapshot.data!.docs;
+                return ListView.builder(
+                    itemCount: friendList.length,
+                    itemBuilder: (context, index) {
+                      DocumentSnapshot document = friendList[index];
+                      return FriendFeedWidget(
+                          date: document.get("date"),
+                          userName: document.get("userName"),
+                          message: document.get("message"),
+                          isLiked: document.get("isLiked"),
+                          imageType: document.get("imageType"));
+                    });
+              } else {
+                return const Text("");
               }
-            );
-          }
-          else {
-            return const Text("");
-          }
-        }
-      ) 
-    );
+            }));
   }
 }

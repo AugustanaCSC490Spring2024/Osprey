@@ -69,21 +69,22 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     );
   }
 
-  Future resetPassword()async{
-    showDialog(context: context,
-    barrierDismissible: false,
-    builder: (context) => const Center(
-      child: CircularProgressIndicator(),
-    )
-    );
-    try{
-    await FirebaseAuth.instance.sendPasswordResetEmail(email: emailController.text.trim());
-    Utils.snackBar(context, 'Password reset email sent');
-    Navigator.of(context).popUntil((route) => route.isFirst);
-    } on FirebaseAuthException catch(e){
+  Future resetPassword() async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+              child: CircularProgressIndicator(),
+            ));
+    try {
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: emailController.text.trim());
+      Utils.snackBar(context, 'Password reset email sent');
+      Navigator.of(context).popUntil((route) => route.isFirst);
+    } on FirebaseAuthException catch (e) {
       print(e);
       Navigator.of(context).pop();
-      }
+    }
   }
 }
 
