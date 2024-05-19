@@ -20,49 +20,48 @@ class _LoginPageState extends State<LoginPage> {
   bool isLogin = true;
 
   Future<void> signInWithEmailAndPassword() async {
-  try {
-    UserCredential userCredential =
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: _controllerEmail.text,
-      password: _controllerPassword.text,
-    );
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _controllerEmail.text,
+        password: _controllerPassword.text,
+      );
 
-    User? user = userCredential.user;
-    if (user != null && user.emailVerified) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => PageViewHelper(),
-        ),
-      );
-    } else {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => VerifyEmailPage(),
-        ),
-      );
-    }
-  } on FirebaseAuthException catch (e) {
-    setState(() {
-      print(e.code);
-      if (e.code == 'invalid-credential') {
-        
-        errorMessage = 'Password/email incorrect';
+      User? user = userCredential.user;
+      if (user != null && user.emailVerified) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PageViewHelper(),
+          ),
+        );
       } else {
-        errorMessage = e.message;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => VerifyEmailPage(),
+          ),
+        );
       }
-    });
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        print(e.code);
+        if (e.code == 'invalid-credential') {
+          errorMessage = 'Password/email incorrect';
+        } else {
+          errorMessage = e.message;
+        }
+      });
+    }
   }
-}
 
   Future<void> createUserWithEmailAndPassword() async {
     try {
       UserCredential userCredential =
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _controllerEmail.text.trim(),
         password: _controllerPassword.text.trim(),
-    );
+      );
 
       Navigator.pushReplacement(
         context,
@@ -78,45 +77,38 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-
-
-Widget _entryFieldPassword() {
-  return TextField(
-  controller: _controllerPassword,
-  decoration: InputDecoration(
-    labelText: "Password",
-    suffixIcon: IconButton(
-      icon: Icon(
-        _isPasswordVisible ? Icons.visibility : Icons.visibility_off),
-        onPressed: () {
-          setState(() {
-            _isPasswordVisible = !_isPasswordVisible;
-          });
-        }
-      )
-    ),
-    obscureText: !_isPasswordVisible
-  );
-}
-
-  Widget _entryFieldEmail() {
-
-      return TextField(
-        controller: _controllerEmail,
-        decoration: const InputDecoration(
-          labelText: "Email",
-        ),
-      );
-    
+  Widget _entryFieldPassword() {
+    return TextField(
+        controller: _controllerPassword,
+        decoration: InputDecoration(
+            labelText: "Password",
+            suffixIcon: IconButton(
+                icon: Icon(_isPasswordVisible
+                    ? Icons.visibility
+                    : Icons.visibility_off),
+                onPressed: () {
+                  setState(() {
+                    _isPasswordVisible = !_isPasswordVisible;
+                  });
+                })),
+        obscureText: !_isPasswordVisible);
   }
 
-Widget _errorMessage() {
-  return Text(
-    errorMessage == '' ? '' : errorMessage!,
-    style: const TextStyle(color: Colors.red), 
-  );
-}
+  Widget _entryFieldEmail() {
+    return TextField(
+      controller: _controllerEmail,
+      decoration: const InputDecoration(
+        labelText: "Email",
+      ),
+    );
+  }
 
+  Widget _errorMessage() {
+    return Text(
+      errorMessage == '' ? '' : errorMessage!,
+      style: const TextStyle(color: Colors.red),
+    );
+  }
 
   Widget _submitButton() {
     return ElevatedButton(
@@ -131,8 +123,7 @@ Widget _errorMessage() {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius:
-            BorderRadius.circular(10), 
+        borderRadius: BorderRadius.circular(10),
       ),
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -156,56 +147,57 @@ Widget _errorMessage() {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: null,
       body: SafeArea(
-        child: Stack(
-          children: [
-            Container(
-              height: double.infinity,
-              width: double.infinity,
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Center(
-                    child: Image.asset(
-                      'assets/images/Transform66.png',
-                      height: 150,
+        child: SingleChildScrollView(
+          child: Container(
+            height: MediaQuery.of(context)
+                .size
+                .height, 
+            width: double.infinity,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Center(
+                  child: Image.asset(
+                    'assets/images/Transform66.png',
+                    height: 150,
+                  ),
+                ),
+                const SizedBox(height: 50),
+                _loginOrRegisterButton(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          isLogin = !isLogin;
+                        });
+                      },
+                      child:
+                          Text(isLogin ? 'Register instead' : 'Login instead'),
                     ),
-                  ),
-                  const SizedBox(height: 50),
-                  _loginOrRegisterButton(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          setState(() {
-                            isLogin = !isLogin;
-                          });
-                        },
-                        child: Text(isLogin ? 'Register instead' : 'Login instead'),
-                      ),
-                      const Text("|"),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ForgotPasswordPage(),
-                            ),
-                          );
-                        },
-                        child: const Text('Forgot Password?'),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                    const Text("|"),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ForgotPasswordPage(),
+                          ),
+                        );
+                      },
+                      child: const Text('Forgot Password?'),
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
