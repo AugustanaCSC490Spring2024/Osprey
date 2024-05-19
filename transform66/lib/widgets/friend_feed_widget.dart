@@ -50,6 +50,7 @@ class _FriendFeedWidgetState extends State<FriendFeedWidget> {
         fit: BoxFit.cover,
       ),
         const SizedBox(height: 5),
+        Text(widget.date.toDate().toString().substring(0, 16))
       ]),
     ));
   }

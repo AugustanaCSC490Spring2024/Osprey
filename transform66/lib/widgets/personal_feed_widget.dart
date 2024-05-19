@@ -44,7 +44,8 @@ class _PersonalFeedWidgetState extends State<PersonalFeedWidget> {
         height: 300,
         fit: BoxFit.cover
       ),
-        const SizedBox(height: 5)
+        const SizedBox(height: 5),
+        Text(widget.date.toDate().toString().substring(0, 16))
       ])
     ));
   }
