@@ -177,7 +177,7 @@ class _ProgressPageState extends State<ProgressPage> {
   }
 
   void _pickTasksAgain() async {
-    await ifs.deleteSubcollections();
+    await ifs.startAgain();
     Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(

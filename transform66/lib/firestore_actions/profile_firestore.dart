@@ -77,4 +77,17 @@ class ProfileFirestoreService {
       }
     });
   }
+
+  Future<void> startAgain() async {
+    db.collection("users").doc(yourEmail).collection("tasks").get().then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        ds.reference.delete();
+      }
+    });
+    db.collection("users").doc(yourEmail).collection("personalFeed").get().then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        ds.reference.delete();
+      }
+    });
+  }
 }

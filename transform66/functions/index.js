@@ -25,7 +25,7 @@ admin.initializeApp(functions.config().firebase);
 
 const db = admin.firestore();
 
-exports.newDay = functions.pubsub.schedule('* * * * *').timeZone('America/Chicago').onRun(async (context) => {
+exports.newDay = functions.pubsub.schedule('1 0 * * *').timeZone('America/Chicago').onRun(async (context) => {
     db.collection("users").get().then(async snapshot => {
         snapshot.forEach(doc => {
             var email = doc.id;
@@ -37,7 +37,7 @@ exports.newDay = functions.pubsub.schedule('* * * * *').timeZone('America/Chicag
             if (userCompletedYesterday!=userTarget) {
                 db.collection("users").doc(email).update({"status":"fail"});
             }
-            else if (userDay==3) {
+            else if (userDay==66) {
                 db.collection("users").doc(email).update({"status":"success"});
             }
             else {

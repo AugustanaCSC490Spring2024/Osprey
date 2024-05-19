@@ -142,12 +142,16 @@ class _ProfilePageState extends State<ProfilePage> {
                       actions: [
                         TextButton(
                           onPressed: () {
+                            FirebaseFirestore.instance.collection("users").doc(yourEmail).update({"emailMe":false});
                             Navigator.pop(context);
                           },
                           child: const Text("No"),
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            FirebaseFirestore.instance.collection("users").doc(yourEmail).update({"emailMe":true});
+                            Navigator.pop(context);
+                          },
                           child: const Text("Yes"),
                         )
                       ]);
