@@ -19,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _controllerPassword = TextEditingController();
   bool isLogin = true;
 
-  Future<void> signInWithEmailAndPassword() async {
+  Future<void> signIn() async {
     try {
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -45,7 +45,6 @@ class _LoginPageState extends State<LoginPage> {
       }
     } on FirebaseAuthException catch (e) {
       setState(() {
-        print(e.code);
         if (e.code == 'invalid-credential') {
           errorMessage = 'Password/email incorrect';
         } else {
@@ -55,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Future<void> createUserWithEmailAndPassword() async {
+  Future<void> createUser() async {
     try {
       UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -70,7 +69,6 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
     } on FirebaseAuthException catch (e) {
-      print(e.message);
       setState(() {
         errorMessage = e.message;
       });
@@ -113,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _submitButton() {
     return ElevatedButton(
       onPressed:
-          isLogin ? signInWithEmailAndPassword : createUserWithEmailAndPassword,
+          isLogin ? signIn : createUser,
       child: Text(isLogin ? 'Login' : 'Register',
           style: TextStyle(color: Colors.blue.shade900)),
     );
