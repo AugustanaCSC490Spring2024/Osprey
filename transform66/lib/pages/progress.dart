@@ -21,7 +21,6 @@ class ProgressPage extends StatefulWidget {
   State<ProgressPage> createState() => _ProgressPageState();
 }
 
-final String yourEmail = FirebaseAuth.instance.currentUser!.email!;
 var finished = false;
 
 class _ProgressPageState extends State<ProgressPage> {
@@ -44,7 +43,7 @@ class _ProgressPageState extends State<ProgressPage> {
                       const SizedBox(height: 50),
                       StreamBuilder<DocumentSnapshot>(
                           stream:
-                              db.collection("users").doc(yourEmail).snapshots(),
+                              db.collection("users").doc(FirebaseAuth.instance.currentUser!.email!).snapshots(),
                           builder: (context, snapshot) {
                             if (!snapshot.hasData ||
                                 snapshot.connectionState ==
@@ -59,7 +58,7 @@ class _ProgressPageState extends State<ProgressPage> {
                                 // Automatically post to both feeds, might as well
                                 var randomInt = Random().nextInt(10) + 1;
                                 ffs.completedChallengedPost(
-                                    yourEmail, randomInt);
+                                    FirebaseAuth.instance.currentUser!.email!, randomInt);
                                 finished = true;
                               }
                               return Flexible(
@@ -107,7 +106,7 @@ class _ProgressPageState extends State<ProgressPage> {
                                                     Map<String, dynamic>>>(
                                             stream: db
                                                 .collection("users")
-                                                .doc(yourEmail)
+                                                .doc(FirebaseAuth.instance.currentUser!.email!)
                                                 .snapshots(),
                                             builder: (BuildContext context,
                                                 AsyncSnapshot<
@@ -143,7 +142,7 @@ class _ProgressPageState extends State<ProgressPage> {
                                         StreamBuilder<QuerySnapshot>(
                                             stream: db
                                                 .collection("users")
-                                                .doc(yourEmail)
+                                                .doc(FirebaseAuth.instance.currentUser!.email!)
                                                 .collection("tasks")
                                                 .orderBy("taskName")
                                                 .snapshots(),
@@ -245,15 +244,15 @@ class _TaskCompletionWidgetState extends State<TaskCompletionWidget> {
                 TextButton(
                     onPressed: () {
                       var randomInt = Random().nextInt(10) + 1;
-                      ffs.addPostPrivate(yourEmail, widget.taskName, randomInt);
+                      ffs.addPostPrivate(FirebaseAuth.instance.currentUser!.email!, widget.taskName, randomInt);
                       Navigator.of(context).pop();
                     },
                     child: const Text("Keep Private")),
                 TextButton(
                     onPressed: () {
                       var randomInt = Random().nextInt(10) + 1;
-                      ffs.addPostPrivate(yourEmail, widget.taskName, randomInt);
-                      ffs.addPostPublic(yourEmail, widget.taskName, randomInt);
+                      ffs.addPostPrivate(FirebaseAuth.instance.currentUser!.email!, widget.taskName, randomInt);
+                      ffs.addPostPublic(FirebaseAuth.instance.currentUser!.email!, widget.taskName, randomInt);
                       Navigator.of(context).pop();
                     },
                     child: const Text("Share")),

@@ -111,8 +111,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: const Text("No"),
                   ),
                   TextButton(
-                    onPressed: () {
-                      Auth().signOut();
+                    onPressed: () async {
+                      await Auth().signOut();
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
